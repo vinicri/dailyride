@@ -12,12 +12,12 @@ import retrofit2.http.Query;
  */
 public interface DingoApi {
 
-    String BASE_URL = "http://192.168.0.102:8000/api/";
+    String BASE_URL = "http://192.168.0.101:8000/api/";
 
     @POST("/users/login_fb/")
     Call<User> registerWithFacebook(@Body User user);
 
-    @POST("/users/accept_terms")
-    Call acceptTerms(@Query("rider_mode")User.RiderMode riderMode);
+    @POST("/users/accept_terms/")
+    Call<Void> acceptTerms(@Query("rider_mode")User.RiderMode riderMode);
 
 }

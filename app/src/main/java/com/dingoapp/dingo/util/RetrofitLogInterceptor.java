@@ -25,8 +25,9 @@ public class RetrofitLogInterceptor implements Interceptor {
 
         long t1 = System.nanoTime();
         Log.d(TAG, String.format("Sending request %s on %s%n%s", request.url(), chain.connection(), request.headers()));
-        Log.d(TAG,String.format("REQUEST BODY BEGIN\n%s\nREQUEST BODY END", bodyToString(request)));
-
+        if(request.body() != null) {
+            Log.d(TAG, String.format("REQUEST BODY BEGIN\n%s\nREQUEST BODY END", bodyToString(request)));
+        }
         okhttp3.Response response = chain.proceed(request);
 
         ResponseBody responseBody = response.body();

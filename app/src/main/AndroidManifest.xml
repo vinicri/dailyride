@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
+        android:name=".DingoApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -12,6 +13,8 @@
         android:theme="@style/AppTheme">
 
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyBMuK91NXU0-1-eOU3KcBZ4alEDIjrJ_xw"/>
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -22,12 +25,16 @@
         </activity>
         <activity android:name=".RidesActivity"></activity>
         <activity android:name=".welcome.WelcomeActivity"></activity>
+        <activity android:name=".OfferActivity"></activity>
+        <activity android:name=".searchaddress.AddressSearchActivity"></activity>
+        <activity android:name=".TimeActivity"></activity>
 
         <activity android:name="com.facebook.FacebookActivity"
             android:configChanges=
                 "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:label="@string/app_name" />
+
     </application>
 
 </manifest>

@@ -28,8 +28,11 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.0.0-beta3'
     compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta3'
     compile 'com.squareup.okhttp3:okhttp:3.0.0-RC1'
+    compile 'com.google.android.gms:play-services:7.5.+'
+    compile 'com.android.support:recyclerview-v7:23.1.0'
     //debug
     compile 'com.squareup.okhttp:logging-interceptor:2.6.0'
+    compile 'com.jakewharton:butterknife:7.0.1'
 
 
 }

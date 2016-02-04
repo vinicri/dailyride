@@ -35,6 +35,10 @@ public class CurrentUser {
         return user != null;
     }
 
+    public void reload(){
+        user = SettingsUtil.getCurrentUser(DingoApplication.getAppContext());
+    }
+
     private void save(){
         SettingsUtil.setCurrentUser(DingoApplication.getAppContext(), user);
     }

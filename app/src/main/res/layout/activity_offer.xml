@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/leaving_address_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Saida"/>
+
+            <TextView
+                android:layout_marginTop="@dimen/half_padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Padaria Leiriense"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Av Pe Antonio Jose dos Santos, 1666"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="20dp"
+            android:layout_height="30dp"
+            android:background="@android:color/black"
+            android:layout_gravity="center_vertical">
+
+        </View>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/arriving_address_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chegada"/>
+
+            <TextView
+                android:layout_marginTop="@dimen/half_padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Livraria Cultura"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Avenida Paulista, 2334"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="20dp"
+            android:layout_height="30dp"
+            android:background="@android:color/black"
+            android:layout_gravity="center_vertical">
+
+        </View>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/time_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quando?"/>
+
+            <TextView
+                android:layout_marginTop="@dimen/half_padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hoje, as 22:30"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="20dp"
+            android:layout_height="30dp"
+            android:background="@android:color/black"
+            android:layout_gravity="center_vertical">
+
+        </View>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/recurrence_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Repetir?" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nao"/>
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sim"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Oferecer"/>
+
+
+
+</LinearLayout>

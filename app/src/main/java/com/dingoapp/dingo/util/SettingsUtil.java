@@ -15,7 +15,7 @@ import static com.dingoapp.dingo.util.LogUtil.makeLogTag;
  */
 public class SettingsUtil {
 
-    private static final String TAG = makeLogTag(SettingsUtil.TAG);
+    private static final String TAG = makeLogTag(SettingsUtil.class);
 
     private static final String PREF_USER = "pref_user";
 
@@ -36,5 +36,6 @@ public class SettingsUtil {
     public static void setCurrentUser(Context context, User user){
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         sp.edit().putString(PREF_USER, gson.toJson(user)).commit();
+        CurrentUser.getInstance().reload();
     }
 }

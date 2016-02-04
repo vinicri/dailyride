@@ -11,6 +11,7 @@ import com.dingoapp.dingo.api.Callback;
 import com.dingoapp.dingo.api.DingoApiService;
 import com.dingoapp.dingo.api.Response;
 import com.dingoapp.dingo.api.model.User;
+import com.dingoapp.dingo.util.CurrentUser;
 import com.dingoapp.dingo.util.SettingsUtil;
 import com.dingoapp.dingo.welcome.WelcomeActivity;
 import com.facebook.AccessToken;
@@ -34,6 +35,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(CurrentUser.getInstance().isLoggedIn()){
+            Intent intent = new Intent(this, RidesActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
         setContentView(R.layout.activity_main);
 
         /*
@@ -86,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
 
 
                                                                 if(response.code() == Response.HTTP_200_OK){
-
                                                                 }
                                                                 else if(response.code() == Response.HTTP_201_CREATED){
                                                                     SettingsUtil.setCurrentUser(MainActivity.this, response.body());

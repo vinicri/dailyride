@@ -1,6 +1,7 @@
 package com.dingoapp.dingo.api;
 
 import com.dingoapp.dingo.api.model.User;
+import com.dingoapp.dingo.util.OAuthInterceptor;
 import com.dingoapp.dingo.util.RetrofitLogInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -25,6 +26,7 @@ public class DingoApiService{
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(new RetrofitLogInterceptor())
+                .addInterceptor(new OAuthInterceptor())
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -32,17 +34,6 @@ public class DingoApiService{
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
-
-        RestAdapter.Builder builder = new RestAdapter.Builder()
-                .setRequestInterceptor(new RequestInterceptor() {
-                    @Override
-                    public void intercept(RequestFacade request) {
-                        request.addHeader("Accept", "application/json;versions=1");
-                        if (isUserLoggedIn()) {
-                            request.addHeader("Authorization", getToken());
-                        }
-                    }
-                });
 
         apiService = retrofit.create(DingoApi.class);
     }
@@ -73,10 +64,10 @@ public class DingoApiService{
     }
 
     public void acceptTerms(User.RiderMode riderMode, final Callback callback){
-        final Call call = apiService.acceptTerms(riderMode);
-        call.enqueue(new retrofit2.Callback() {
+        final Call<Void> call = apiService.acceptTerms(riderMode);
+        call.enqueue(new retrofit2.Callback<Void>() {
             @Override
-            public void onResponse(retrofit2.Response response) {
+            public void onResponse(retrofit2.Response<Void> response) {
                 Response dResponse = new Response(response.code(), response.body());
                 callback.onResponse(dResponse);
             }
