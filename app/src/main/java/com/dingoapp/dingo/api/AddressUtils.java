@@ -20,7 +20,7 @@ public class AddressUtils {
     }
 
     /**
-     * Extract route and number
+     * Extract route and number. If number there is only one number. If number is a range, it's ignored.
      *
      * @param route
      * @return String[], [0] contains route, [1] contains number. [1] is empty if the number a a range

@@ -1,5 +1,6 @@
 package com.dingoapp.dingo.searchaddress;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -68,6 +69,7 @@ public class AddressSearchActivity extends AppCompatActivity implements GoogleAp
                         if(address.isRouteType()){
                             if(address.getNumber() != null){
                                 //endereco completo
+                                finishWithAddress(address);
                             }
                             else{
                                 mSearchEdit.setText(address.getRouteLong(), false);
@@ -81,21 +83,8 @@ public class AddressSearchActivity extends AppCompatActivity implements GoogleAp
                         else{
                             if(address.isEstablishmentType()){
                                 //completo
+                                finishWithAddress(address);
                             }
-                            /*if(placeInfo.routeLongName != null){
-                                String address = placeInfo.routeLongName;
-                                if(placeInfo.streetNumber != null){
-                                    address = address.trim().concat(", ").concat(placeInfo.streetNumber);
-                                }
-                                else
-                                {
-                                    address = address.trim().concat(", ").concat("s/n");
-                                }
-
-                                mPickupAddressForPlace.setText(address);
-                                mPickupAddressForPlace.setVisibility(View.VISIBLE);
-                            }*/
-
                         }
                     }
                 }
@@ -195,7 +184,7 @@ public class AddressSearchActivity extends AppCompatActivity implements GoogleAp
                                                     mPartialAddress.setNumber(number);
                                                     mPartialAddress.setLatitude(result.getGeometry().getLocation().getLat());
                                                     mPartialAddress.setLatitude(result.getGeometry().getLocation().getLng());
-                                                    //TODO envia endereco
+                                                    finishWithAddress(mPartialAddress);
                                                 }//nao encontrado
 
                                             }//nao encontrado
@@ -248,6 +237,13 @@ public class AddressSearchActivity extends AppCompatActivity implements GoogleAp
         mAdapter.setGoogleApiClient(null);
         Log.e(TAG, "GoogleApiClient connection suspended.");
 
+    }
+
+    private void finishWithAddress(Address address){
+        Intent intent = new Intent();
+        intent.putExtra("address", address);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     @Override

@@ -3,4 +3,12 @@
     <string name="facebook_app_id">1429320290712211</string>
     <string name="no">Não</string>
     <string name="yes">Sim</string>
+    <string name="no_number_symbol">s/n</string>
+    <string name="day_sunday">DOM</string>
+    <string name="day_monday">SEG</string>
+    <string name="day_tuesday">TER</string>
+    <string name="day_wednesday">QUA</string>
+    <string name="day_thursday">QUI</string>
+    <string name="day_friday">SEX</string>
+    <string name="day_saturday">SAB</string>
 </resources>

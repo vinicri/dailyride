@@ -3,4 +3,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="day_button_enabled">#F15E91</color>
+    <color name="day_button_disabled">#9D9D9D</color>
+    <color name="day_button_enabled_text">#ffffff</color>
 </resources>

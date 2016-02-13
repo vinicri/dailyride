@@ -1,6 +1,10 @@
 package com.dingoapp.dingo.api;
 
+import com.dingoapp.dingo.api.model.RideMasterRequest;
+import com.dingoapp.dingo.api.model.RideOffer;
 import com.dingoapp.dingo.api.model.User;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -19,5 +23,17 @@ public interface DingoApi {
 
     @POST("/users/accept_terms/")
     Call<Void> acceptTerms(@Query("rider_mode")User.RiderMode riderMode);
+
+    @POST("/ridemasterrequest/findoffers/")
+    Call<List<RideOffer>> findOffersforRequest(@Body RideMasterRequest request);
+
+    @POST("/ridemasterrecurrentrequest/findoffers/")
+    Call<List<RideOffer>> findOffersforRecurrentRequest(@Body RideMasterRequest request);
+
+    @POST("/rideoffer/")
+    Call<List<RideMasterRequest>> createOffer(@Body RideOffer offer);
+
+    @POST("/riderecurrentoffer/")
+    Call<List<RideMasterRequest>> createRecurrentOffer(@Body RideOffer offer);
 
 }

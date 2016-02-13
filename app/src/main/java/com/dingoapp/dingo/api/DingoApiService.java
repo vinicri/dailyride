@@ -1,10 +1,14 @@
 package com.dingoapp.dingo.api;
 
+import com.dingoapp.dingo.api.model.RideMasterRequest;
+import com.dingoapp.dingo.api.model.RideOffer;
 import com.dingoapp.dingo.api.model.User;
 import com.dingoapp.dingo.util.OAuthInterceptor;
 import com.dingoapp.dingo.util.RetrofitLogInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -47,20 +51,7 @@ public class DingoApiService{
 
     public void registerWithFacebook(User user, final Callback<User> callback){
         final Call<User> call = apiService.registerWithFacebook(user);
-        call.enqueue(new retrofit2.Callback<User>() {
-            @Override
-            public void onResponse(retrofit2.Response<User> response) {
-                Response<User> dResponse = new Response<>(response.code(),
-                        response.body());
-                callback.onResponse(dResponse);
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                callback.onFailure(t);
-            }
-        });
-
+        enqueueCall(call, callback);
     }
 
     public void acceptTerms(User.RiderMode riderMode, final Callback callback){
@@ -80,6 +71,42 @@ public class DingoApiService{
 
     }
 
+    public void findOffersforRequest(RideMasterRequest request, final Callback<List<RideOffer>> callback){
+        Call<List<RideOffer>> call = apiService.findOffersforRequest(request);
+        enqueueCall(call, callback);
+    };
+
+    public void findOffersforRecurrentRequest(RideMasterRequest request, final Callback<List<RideOffer>>  callback){
+        Call<List<RideOffer>> call = apiService.findOffersforRecurrentRequest(request);
+        enqueueCall(call, callback);
+    }
+
+    public void createRideOffer(RideOffer offer, final Callback<List<RideMasterRequest>> callback){
+        Call<List<RideMasterRequest>> call = apiService.createOffer(offer);
+        enqueueCall(call, callback);
+    }
+
+    public void createRecurrentRideOffer(RideOffer offer, final Callback<List<RideMasterRequest>> callback){
+        Call<List<RideMasterRequest>> call = apiService.createRecurrentOffer(offer);
+        enqueueCall(call, callback);
+    }
+
+
+    <T> void enqueueCall(Call<T> call, final Callback<T> callback){
+        call.enqueue(new retrofit2.Callback<T>() {
+            @Override
+            public void onResponse(retrofit2.Response<T> response) {
+                Response<T> dResponse = new Response<T>(response.code(), response.body());
+                callback.onResponse(dResponse);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
+
+    }
 
 
 }

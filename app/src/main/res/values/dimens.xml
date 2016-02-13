@@ -4,4 +4,5 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="padding">16dp</dimen>
     <dimen name="half_padding">8dp</dimen>
+    <dimen name="day_button_size">50dp</dimen>
 </resources>

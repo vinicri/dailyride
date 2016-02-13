@@ -2,10 +2,12 @@ package com.dingoapp.dingo.api.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by guestguest on 03/02/16.
  */
-public class Address {
+public class Address implements Serializable {
 
     @SerializedName("place_id")
     String placeId;
