@@ -5,4 +5,6 @@
     <dimen name="padding">16dp</dimen>
     <dimen name="half_padding">8dp</dimen>
     <dimen name="day_button_size">50dp</dimen>
+    <dimen name="ride_day_text_size">22sp</dimen>
+    <dimen name="ride_time_text_size">18sp</dimen>
 </resources>

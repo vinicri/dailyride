@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.io.IOException;
 
+import okhttp3.Headers;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.ResponseBody;
@@ -25,6 +26,7 @@ public class RetrofitLogInterceptor implements Interceptor {
 
         long t1 = System.nanoTime();
         Log.d(TAG, String.format("Sending request %s on %s%n%s", request.url(), chain.connection(), request.headers()));
+        Log.d(TAG, String.format("HEADER BEGIN\n%s\nHEADER END", headerToString(request)));
         if(request.body() != null) {
             Log.d(TAG, String.format("REQUEST BODY BEGIN\n%s\nREQUEST BODY END", bodyToString(request)));
         }
@@ -56,5 +58,15 @@ public class RetrofitLogInterceptor implements Interceptor {
         } catch (final IOException e) {
             return "did not work";
         }
+    }
+
+    private static String headerToString(Request request){
+        Request copy = request.newBuilder().build();
+        Headers headers = copy.headers();
+        String string = new String();
+        for(int i = 0; i < headers.size(); i++){
+            string += "\n" + headers.name(i) + ":" + headers.value(i);
+        }
+        return string;
     }
 }

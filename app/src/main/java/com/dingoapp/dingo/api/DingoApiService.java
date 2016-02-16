@@ -3,6 +3,7 @@ package com.dingoapp.dingo.api;
 import com.dingoapp.dingo.api.model.RideMasterRequest;
 import com.dingoapp.dingo.api.model.RideOffer;
 import com.dingoapp.dingo.api.model.User;
+import com.dingoapp.dingo.api.model.UserRides;
 import com.dingoapp.dingo.util.OAuthInterceptor;
 import com.dingoapp.dingo.util.RetrofitLogInterceptor;
 import com.google.gson.Gson;
@@ -91,6 +92,20 @@ public class DingoApiService{
         enqueueCall(call, callback);
     }
 
+    public void createRideMasterRequest(RideMasterRequest request, Callback<RideMasterRequest> callback){
+        Call<RideMasterRequest> call = apiService.createRideMasterRequest(request);
+        enqueueCall(call, callback);
+    }
+
+    public void createRideMasterRequestRecurrent(RideMasterRequest request, Callback<RideMasterRequest> callback){
+        Call<RideMasterRequest> call = apiService.createRideMasterRequestRecurrent(request);
+        enqueueCall(call, callback);
+    }
+
+    public void getUserRides(Callback<UserRides> callback){
+        Call<UserRides> call = apiService.getUserRides();
+        enqueueCall(call, callback);
+    }
 
     <T> void enqueueCall(Call<T> call, final Callback<T> callback){
         call.enqueue(new retrofit2.Callback<T>() {

@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * Created by guestguest on 12/02/16.
  */
-public class RideOffer {
+public class RideOffer extends RideEntity {
 
     public enum State{
         OPEN,
@@ -15,29 +15,23 @@ public class RideOffer {
         CLOSED
     }
 
+    //user who is offering
     User user;
-    State state;
-    double price;
 
+    double price;
     @SerializedName("total_seats")
     int totalSeats;
 
-    @SerializedName("leaving_address")
-    Address leavingAddress;
+    char state;
 
-    @SerializedName("arriving_address")
-    Address arrivingAddress;
+    @SerializedName("open_requests")
+    int openRequests;
 
-    @SerializedName("leaving_time")
-    Date leavingTime;
+    @SerializedName("accepted_requests")
+    int acceptedRequests;
 
-    boolean monday;
-    boolean tuesday;
-    boolean wednesday;
-    boolean thursday;
-    boolean friday;
-    boolean saturday;
-    boolean sunday;
+    @SerializedName("new_matches")
+    int newMatches;
 
     public static RideOffer getWeekdaysCheckedInstance(){
         RideOffer offer = new RideOffer();
@@ -57,14 +51,6 @@ public class RideOffer {
         this.user = user;
     }
 
-    public State getState() {
-        return state;
-    }
-
-    public void setState(State state) {
-        this.state = state;
-    }
-
     public double getPrice() {
         return price;
     }
@@ -81,22 +67,6 @@ public class RideOffer {
         this.totalSeats = totalSeats;
     }
 
-    public Address getLeavingAddress() {
-        return leavingAddress;
-    }
-
-    public void setLeavingAddress(Address leavingAddress) {
-        this.leavingAddress = leavingAddress;
-    }
-
-    public Address getArrivingAddress() {
-        return arrivingAddress;
-    }
-
-    public void setArrivingAddress(Address arrivingAddress) {
-        this.arrivingAddress = arrivingAddress;
-    }
-
     public Date getLeavingTime() {
         return leavingTime;
     }
@@ -105,60 +75,32 @@ public class RideOffer {
         this.leavingTime = leavingTime;
     }
 
-    public boolean isMonday() {
-        return monday;
+    public void setState(char state) {
+        this.state = state;
     }
 
-    public void setMonday(boolean monday) {
-        this.monday = monday;
+    public int getOpenRequests() {
+        return openRequests;
     }
 
-    public boolean isTuesday() {
-        return tuesday;
+    public void setOpenRequests(int openRequests) {
+        this.openRequests = openRequests;
     }
 
-    public void setTuesday(boolean tuesday) {
-        this.tuesday = tuesday;
+    public int getAcceptedRequests() {
+        return acceptedRequests;
     }
 
-    public boolean isWednesday() {
-        return wednesday;
+    public void setAcceptedRequests(int acceptedRequests) {
+        this.acceptedRequests = acceptedRequests;
     }
 
-    public void setWednesday(boolean wednesday) {
-        this.wednesday = wednesday;
+    public int getNewMatches() {
+        return newMatches;
     }
 
-    public boolean isThursday() {
-        return thursday;
-    }
-
-    public void setThursday(boolean thursday) {
-        this.thursday = thursday;
-    }
-
-    public boolean isFriday() {
-        return friday;
-    }
-
-    public void setFriday(boolean friday) {
-        this.friday = friday;
-    }
-
-    public boolean isSaturday() {
-        return saturday;
-    }
-
-    public void setSaturday(boolean saturday) {
-        this.saturday = saturday;
-    }
-
-    public boolean isSunday() {
-        return sunday;
-    }
-
-    public void setSunday(boolean sunday) {
-        this.sunday = sunday;
+    public void setNewMatches(int newMatches) {
+        this.newMatches = newMatches;
     }
 }
 

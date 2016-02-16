@@ -11,4 +11,21 @@
     <string name="day_thursday">QUI</string>
     <string name="day_friday">SEX</string>
     <string name="day_saturday">SAB</string>
+    <string name="new_request_create_request">Você ainda nao pediu carona. Peça agora!</string>
+    <string name="request_user_offering_ride">%1$s está lhe oferecendo carona</string>
+    <string name="request_accepted_driver">%1$s aceitou seu pedido de carona</string>
+    <string name="request_open_requests_rejected">Seus pedidos não foram aceitos</string>
+    <string name="request_open_searching_new_matches">Estamos buscando outras caronas pra você</string>
+    <plurals name="request_new_got_new_matches">
+        <item quantity="one">Você tem %1$d match. Peça carona agora!</item>
+        <item quantity="other">Você tem %1$d matches. Peça carona agora!</item>
+    </plurals>
+    <plurals name="request_open_got_new_matches">
+        <item quantity="one">Você tem %1$d match. Faça um novo pedido agora!</item>
+        <item quantity="other">Você tem %1$d matches. Faça um novo pedido agora!</item>
+    </plurals>
+    <plurals name="request_open_waiting_responses">
+        <item quantity="one">Aguardando resposta de %1$d pedido de carona</item>
+        <item quantity="other">Aguardando resposta de %1$d pedidos de carona</item>
+    </plurals>
 </resources>

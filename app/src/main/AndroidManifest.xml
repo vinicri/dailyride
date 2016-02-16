@@ -23,11 +23,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RidesActivity"></activity>
+        <activity android:name=".rides.RidesActivity"></activity>
         <activity android:name=".welcome.WelcomeActivity"></activity>
         <activity android:name=".OfferActivity"></activity>
         <activity android:name=".searchaddress.AddressSearchActivity"></activity>
         <activity android:name=".TimeActivity"></activity>
+        <activity android:name=".RequestActivity"></activity>
 
         <activity android:name="com.facebook.FacebookActivity"
             android:configChanges=

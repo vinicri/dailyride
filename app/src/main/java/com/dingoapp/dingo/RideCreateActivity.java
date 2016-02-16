@@ -14,57 +14,72 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.dingoapp.dingo.api.Callback;
-import com.dingoapp.dingo.api.DingoApiService;
-import com.dingoapp.dingo.api.Response;
 import com.dingoapp.dingo.api.model.Address;
-import com.dingoapp.dingo.api.model.RideMasterRequest;
-import com.dingoapp.dingo.api.model.RideOffer;
+import com.dingoapp.dingo.api.model.RideEntity;
 import com.dingoapp.dingo.searchaddress.AddressSearchActivity;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Created by guestguest on 31/01/16.
+ * Created by guestguest on 13/02/16.
  */
-public class OfferActivity extends AppCompatActivity{
+public abstract class RideCreateActivity extends AppCompatActivity {
 
-    private static final int RESULT_LEAVING_ADDRESS = 10;
-    private static final int RESULT_ARRIVING_ADDRESS = 11;
-    private static final int RESULT_TIME = 12;
+    protected static final int RESULT_LEAVING_ADDRESS = 10;
+    protected static final int RESULT_ARRIVING_ADDRESS = 11;
+    protected static final int RESULT_TIME = 12;
 
-    private RideOffer mRideOffer = RideOffer.getWeekdaysCheckedInstance();
+    //private RideOffer mRideOffer = RideOffer.getWeekdaysCheckedInstance();
     private SimpleDateFormat sdf;// = new SimpleDateFormat("EEEE, d MMM yyyy", getResources().getConfiguration().locale);
 
-    @Bind(R.id.leaving_address_box) LinearLayout mLeavingAddressBox;
-    @Bind(R.id.leaving_address_line1) TextView mLeavingAddressLine1;
-    @Bind(R.id.leaving_address_line2) TextView mLeavingAddressLine2;
-    @Bind(R.id.arriving_address_line1) TextView mArrivingAddressLine1;
-    @Bind(R.id.arriving_address_line2) TextView mArrivingAddressLine2;
-    @Bind(R.id.arriving_address_box) LinearLayout mArrivingAddressBox;
-    @Bind(R.id.time_box) LinearLayout mTimeBox;
-    @Bind(R.id.time_text) TextView mTimeText;
-    @Bind(R.id.recurrence_box) LinearLayout mRecurrenceBox;
-    @Bind(R.id.recurrence_radio_group) RadioGroup mRecurrenceGroup;
-    @Bind(R.id.recurrence_yes) RadioButton mRecurrenceYes;
-    @Bind(R.id.recurrence_no) RadioButton mRecurrenceNo;
-    @Bind(R.id.days_box) LinearLayout mDaysBox;
+    @Bind(R.id.leaving_address_box)
+    LinearLayout mLeavingAddressBox;
+    @Bind(R.id.leaving_address_line1)
+    TextView mLeavingAddressLine1;
+    @Bind(R.id.leaving_address_line2)
+    TextView mLeavingAddressLine2;
+    @Bind(R.id.arriving_address_line1)
+    TextView mArrivingAddressLine1;
+    @Bind(R.id.arriving_address_line2)
+    TextView mArrivingAddressLine2;
+    @Bind(R.id.arriving_address_box)
+    LinearLayout mArrivingAddressBox;
+    @Bind(R.id.time_box)
+    LinearLayout mTimeBox;
+    @Bind(R.id.time_text)
+    TextView mTimeText;
+    @Bind(R.id.recurrence_box)
+    LinearLayout mRecurrenceBox;
+    @Bind(R.id.recurrence_radio_group)
+    RadioGroup mRecurrenceGroup;
+    @Bind(R.id.recurrence_yes)
+    RadioButton mRecurrenceYes;
+    @Bind(R.id.recurrence_no)
+    RadioButton mRecurrenceNo;
+    @Bind(R.id.days_box)
+    LinearLayout mDaysBox;
 
-    @Bind(R.id.day_sunday) Button mSundayButton;
-    @Bind(R.id.day_monday) Button mMondayButton;
-    @Bind(R.id.day_tuesday) Button mTuesdayButton;
-    @Bind(R.id.day_wednesday) Button mWednesdayButton;
-    @Bind(R.id.day_thursday) Button mThursdayButton;
-    @Bind(R.id.day_friday) Button mFridayButton;
-    @Bind(R.id.day_saturday) Button mSaturdayButton;
+    @Bind(R.id.day_sunday)
+    Button mSundayButton;
+    @Bind(R.id.day_monday)
+    Button mMondayButton;
+    @Bind(R.id.day_tuesday)
+    Button mTuesdayButton;
+    @Bind(R.id.day_wednesday)
+    Button mWednesdayButton;
+    @Bind(R.id.day_thursday)
+    Button mThursdayButton;
+    @Bind(R.id.day_friday)
+    Button mFridayButton;
+    @Bind(R.id.day_saturday)
+    Button mSaturdayButton;
 
-    @Bind(R.id.offer_button) Button mOfferButton;
+    @Bind(R.id.offer_button)
+    Button mOfferButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +92,7 @@ public class OfferActivity extends AppCompatActivity{
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(OfferActivity.this, AddressSearchActivity.class);
+                        Intent intent = new Intent(RideCreateActivity.this, AddressSearchActivity.class);
                         startActivityForResult(intent, RESULT_LEAVING_ADDRESS);
                     }
                 }
@@ -87,7 +102,7 @@ public class OfferActivity extends AppCompatActivity{
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(OfferActivity.this, AddressSearchActivity.class);
+                        Intent intent = new Intent(RideCreateActivity.this, AddressSearchActivity.class);
                         startActivityForResult(intent, RESULT_ARRIVING_ADDRESS);
                     }
                 }
@@ -97,7 +112,7 @@ public class OfferActivity extends AppCompatActivity{
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(OfferActivity.this, TimeActivity.class);
+                        Intent intent = new Intent(RideCreateActivity.this, TimeActivity.class);
                         startActivityForResult(intent, RESULT_TIME);
                     }
                 }
@@ -122,8 +137,8 @@ public class OfferActivity extends AppCompatActivity{
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mRideOffer.setSunday(!mRideOffer.isSunday());
-                        refreshDayButton(mSundayButton, mRideOffer.isSunday());
+                        getRecurrentEntity().setSunday(!getRecurrentEntity().isSunday());
+                        refreshDayButton(mSundayButton, getRecurrentEntity().isSunday());
                     }
                 }
         );
@@ -133,8 +148,8 @@ public class OfferActivity extends AppCompatActivity{
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mRideOffer.setMonday(!mRideOffer.isMonday());
-                        refreshDayButton(mMondayButton, mRideOffer.isMonday());
+                        getRecurrentEntity().setMonday(!getRecurrentEntity().isMonday());
+                        refreshDayButton(mMondayButton, getRecurrentEntity().isMonday());
                     }
                 }
         );
@@ -143,8 +158,8 @@ public class OfferActivity extends AppCompatActivity{
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mRideOffer.setTuesday(!mRideOffer.isTuesday());
-                        refreshDayButton(mTuesdayButton, mRideOffer.isTuesday());
+                        getRecurrentEntity().setTuesday(!getRecurrentEntity().isTuesday());
+                        refreshDayButton(mTuesdayButton, getRecurrentEntity().isTuesday());
                     }
                 }
         );
@@ -153,8 +168,8 @@ public class OfferActivity extends AppCompatActivity{
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mRideOffer.setWednesday(!mRideOffer.isWednesday());
-                        refreshDayButton(mWednesdayButton, mRideOffer.isWednesday());
+                        getRecurrentEntity().setWednesday(!getRecurrentEntity().isWednesday());
+                        refreshDayButton(mWednesdayButton, getRecurrentEntity().isWednesday());
                     }
                 }
         );
@@ -163,8 +178,8 @@ public class OfferActivity extends AppCompatActivity{
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mRideOffer.setThursday(!mRideOffer.isThursday());
-                        refreshDayButton(mThursdayButton, mRideOffer.isThursday());
+                        getRecurrentEntity().setThursday(!getRecurrentEntity().isThursday());
+                        refreshDayButton(mThursdayButton, getRecurrentEntity().isThursday());
                     }
                 }
         );
@@ -173,8 +188,8 @@ public class OfferActivity extends AppCompatActivity{
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mRideOffer.setFriday(!mRideOffer.isFriday());
-                        refreshDayButton(mFridayButton, mRideOffer.isFriday());
+                        getRecurrentEntity().setFriday(!getRecurrentEntity().isFriday());
+                        refreshDayButton(mFridayButton, getRecurrentEntity().isFriday());
                     }
                 }
         );
@@ -183,8 +198,8 @@ public class OfferActivity extends AppCompatActivity{
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mRideOffer.setSaturday(!mRideOffer.isSaturday());
-                        refreshDayButton(mSaturdayButton, mRideOffer.isSaturday());
+                        getRecurrentEntity().setSaturday(!getRecurrentEntity().isSaturday());
+                        refreshDayButton(mSaturdayButton, getRecurrentEntity().isSaturday());
                     }
                 }
         );
@@ -193,58 +208,55 @@ public class OfferActivity extends AppCompatActivity{
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        sendOffer();
+                        create();
                     }
                 }
         );
 
     }
 
-    private void refreshAllDayButtons(){
-        refreshDayButton(mSundayButton, mRideOffer.isSunday());
-        refreshDayButton(mMondayButton, mRideOffer.isMonday());
-        refreshDayButton(mTuesdayButton, mRideOffer.isTuesday());
-        refreshDayButton(mWednesdayButton, mRideOffer.isWednesday());
-        refreshDayButton(mThursdayButton, mRideOffer.isThursday());
-        refreshDayButton(mFridayButton, mRideOffer.isFriday());
-        refreshDayButton(mSaturdayButton, mRideOffer.isSaturday());
+    public abstract RideEntity getRecurrentEntity();
+
+    private void refreshAllDayButtons() {
+        refreshDayButton(mSundayButton, getRecurrentEntity().isSunday());
+        refreshDayButton(mMondayButton, getRecurrentEntity().isMonday());
+        refreshDayButton(mTuesdayButton, getRecurrentEntity().isTuesday());
+        refreshDayButton(mWednesdayButton, getRecurrentEntity().isWednesday());
+        refreshDayButton(mThursdayButton, getRecurrentEntity().isThursday());
+        refreshDayButton(mFridayButton, getRecurrentEntity().isFriday());
+        refreshDayButton(mSaturdayButton, getRecurrentEntity().isSaturday());
     }
 
-    private void refreshDayButton(Button dayButton, boolean checked){
+    private void refreshDayButton(Button dayButton, boolean checked) {
 
-        if(checked){
+        if (checked) {
             dayButton.setBackgroundResource(R.drawable.shape_day_button_enabled);
-        }
-        else{
+        } else {
             dayButton.setBackgroundResource(R.drawable.shape_day_button_disabled);
         }
 
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode == RESULT_OK){
-            if(requestCode == RESULT_LEAVING_ADDRESS) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == RESULT_LEAVING_ADDRESS) {
                 Address address = (Address) data.getSerializableExtra("address");
-                mRideOffer.setLeavingAddress(address);
                 populateAddressBox(address, mLeavingAddressLine1, mLeavingAddressLine2);
-            }
-            else if(requestCode == RESULT_ARRIVING_ADDRESS){
+            } else if (requestCode == RESULT_ARRIVING_ADDRESS) {
                 Address address = (Address) data.getSerializableExtra("address");
-                mRideOffer.setArrivingAddress(address);
                 populateAddressBox(address, mArrivingAddressLine1, mArrivingAddressLine2);
-            }
-            else if(requestCode == RESULT_TIME){
+            } else if (requestCode == RESULT_TIME) {
                 Date time = (Date) data.getSerializableExtra("date");
-                mRideOffer.setLeavingTime(time);
                 mTimeText.setText(sdf.format(time));
             }
         }
 
     }
 
-    private void populateAddressBox(Address address, TextView line1, TextView line2){
+    private void populateAddressBox(Address address, TextView line1, TextView line2) {
         if (address.isRouteType()) {
             SpannableString route = new SpannableString(address.getRouteLong() + ", ");
             SpannableString number = new SpannableString(address.getNumber());
@@ -270,64 +282,27 @@ public class OfferActivity extends AppCompatActivity{
             line2.setText(line2Text);
         } else if (address.isEstablishmentType()) {
             line1.setText(address.getName());
-            if(address.getRouteLong() != null){
+            if (address.getRouteLong() != null) {
                 String line2Text = new String();
                 line2Text = address.getRouteLong();
-                if(address.getNumber() != null){
+                if (address.getNumber() != null) {
                     line2Text = line2Text.concat(", " + address.getNumber());
-                }
-                else{
+                } else {
                     line2Text = line2Text.concat(", " + getString(R.string.no_number_symbol));
                 }
                 line2.setText(line2Text);
-            }
-            else{
+            } else {
                 line2.setText("");
             }
-        }
-        else{
+        } else {
             //FIXME not expectected state
         }
     }
 
-    private void validateOffer(){
+    private void validateOffer() {
 
     }
 
-    private void sendOffer(){
+    abstract void create();
 
-        //FIXME
-        mRideOffer.setLeavingTime(new Date());
-
-        Callback<List<RideMasterRequest>> callback = new Callback<List<RideMasterRequest>>() {
-            @Override
-            public void onResponse(Response<List<RideMasterRequest>> response) {
-                if(response.code() == Response.HTTP_201_CREATED){
-                    if(response.body() == null || response.body().size() == 0){
-                        finish();
-                    }
-                    else{
-                        ArrayList<RideMasterRequest> requests = new ArrayList<>(response.body());
-                        Intent intent = new Intent(OfferActivity.this, null);
-                        intent.putExtra("requests", requests);
-                        startActivity(intent);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-
-            }
-        };
-
-        if(mRecurrenceGroup.getCheckedRadioButtonId() == R.id.recurrence_yes){
-            DingoApiService.getInstance().createRecurrentRideOffer(mRideOffer, callback);
-        }
-        else{
-            DingoApiService.getInstance().createRideOffer(mRideOffer, callback);
-        }
-
-
-    }
 }

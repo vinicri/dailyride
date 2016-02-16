@@ -2,30 +2,42 @@ package com.dingoapp.dingo.api.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by guestguest on 12/02/16.
  */
-public class RideMasterRequest {
+public class RideMasterRequest extends RideEntity implements Serializable {
+    public static final char STATE_NEW = 'N';
+    public static final char STATE_OPEN = 'O';
+    public static final char STATE_ACCEPTED = 'A';
+    public static final char STATE_CANCELLED = 'C';
 
-    @SerializedName("leaving_address")
-    Address leavingAddress;
+    @SerializedName("leaving_time_end")
+    Date leavingTimeEnd;
 
-    @SerializedName("arriving_address")
-    Address arrivingAddress;
+    List<RideOffer> offers;
 
-    Date time;
+    char state;
 
-    boolean monday;
-    boolean tuesday;
-    boolean wednesday;
-    boolean thursday;
-    boolean friday;
-    boolean saturday;
-    boolean sunday;
+    @SerializedName("waiting_requests")
+    int waitingRequests;
 
-    public static RideMasterRequest getWeekdaysCheckedInstance(){
+    @SerializedName("rejected_requests")
+    int rejectedRequests;
+
+    @SerializedName("new_matches")
+    int newMatches;
+
+    //when a user is offering the ride
+    @SerializedName("offering_user")
+    User offeringUser;
+
+    User driver;
+
+    public static RideMasterRequest getWeekdaysCheckedInstance() {
         RideMasterRequest request = new RideMasterRequest();
         request.monday = true;
         request.tuesday = true;
@@ -35,83 +47,59 @@ public class RideMasterRequest {
         return request;
     }
 
-    public Address getLeavingAddress() {
-        return leavingAddress;
+    public Date getLeavingTimeEnd() {
+        return leavingTimeEnd;
     }
 
-    public void setLeavingAddress(Address leavingAddress) {
-        this.leavingAddress = leavingAddress;
+    public void setLeavingTimeEnd(Date leavingTimeEnd) {
+        this.leavingTimeEnd = leavingTimeEnd;
     }
 
-    public Address getArrivingAddress() {
-        return arrivingAddress;
+    public char getState() {
+        return state;
     }
 
-    public void setArrivingAddress(Address arrivingAddress) {
-        this.arrivingAddress = arrivingAddress;
+    public void setState(char state) {
+        this.state = state;
     }
 
-    public Date getTime() {
-        return time;
+    public User getOfferingUser() {
+        return offeringUser;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public void setOfferingUser(User offeringUser) {
+        this.offeringUser = offeringUser;
     }
 
-    public boolean isMonday() {
-        return monday;
+    public int getWaitingRequests() {
+        return waitingRequests;
     }
 
-    public void setMonday(boolean monday) {
-        this.monday = monday;
+    public void setWaitingRequests(int waitingRequests) {
+        this.waitingRequests = waitingRequests;
     }
 
-    public boolean isTuesday() {
-        return tuesday;
+    public int getRejectedRequests() {
+        return rejectedRequests;
     }
 
-    public void setTuesday(boolean tuesday) {
-        this.tuesday = tuesday;
+    public void setRejectedRequests(int rejectedRequests) {
+        this.rejectedRequests = rejectedRequests;
     }
 
-    public boolean isWednesday() {
-        return wednesday;
+    public int getNewMatches() {
+        return newMatches;
     }
 
-    public void setWednesday(boolean wednesday) {
-        this.wednesday = wednesday;
+    public void setNewMatches(int newMatches) {
+        this.newMatches = newMatches;
     }
 
-    public boolean isThursday() {
-        return thursday;
+    public User getDriver() {
+        return driver;
     }
 
-    public void setThursday(boolean thursday) {
-        this.thursday = thursday;
-    }
-
-    public boolean isFriday() {
-        return friday;
-    }
-
-    public void setFriday(boolean friday) {
-        this.friday = friday;
-    }
-
-    public boolean isSaturday() {
-        return saturday;
-    }
-
-    public void setSaturday(boolean saturday) {
-        this.saturday = saturday;
-    }
-
-    public boolean isSunday() {
-        return sunday;
-    }
-
-    public void setSunday(boolean sunday) {
-        this.sunday = sunday;
+    public void setDriver(User driver) {
+        this.driver = driver;
     }
 }

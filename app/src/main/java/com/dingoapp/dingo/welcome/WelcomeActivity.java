@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.dingoapp.dingo.R;
-import com.dingoapp.dingo.RidesActivity;
+import com.dingoapp.dingo.rides.RidesActivity;
 import com.dingoapp.dingo.api.Callback;
 import com.dingoapp.dingo.api.DingoApiService;
 import com.dingoapp.dingo.api.Response;

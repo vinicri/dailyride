@@ -21,6 +21,9 @@ public class User {
     @SerializedName("email")
     String email;
 
+    @SerializedName("photo_url")
+    String photoUrl;
+
     @SerializedName("fb_access_token")
     String fbAccessToken;
 
@@ -87,6 +90,14 @@ public class User {
 
     public void setRiderMode(RiderMode riderMode) {
         this.riderMode = riderMode;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 
     public class OAuthToken{
