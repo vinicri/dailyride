@@ -11,21 +11,83 @@
     <string name="day_thursday">QUI</string>
     <string name="day_friday">SEX</string>
     <string name="day_saturday">SAB</string>
-    <string name="new_request_create_request">Você ainda nao pediu carona. Peça agora!</string>
-    <string name="request_user_offering_ride">%1$s está lhe oferecendo carona</string>
-    <string name="request_accepted_driver">%1$s aceitou seu pedido de carona</string>
-    <string name="request_open_requests_rejected">Seus pedidos não foram aceitos</string>
-    <string name="request_open_searching_new_matches">Estamos buscando outras caronas pra você</string>
+    <string name="new_request_create_request">Você ainda não pediu carona. Peça agora!</string>
+    <string name="request_user_offering_ride">está lhe oferecendo carona</string>
+    <string name="request_accepted_driver">aceitou seu pedido de carona</string>
+    <string name="request_open_requests_rejected">Seus pedidos não foram aceitos.</string>
+    <string name="request_open_searching_new_matches">Estamos buscando outras caronas pra você.</string>
+    <string name="menu_profile">Perfil</string>
+    <string name="menu_history">Histórico</string>
+    <string name="menu_receivables">Recebimento</string>
+    <string name="menu_payment">Pagamento</string>
+    <string name="payment_save">Salvar</string>
+    <string name="credit_card_number">número</string>
+    <string name="credit_card_edit">Alterar</string>
+    <string name="payment_cancel">Cancelar</string>
+    <string name="credit_card_save">Salvar</string>
+    <string name="menu_ratings">Avaliações</string>
+    <string name="menu_customer_service">Fale conosco</string>
+    <string name="request_create_request_now">Peça carona agora!</string>
+    <string name="new_request_searching_rides">Buscando caronas...</string>
+    <string name="offer_no_requests">Nenhum possível interressado ainda.</string>
+    <string name="offer_will_notify_you">Não se preocupe! Avisaremos logo que o primeiro surgir!</string>
+    <string name="button_create_request">Pedir carona</string>
+    <string name="button_create_offer">Oferecer carona</string>
+    <string name="button_create_request_short">Pedir</string>
+    <string name="offer_fill_data">Complete as informações da sua carona</string>
+    <string name="offer_leaving_address_label">Local de saída</string>
+    <string name="arriving_address_label">Destino</string>
+    <string name="insert_leaving_address">Inserir local de saída</string>
+    <string name="string_leaving_address">Inserir destino</string>
+    <string name="insert_time">Definir data e hora de saída</string>
+    <string name="activity_ride_title">Caronas</string>
+    <string name="activity_title_offer">Oferta de carona</string>
+    <string name="activity_title_request">Pedido de carona</string>
+    <string name="activity_ride_create_request">Pedir</string>
+    <string name="time_set">Definir</string>
+    <string name="activity_title_time">Data e hora de saída</string>
+    <string name="tomorrow">Amanhã</string>
+    <string name="today">Hoje</string>
+    <string name="ok">OK</string>
+    <string name="time_earlier_than_now">O horário escolhido já passou</string>
+    <string name="leaving_time_today">Hoje, às %1$s</string>
+    <string name="leaving_time_tomorrow">Amanhã, às %1$s</string>
+    <string name="leaving_time_general">%1$s, às %2$s</string>
+    <string name="type_address_or_place">digite o endereço ou nome do local</string>
+    <string name="address_add_number">Complete com o número e confirme</string>
+    <string name="address_generic_address">Seja mais preciso. Este endereço é muito generico.</string>
+    <string name="offer_arriving_address_label">Destino</string>
     <plurals name="request_new_got_new_matches">
-        <item quantity="one">Você tem %1$d match. Peça carona agora!</item>
-        <item quantity="other">Você tem %1$d matches. Peça carona agora!</item>
+        <item quantity="one">Uma carona disponível pra você.</item>
+        <item quantity="two">Duas caronas disponíveis pra você.</item>
+        <item quantity="other">%1$d caronas disponiveis pra você.</item>
     </plurals>
     <plurals name="request_open_got_new_matches">
-        <item quantity="one">Você tem %1$d match. Faça um novo pedido agora!</item>
-        <item quantity="other">Você tem %1$d matches. Faça um novo pedido agora!</item>
+        <item quantity="one">Uma nova carona disponível pra você. Peça agora!</item>
+        <item quantity="two">Duas novas caronas disponíveis pra você. Peça agora!</item>
+        <item quantity="other">%1$d novas caronas disponíveis pra você. Peça agora!</item>
     </plurals>
     <plurals name="request_open_waiting_responses">
-        <item quantity="one">Aguardando resposta de %1$d pedido de carona</item>
+        <item quantity="one">Aguardando resposta de um pedido de carona</item>
+        <item quantity="two">Aguardando resposta de dois pedidos de carona</item>
         <item quantity="other">Aguardando resposta de %1$d pedidos de carona</item>
+    </plurals>
+    <plurals name="offer_accepted_users">
+        <item quantity="one">irá com você</item>
+        <item quantity="other">irão com você</item>
+    </plurals>
+    <plurals name="offer_open_requests" >
+        <item quantity="one">Você tem um pedido para responder</item>
+        <item quantity="two">Você tem dois pedidos para responder</item>
+        <item quantity="other">Você tem %1$d pedidos para responder</item>
+    </plurals>
+    <plurals name="offer_new_matches">
+        <item quantity="one">Uma pessoa pode-se interessar por essa carona.</item>
+        <item quantity="two">Duas pessoas podem-se interessar por essa carona.</item>
+        <item quantity="other">%1$d pessoas podem-se interessar por essa carona.</item>
+    </plurals>
+    <plurals name="offer_offer_this_ride">
+        <item quantity="one">Ofereça carona para ela agora!</item>
+        <item quantity="other">Ofereça carona para elas agora!</item>
     </plurals>
 </resources>

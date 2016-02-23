@@ -2,14 +2,17 @@ package com.dingoapp.dingo.searchaddress;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
+import com.dingoapp.dingo.BaseActivity;
 import com.dingoapp.dingo.R;
 import com.dingoapp.dingo.api.Callback;
 import com.dingoapp.dingo.api.Response;
@@ -24,12 +27,15 @@ import com.google.android.gms.location.places.Places;
 
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 import static com.dingoapp.dingo.util.LogUtil.makeLogTag;
 
 /**
  * Created by guestguest on 31/01/16.
  */
-public class AddressSearchActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class AddressSearchActivity extends BaseActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = makeLogTag(AddressSearchActivity.class);
     private GoogleApiClient mGoogleApiClient;
@@ -40,6 +46,8 @@ public class AddressSearchActivity extends AppCompatActivity implements GoogleAp
     private Button mCheckAddressButton;
     private Address mPartialAddress;
 
+    @Bind(R.id.alert_text) TextView mAlertText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +56,13 @@ public class AddressSearchActivity extends AppCompatActivity implements GoogleAp
             mGoogleApiClient.connect();
         }
         setContentView(R.layout.activity_address_search);
+        ButterKnife.bind(this);
+
+        String title = getIntent().getStringExtra("title");
+        if(title != null){
+            getSupportActionBar().setTitle(title);
+        }
+
         mSearchEdit = (FilterEditText)findViewById(R.id.search_edit);
         mNumberEdit = (EditText)findViewById(R.id.number_edit);
         mCheckAddressButton = (Button)findViewById(R.id.check_address);
@@ -62,9 +77,11 @@ public class AddressSearchActivity extends AppCompatActivity implements GoogleAp
                 new AddressSearchAdapter.OnAddressSelectedListener() {
                     @Override
                     public void onAddressFetched(Address address) {
-                        mSearchEdit.setText(address.getName(), false);
-                        if(address.isEstablishmentType() && address.getRouteLong() == null){
+
+                        if(!address.isEstablishmentType() && address.getRouteLong() == null){
                             //seja mais preciso, este endereco eh muito generico
+                            mAlertText.setText(getString(R.string.address_generic_address));
+                            mAlertText.setVisibility(View.VISIBLE);
                         }
                         if(address.isRouteType()){
                             if(address.getNumber() != null){
@@ -77,7 +94,8 @@ public class AddressSearchActivity extends AppCompatActivity implements GoogleAp
                                 mNumberEdit.requestFocus();
                                 mPartialAddress = address;
                                 mCheckAddressButton.setVisibility(View.VISIBLE);
-                                //falta numero
+                                mAlertText.setText(getString(R.string.address_add_number));
+                                mAlertText.setVisibility(View.VISIBLE);
                             }
                         }
                         else{
@@ -92,6 +110,27 @@ public class AddressSearchActivity extends AppCompatActivity implements GoogleAp
 
         mSearchEdit.setAdapter(mAdapter);
         mRecyclerView.setAdapter(mAdapter);
+
+        mSearchEdit.addTextChangedListener(
+                new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        mAlertText.setVisibility(View.GONE);
+                        mCheckAddressButton.setVisibility(View.GONE);
+                        mNumberEdit.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                }
+        );
 
         mCheckAddressButton.setOnClickListener(
                 new View.OnClickListener() {

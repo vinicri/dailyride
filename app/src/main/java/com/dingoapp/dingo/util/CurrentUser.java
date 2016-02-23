@@ -31,6 +31,10 @@ public class CurrentUser {
         save();
     }
 
+    public static User getUser(){
+        return getInstance().user;
+    }
+
     public boolean isLoggedIn(){
         return user != null;
     }

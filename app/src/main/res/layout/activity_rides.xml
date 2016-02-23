@@ -7,32 +7,83 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rides_list"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-    </android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent"
+        android:background="@color/beige">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/request"
-            android:layout_width="150dp"
+            <include layout="@layout/toolbar_actionbar" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rides_list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+            </android.support.v7.widget.RecyclerView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Pedir Carona"/>
+            android:gravity="center_horizontal"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:visibility="gone"
+            android:id="@+id/rider_mode_buttons">
 
-        <Button
-            android:id="@+id/offer"
-            android:layout_width="160dp"
+            <Button
+                android:id="@+id/request"
+                android:layout_width="220dp"
+                android:layout_height="50dp"
+                android:background="@drawable/shape_button_orange"
+                android:textColor="@color/white"
+                android:text="@string/button_create_request"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Oferecer Carona"/>
+            android:gravity="center_horizontal"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/button_margin_from_bottom"
+            android:id="@+id/driver_mode_buttons">
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/request2"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:background="@drawable/shape_button_orange"
+                android:textColor="@color/white"
+                android:text="@string/button_create_request_short"
+                android:layout_marginRight="10dp"/>
+
+            <Button
+                android:id="@+id/offer"
+                android:layout_width="220dp"
+                android:layout_height="50dp"
+                android:background="@drawable/shape_button_orange"
+                android:textColor="@color/white"
+                android:text="@string/button_create_offer"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
 
     <include
         layout="@layout/layout_drawer"

@@ -975,6 +975,27 @@ public class HorizontalPicker extends View {
         // invalidate() not needed because scrollTo() already invalidates the view
     }
 
+    public void scrollToNext(){
+//        if(selectedItem + 1 >= values.length)
+//            return;
+//
+//        scrollToItem(selectedItem + 1);
+//        selectedItem++;
+        smoothScrollBy(1);
+    }
+
+    public void scrollToPrevious(){
+        smoothScrollBy(-1);
+//        if(selectedItem - 1 < 0)
+//            return;
+//
+//        scrollToItem(selectedItem - 1);
+//        selectedItem--;
+    }
+
+
+
+
     /**
      * Calculates relative horizontal scroll position to be within our scroll bounds.
      * //{@link HorizontalPicker#getInBoundsX(int)}

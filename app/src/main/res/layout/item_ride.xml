@@ -1,23 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingRight="20dp"
+    android:paddingLeft="20dp"
+    android:paddingTop="20dp"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="90dp"
         android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/type_icon"/>
+        <LinearLayout
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_ride_item_type_background"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/type_icon"/>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="8dp"
+            android:background="@drawable/shape_ride_item_info_background">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -29,29 +43,64 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Quarta"
-                    android:textSize="@dimen/ride_day_text_size"/>
+                    android:textSize="@dimen/ride_day_text_size"
+                    android:textColor="@color/gray_dark"/>
 
                 <TextView
                     android:id="@+id/time_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="20dp"
                     android:text="16:00"
-                    android:textSize="@dimen/ride_time_text_size"/>
+                    android:textSize="@dimen/ride_time_text_size"
+                    android:textColor="@color/gray_dark"/>
 
             </LinearLayout>
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/leaving_address"
-                android:text="Av Pe Antonio Jose dos Santos, 1666"/>
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/arriving_address"
-                android:text="Unilever Sao Paulo"/>
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="38dp"
+                    android:src="@drawable/route_icon"
+                    />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="4dp">
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/leaving_address"
+                        android:text="Av Pe Antonio Jose dos Santos, 1666"
+                        android:textColor="@color/gray_dark"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:id="@+id/arriving_address"
+                        android:text="Unilever Sao Paulo"
+                        android:textColor="@color/gray_dark"/>
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
 
         </LinearLayout>
 
@@ -61,7 +110,12 @@
         android:id="@+id/names_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="0dp"
+        android:background="@drawable/shape_ride_item_bottom_background">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -69,29 +123,58 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:background="@drawable/shape_user_photo_border_oval"
+                android:padding="@dimen/user_photo_oval_padding"
                 android:id="@+id/picture1"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 />
 
             <ImageView
+                android:background="@drawable/shape_user_photo_border_oval"
+                android:padding="@dimen/user_photo_oval_padding"
                 android:id="@+id/picture2"
+                android:layout_marginLeft="2dp"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 />
 
             <ImageView
+                android:background="@drawable/shape_user_photo_border_oval"
+                android:padding="@dimen/user_photo_oval_padding"
                 android:id="@+id/picture3"
+                android:layout_marginLeft="2dp"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 />
 
-            <TextView
-                android:id="@+id/names"
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:text="Vinicius, Leandro"/>
+                android:orientation="vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_gravity="bottom">
+
+                <TextView
+                    android:id="@+id/names"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:text="Vinicius, Leandro, Marcio"
+                    android:textSize="@dimen/ride_item_names_text_size"
+                    android:textColor="@android:color/white"/>
+
+                <TextView
+                    android:id="@+id/names_bottom_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="irão com você"
+                    android:textSize="@dimen/ride_item_names_bottom_text_size"
+                    android:textColor="@android:color/white"/>
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
@@ -99,8 +182,11 @@
             android:id="@+id/bottom_text1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:text="1 carona combinada"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="center_horizontal"
+            android:textSize="@dimen/ride_item_bottom_text_size"
+            android:textColor="@android:color/white"/>
 
 
         <TextView
@@ -108,7 +194,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2 pedidos de carona em aberto"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="center_horizontal"
+            android:textSize="@dimen/ride_item_bottom_text_size"
+            android:textColor="@android:color/white"/>
     </LinearLayout>
 
 

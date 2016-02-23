@@ -23,12 +23,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".rides.RidesActivity"></activity>
+        <activity android:name=".rides.RidesActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
         <activity android:name=".welcome.WelcomeActivity"></activity>
-        <activity android:name=".OfferActivity"></activity>
-        <activity android:name=".searchaddress.AddressSearchActivity"></activity>
-        <activity android:name=".TimeActivity"></activity>
-        <activity android:name=".RequestActivity"></activity>
+        <activity android:name=".OfferActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".searchaddress.AddressSearchActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".TimeActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".paymentinfo.PaymentInfoActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".RequestActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <activity android:name="com.facebook.FacebookActivity"
             android:configChanges=

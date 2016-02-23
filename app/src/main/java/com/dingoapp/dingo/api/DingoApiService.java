@@ -1,5 +1,6 @@
 package com.dingoapp.dingo.api;
 
+import com.dingoapp.dingo.api.model.CreditCardInfo;
 import com.dingoapp.dingo.api.model.RideMasterRequest;
 import com.dingoapp.dingo.api.model.RideOffer;
 import com.dingoapp.dingo.api.model.User;
@@ -104,6 +105,26 @@ public class DingoApiService{
 
     public void getUserRides(Callback<UserRides> callback){
         Call<UserRides> call = apiService.getUserRides();
+        enqueueCall(call, callback);
+    }
+
+    public void getCreditCardInfo(Callback<CreditCardInfo> callback){
+        Call<CreditCardInfo> call = apiService.getCreditCardInfo();
+        enqueueCall(call, callback);
+    }
+
+    public void createCreditCardInfo(CreditCardInfo creditCardInfo, Callback<CreditCardInfo> callback){
+        Call<CreditCardInfo> call = apiService.createCreditCardInfo(creditCardInfo);
+        enqueueCall(call, callback);
+    }
+
+    public void updateCreditCardInfo(CreditCardInfo creditCardInfo, Callback<CreditCardInfo> callback){
+        Call<CreditCardInfo> call = apiService.updateCreditCardInfo(creditCardInfo);
+        enqueueCall(call, callback);
+    }
+
+    public void deleteCreditCardInfo(CreditCardInfo creditCardInfo, Callback<Void> callback){
+        Call<Void> call = apiService.deleteCreditCardInfo(creditCardInfo);
         enqueueCall(call, callback);
     }
 

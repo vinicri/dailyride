@@ -1,6 +1,7 @@
 package com.dingoapp.dingo;
 
 import android.content.Intent;
+import android.os.Bundle;
 
 import com.dingoapp.dingo.api.Callback;
 import com.dingoapp.dingo.api.DingoApiService;
@@ -19,7 +20,14 @@ public class RequestActivity extends RideCreateActivity {
     RideMasterRequest mRequest = RideMasterRequest.getWeekdaysCheckedInstance();
 
     @Override
-    public RideEntity getRecurrentEntity() {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getSupportActionBar().setTitle(R.string.activity_title_request);
+        getCreateButton().setText(R.string.activity_ride_create_request);
+    }
+
+    @Override
+    public RideEntity getRideEntity() {
         return mRequest;
     }
 
@@ -31,17 +39,14 @@ public class RequestActivity extends RideCreateActivity {
             if(requestCode == RESULT_LEAVING_ADDRESS) {
                 Address address = (Address) data.getSerializableExtra("address");
                 mRequest.setLeavingAddress(address);
-                //populateAddressBox(address, mLeavingAddressLine1, mLeavingAddressLine2);
             }
             else if(requestCode == RESULT_ARRIVING_ADDRESS){
                 Address address = (Address) data.getSerializableExtra("address");
                 mRequest.setArrivingAddress(address);
-                //populateAddressBox(address, mArrivingAddressLine1, mArrivingAddressLine2);
             }
             else if(requestCode == RESULT_TIME){
                 Date time = (Date) data.getSerializableExtra("date");
                 mRequest.setLeavingTime(time);
-                //mTimeText.setText(sdf.format(time));
             }
         }
 

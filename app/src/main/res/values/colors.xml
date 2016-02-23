@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="day_button_enabled">#F15E91</color>
+    <color name="colorPrimary">#39b2a7</color>
+    <color name="colorPrimaryDark">#319a90</color>
+    <color name="colorAccent">#e86249</color>
+    <color name="day_button_enabled">#e86249</color>
     <color name="day_button_disabled">#9D9D9D</color>
     <color name="day_button_enabled_text">#ffffff</color>
+    <color name="profile_border_fill">#ffffff</color>
+    <color name="profile_border_stroke">#2c4c47</color>
+    <!--<color name="turquoise">#8ccdc2</color>
+    <color name="turquoise_dark">#64ada1</color>-->
+    <color name="turquoise">#39b2a7</color>
+    <color name="turquoise_dark">#319a90</color>
+    <color name="gray_dark">#50514f</color>
+    <color name="gray">#979996</color>
+    <color name="ride_item_gray_light">#bdbfbb</color>
+    <color name="orange">#e86249</color>
+    <color name="white">#ffffff</color>
+    <color name="beige">#eae6dd</color>
 </resources>

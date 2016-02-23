@@ -3,17 +3,15 @@ package com.dingoapp.dingo.api.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by guestguest on 12/02/16.
  */
 public class RideOffer extends RideEntity {
-
-    public enum State{
-        OPEN,
-        CANCELLED,
-        CLOSED
-    }
+    public static final char STATE_OPEN = 'O';
+    public static final char STATE_CANCELLED = 'C';
+    private static final char STATE_CLOSED = 'X';
 
     //user who is offering
     User user;
@@ -29,6 +27,9 @@ public class RideOffer extends RideEntity {
 
     @SerializedName("accepted_requests")
     int acceptedRequests;
+
+    @SerializedName("accepted_users")
+    List<User> acceptedUsers;
 
     @SerializedName("new_matches")
     int newMatches;
@@ -75,6 +76,10 @@ public class RideOffer extends RideEntity {
         this.leavingTime = leavingTime;
     }
 
+    public char getState() {
+        return state;
+    }
+
     public void setState(char state) {
         this.state = state;
     }
@@ -101,6 +106,14 @@ public class RideOffer extends RideEntity {
 
     public void setNewMatches(int newMatches) {
         this.newMatches = newMatches;
+    }
+
+    public List<User> getAcceptedUsers() {
+        return acceptedUsers;
+    }
+
+    public void setAcceptedUsers(List<User> acceptedUsers) {
+        this.acceptedUsers = acceptedUsers;
     }
 }
 

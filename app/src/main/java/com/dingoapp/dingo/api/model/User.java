@@ -100,6 +100,10 @@ public class User {
         this.photoUrl = photoUrl;
     }
 
+    public boolean hasPhoto(){
+        return photoUrl != null;
+    }
+
     public class OAuthToken{
 
         @SerializedName("expires_in")

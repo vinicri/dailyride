@@ -124,6 +124,10 @@ public class GoogleMapsApiService {
             }
         }
 
+        if(result.getTypes() != null && result.getTypes().contains("establishment")){
+            address.setEstablishmentType(true);
+        }
+
         //sometimes place has establishment type but is a route name
         if(AddressUtils.hasRoutePattern(address.getName())){
             address.setRouteType(true);

@@ -1,16 +1,20 @@
 package com.dingoapp.dingo;
 
-import android.content.SharedPreferences;
-import android.graphics.Rect;
+import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ScrollView;
+
+import com.bumptech.glide.Glide;
+import com.dingoapp.dingo.paymentinfo.PaymentInfoActivity;
+import com.dingoapp.dingo.util.CircleTransform;
+import com.dingoapp.dingo.util.CurrentUser;
 
 /**
  * Created by guestguest on 15/02/16.
@@ -25,6 +29,7 @@ public class BaseActivity extends AppCompatActivity {
 
     // A Runnable that we should execute when the navigation drawer finishes its closing animation
     private Runnable mDeferredOnDrawerClosedRunnable;
+    private ImageView mUserPhotoImageView;
 
     /**
      * Returns the navigation drawer item that corresponds to this Activity. Subclasses
@@ -69,6 +74,15 @@ public class BaseActivity extends AppCompatActivity {
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (mDrawerLayout == null) {
+            if (mActionBarToolbar != null) {
+                mActionBarToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+                mActionBarToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                       finish();
+                    }
+                });
+            }
             return;
         }
         //mDrawerLayout.setStatusBarBackgroundColor(
@@ -85,7 +99,7 @@ public class BaseActivity extends AppCompatActivity {
         }
 
         if (mActionBarToolbar != null) {
-            //mActionBarToolbar.setNavigationIcon(R.drawable.ic_ab_drawer);
+            mActionBarToolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
             mActionBarToolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -93,6 +107,21 @@ public class BaseActivity extends AppCompatActivity {
                 }
             });
         }
+
+        mUserPhotoImageView = (ImageView)findViewById(R.id.user_photo);
+        if(true || CurrentUser.getUser().hasPhoto()){
+            Glide.with(this).load("http://36.media.tumblr.com/0495e65a4f15696b4f3cc0dcff59a9e0/tumblr_mtqdx1uILV1r93kc1o1_r1_1280.jpg")
+                    .bitmapTransform(new CircleTransform(this))
+                    .into(mUserPhotoImageView);
+        }
+        else{
+            //todo static image
+        }
+
+        //Glide.with(mContext).load(contact.getPhotoUri())
+        //        .bitmapTransform(new CircleTransform(mContext))
+        //        .into(contactViewHolder.mPhotoView);
+
 
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
@@ -108,8 +137,20 @@ public class BaseActivity extends AppCompatActivity {
 
     public void onNavDrawerItemClick(View item){
 
+        switch(item.getId()){
+            case R.id.profile_item:
+                //openActivity()
+                break;
+            case R.id.payment_item:
+                openActivity(PaymentInfoActivity.class);
+                break;
+        }
     }
 
+    protected void openActivity(Class<?> cls){
+        Intent intent = new Intent(this, cls);
+        startActivity(intent);
+    }
     protected boolean isNavDrawerOpen() {
         return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(GravityCompat.START);
     }

@@ -3,21 +3,46 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include layout="@layout/toolbar_actionbar"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="8dp">
+
+
+        <TextView
+            android:id="@+id/alert_text"
+            android:drawableLeft="@drawable/alert"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:gravity="center_vertical"
+            android:text="Complete com o número e confirme"
+            android:visibility="gone">
+
+        </TextView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+            <!--<ImageView
+                android:scaleType="centerInside"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/search"/>-->
+
             <com.dingoapp.dingo.view.FilterEditText
                 android:id="@+id/search_edit"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:hint="@string/type_address_or_place"
+                android:inputType="textFilter|textNoSuggestions"
+                android:textColor="@color/gray_dark"
+                android:drawableLeft="@drawable/search"/>
 
             <EditText
                 android:id="@+id/number_edit"
@@ -25,16 +50,20 @@
                 android:minWidth="80dp"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
+                android:textColor="@color/gray_dark"
                 android:inputType="text" />
+
+            <Button
+                android:id="@+id/check_address"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/check_orange"
+                android:visibility="gone"
+                />
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/check_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="OK"
-            android:visibility="gone"/>
+
 
     </LinearLayout>
 
