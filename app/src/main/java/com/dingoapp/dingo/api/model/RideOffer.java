@@ -34,6 +34,8 @@ public class RideOffer extends RideEntity {
     @SerializedName("new_matches")
     int newMatches;
 
+    List<RideMasterRequest> requests;
+
     public static RideOffer getWeekdaysCheckedInstance(){
         RideOffer offer = new RideOffer();
         offer.monday = true;
@@ -115,6 +117,15 @@ public class RideOffer extends RideEntity {
     public void setAcceptedUsers(List<User> acceptedUsers) {
         this.acceptedUsers = acceptedUsers;
     }
+
+    public List<RideMasterRequest> getRequests() {
+        return requests;
+    }
+
+    public void setRequests(List<RideMasterRequest> requests) {
+        this.requests = requests;
+    }
+
 }
 
 

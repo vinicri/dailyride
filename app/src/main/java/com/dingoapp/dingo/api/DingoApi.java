@@ -21,7 +21,7 @@ import retrofit2.http.Query;
  */
 public interface DingoApi {
 
-    String BASE_URL = "http://192.168.0.100:8000/api/";
+    String BASE_URL = "http://192.168.0.103:8000/api/";
 
     @POST("/users/login_fb/")
     Call<User> registerWithFacebook(@Body User user);
@@ -36,10 +36,10 @@ public interface DingoApi {
     Call<List<RideOffer>> findOffersforRecurrentRequest(@Body RideMasterRequest request);
 
     @POST("/rideoffers/")
-    Call<List<RideMasterRequest>> createOffer(@Body RideOffer offer);
+    Call<RideOffer> createOffer(@Body RideOffer offer);
 
     @POST("/rideoffersrecurrent/")
-    Call<List<RideMasterRequest>> createRecurrentOffer(@Body RideOffer offer);
+    Call<RideOffer> createRecurrentOffer(@Body RideOffer offer);
 
     @POST("/ridemasterrequests/")
     Call<RideMasterRequest> createRideMasterRequest(@Body RideMasterRequest request);

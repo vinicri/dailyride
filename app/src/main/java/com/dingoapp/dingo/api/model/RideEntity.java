@@ -2,12 +2,13 @@ package com.dingoapp.dingo.api.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by guestguest on 13/02/16.
  */
-public class RideEntity {
+public class RideEntity implements Serializable{
 
     int id;
 

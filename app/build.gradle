@@ -1,5 +1,8 @@
 apply plugin: 'com.android.application'
 
+/*for google gcm service*/
+apply plugin: 'com.google.gms.google-services'
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
@@ -28,10 +31,12 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.0.0-beta3'
     compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta3'
     compile 'com.squareup.okhttp3:okhttp:3.0.0-RC1'
+    //also necessary for google gcm
     compile 'com.google.android.gms:play-services:7.5.0'
     compile 'com.android.support:recyclerview-v7:23.1.0'
     //debug
     compile 'com.squareup.okhttp:logging-interceptor:2.6.0'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.github.bumptech.glide:glide:3.6.1'
+    compile 'com.github.lawloretienne:quickreturn:0.0.3'
 }

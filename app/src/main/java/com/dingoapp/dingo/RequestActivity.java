@@ -62,6 +62,11 @@ public class RequestActivity extends RideCreateActivity {
                 @Override
                 public void onResponse(Response<RideMasterRequest> response) {
                     if (response.code() == Response.HTTP_201_CREATED) {
+                        RideMasterRequest request = response.body();
+                        Intent intent = new Intent();
+                        intent.putExtra("request", request);
+                        setResult(RESULT_OK, intent);
+                        finish();
 //                        if (response.body() == null || response.body().size() == 0) {
 //                            finish();
 //                        } else {

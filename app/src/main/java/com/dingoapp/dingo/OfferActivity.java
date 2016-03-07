@@ -8,12 +8,9 @@ import com.dingoapp.dingo.api.DingoApiService;
 import com.dingoapp.dingo.api.Response;
 import com.dingoapp.dingo.api.model.Address;
 import com.dingoapp.dingo.api.model.RideEntity;
-import com.dingoapp.dingo.api.model.RideMasterRequest;
 import com.dingoapp.dingo.api.model.RideOffer;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by guestguest on 31/01/16.
@@ -63,18 +60,19 @@ public class OfferActivity extends RideCreateActivity{
         //FIXME
         mRideOffer.setLeavingTime(new Date());
 
-        Callback<List<RideMasterRequest>> callback = new Callback<List<RideMasterRequest>>() {
+        Callback<RideOffer> callback = new Callback<RideOffer>() {
             @Override
-            public void onResponse(Response<List<RideMasterRequest>> response) {
+            public void onResponse(Response<RideOffer> response) {
                 if(response.code() == Response.HTTP_201_CREATED){
-                    if(response.body() == null || response.body().size() == 0){
+                    RideOffer offer = response.body();
+                    if(offer.getRequests() == null || offer.getRequests().isEmpty()){
+                        Intent intent = new Intent();
+                        intent.putExtra("offer", offer);
+                        setResult(RESULT_OK, intent);
                         finish();
                     }
                     else{
-                        ArrayList<RideMasterRequest> requests = new ArrayList<>(response.body());
-                        Intent intent = new Intent(OfferActivity.this, null);
-                        intent.putExtra("requests", requests);
-                        startActivity(intent);
+                        //todo
                     }
                 }
             }

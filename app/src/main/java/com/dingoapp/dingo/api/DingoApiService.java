@@ -83,13 +83,13 @@ public class DingoApiService{
         enqueueCall(call, callback);
     }
 
-    public void createRideOffer(RideOffer offer, final Callback<List<RideMasterRequest>> callback){
-        Call<List<RideMasterRequest>> call = apiService.createOffer(offer);
+    public void createRideOffer(RideOffer offer, final Callback<RideOffer> callback){
+        Call<RideOffer> call = apiService.createOffer(offer);
         enqueueCall(call, callback);
     }
 
-    public void createRecurrentRideOffer(RideOffer offer, final Callback<List<RideMasterRequest>> callback){
-        Call<List<RideMasterRequest>> call = apiService.createRecurrentOffer(offer);
+    public void createRecurrentRideOffer(RideOffer offer, final Callback<RideOffer> callback){
+        Call<RideOffer> call = apiService.createRecurrentOffer(offer);
         enqueueCall(call, callback);
     }
 
@@ -128,7 +128,7 @@ public class DingoApiService{
         enqueueCall(call, callback);
     }
 
-    <T> void enqueueCall(Call<T> call, final Callback<T> callback){
+    <T> void enqueueCall(final Call<T> call, final Callback<T> callback){
         call.enqueue(new retrofit2.Callback<T>() {
             @Override
             public void onResponse(retrofit2.Response<T> response) {
@@ -138,7 +138,7 @@ public class DingoApiService{
 
             @Override
             public void onFailure(Throwable t) {
-
+                callback.onFailure(t);
             }
         });
 
