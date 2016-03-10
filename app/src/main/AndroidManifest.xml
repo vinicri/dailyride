@@ -9,6 +9,7 @@
     949318954268-->
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <!--Google GCM-->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -36,14 +37,14 @@
             </intent-filter>
         </receiver>
         <service
-            android:name="com.example.MyGcmListenerService"
+            android:name=".gcm.MyGcmListenerService"
             android:exported="false" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
         <service
-            android:name="com.example.MyInstanceIDListenerService"
+            android:name=".gcm.MyInstanceIDListenerService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID" />
@@ -76,12 +77,19 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".RequestActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".slaveofferreply.SlaveOfferReplyActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <activity android:name="com.facebook.FacebookActivity"
             android:configChanges=
                 "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:label="@string/app_name" />
+
+        <!--Gooogle Maps Api key-->
+        <!--<meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCKAPacYqKD59fCuYwFFADb-zzPgDM98cM"/>-->
 
     </application>
 

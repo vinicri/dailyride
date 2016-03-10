@@ -1,6 +1,7 @@
 package com.dingoapp.dingo.api;
 
 import com.dingoapp.dingo.api.model.CreditCardInfo;
+import com.dingoapp.dingo.api.model.GcmToken;
 import com.dingoapp.dingo.api.model.RideMasterRequest;
 import com.dingoapp.dingo.api.model.RideOffer;
 import com.dingoapp.dingo.api.model.User;
@@ -21,7 +22,7 @@ import retrofit2.http.Query;
  */
 public interface DingoApi {
 
-    String BASE_URL = "http://192.168.0.103:8000/api/";
+    String BASE_URL = "http://192.168.0.102:8000/api/";
 
     @POST("/users/login_fb/")
     Call<User> registerWithFacebook(@Body User user);
@@ -61,5 +62,8 @@ public interface DingoApi {
 
     @DELETE("/creditcardinfo/")
     Call<Void> deleteCreditCardInfo(@Body CreditCardInfo creditCardInfo);
+
+    @POST("/gcmtoken/")
+    Call<GcmToken> createGcmToken(@Body GcmToken token);
 
 }

@@ -1,6 +1,7 @@
 package com.dingoapp.dingo.rides;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +23,7 @@ import com.dingoapp.dingo.api.model.RideEntity;
 import com.dingoapp.dingo.api.model.RideMasterRequest;
 import com.dingoapp.dingo.api.model.RideOffer;
 import com.dingoapp.dingo.api.model.User;
+import com.dingoapp.dingo.slaveofferreply.SlaveOfferReplyActivity;
 import com.dingoapp.dingo.util.CircleTransform;
 
 import java.text.SimpleDateFormat;
@@ -108,6 +110,15 @@ public class RidesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             if (ride instanceof RideOffer) {
 
+                rideViewHolder.itemView.setOnClickListener(
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(mContext, SlaveOfferReplyActivity.class);
+                                mContext.startActivity(intent);
+                            }
+                        }
+                );
 
                 rideViewHolder.mTime.setText(timeText);
                 RideOffer offer = (RideOffer) ride;

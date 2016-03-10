@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/toolbar_actionbar" />
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        android:name="com.google.android.gms.maps.MapFragment"
+        android:layout_below="@id/toolbar_actionbar"
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/map"
+        android:id="@+id/user_presentation"
+        android:background="@color/turquoise">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_marginLeft="90dp"
+            android:text="Sharapova quer uma carona"
+            android:id="@+id/header_user"
+            android:padding="@dimen/padding_half_half"
+            android:textSize="16sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/user_presentation"
+        android:id="@+id/request_info"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray_dark"
+            android:padding="@dimen/padding_half_half"
+            android:id="@+id/header_date_time"
+            android:layout_marginLeft="90dp"
+            android:text="Quarta às 8:30"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:background="@drawable/shape_user_photo_border_oval"
+        android:padding="@dimen/user_photo_oval_padding"
+        android:layout_below="@id/map"
+        android:layout_marginTop="-15dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/header_picture"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@+id/request_info"
+        android:layout_alignParentBottom="true"
+        android:background="@color/beige"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="15dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/routesteps"
+                />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/route_text1_top"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Você sai de"
+                    android:textStyle="bold"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:id="@+id/route_text1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="Av Pe Antonio Jose dos Santos às 18:00"/>
+
+                <TextView
+                    android:id="@+id/route_text2_top"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:text="Encontra Sharapova em"/>
+
+                <TextView
+                    android:id="@+id/route_text2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="Rua Leopoldo Couto Magalhães às 18:18"/>
+
+
+                <TextView
+                    android:id="@+id/route_text3_top"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="5dp"
+                    android:text="Deixa Sharapova em"/>
+
+                <TextView
+                    android:id="@+id/route_text3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="Kroton Educacional SA"/>
+
+                <TextView
+                    android:id="@+id/route_text4"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="Segue para o seu destino"/>
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/decline"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:background="@drawable/shape_button_grey"
+                android:textColor="@color/white"
+                android:text="Recusar"
+                android:layout_marginRight="10dp"/>
+
+            <Button
+                android:id="@+id/offer"
+                android:layout_width="220dp"
+                android:layout_height="50dp"
+                android:background="@drawable/shape_button_orange"
+                android:textColor="@color/white"
+                android:text="@string/button_create_offer"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+
+
+
+</RelativeLayout>

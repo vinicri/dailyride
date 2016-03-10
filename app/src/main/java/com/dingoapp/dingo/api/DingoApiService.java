@@ -1,6 +1,7 @@
 package com.dingoapp.dingo.api;
 
 import com.dingoapp.dingo.api.model.CreditCardInfo;
+import com.dingoapp.dingo.api.model.GcmToken;
 import com.dingoapp.dingo.api.model.RideMasterRequest;
 import com.dingoapp.dingo.api.model.RideOffer;
 import com.dingoapp.dingo.api.model.User;
@@ -125,6 +126,11 @@ public class DingoApiService{
 
     public void deleteCreditCardInfo(CreditCardInfo creditCardInfo, Callback<Void> callback){
         Call<Void> call = apiService.deleteCreditCardInfo(creditCardInfo);
+        enqueueCall(call, callback);
+    }
+
+    public void createGcmToken(GcmToken token, Callback<GcmToken> callback){
+        Call<GcmToken> call = apiService.createGcmToken(token);
         enqueueCall(call, callback);
     }
 

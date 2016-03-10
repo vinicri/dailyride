@@ -21,10 +21,14 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.dingoapp.dingo.R;
+import com.dingoapp.dingo.api.Callback;
+import com.dingoapp.dingo.api.DingoApiService;
+import com.dingoapp.dingo.api.Response;
+import com.dingoapp.dingo.api.model.GcmToken;
+import com.dingoapp.dingo.util.Installation;
 import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
@@ -92,6 +96,25 @@ public class RegistrationIntentService extends IntentService {
      */
     private void sendRegistrationToServer(String token) {
         // Add custom implementation, as needed.
+        GcmToken gcmToken = new GcmToken();
+        gcmToken.setGcmToken(token);
+        gcmToken.setInstallationUuid(Installation.id(this));
+        DingoApiService.getInstance().createGcmToken(gcmToken, new Callback<GcmToken>() {
+            @Override
+            public void onResponse(Response<GcmToken> response) {
+                if(response.code() == Response.HTTP_201_CREATED){
+                    Log.i(TAG, "gcm token successfully registered");
+                }
+                else{
+
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
     }
 
     /**

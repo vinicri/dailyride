@@ -57,6 +57,7 @@
     <string name="address_add_number">Complete com o número e confirme</string>
     <string name="address_generic_address">Seja mais preciso. Este endereço é muito generico.</string>
     <string name="offer_arriving_address_label">Destino</string>
+    <string name="activity_slave_offer">Oferecer carona</string>
     <plurals name="request_new_got_new_matches">
         <item quantity="one">Uma carona disponível pra você.</item>
         <item quantity="two">Duas caronas disponíveis pra você.</item>
