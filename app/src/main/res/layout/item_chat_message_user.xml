@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/padding_quarter"
+        android:layout_marginTop="@dimen/padding_quarter"
+        android:background="@drawable/chatbubbleleft">
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="250dp"
+            android:paddingTop="2dp"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:textColor="@color/turquoise"
+            android:textStyle="bold"
+            tools:text="Vinicius" />
+
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="300dp"
+            android:padding="2dp"
+            tools:text="Olá Renato! Bom Dia Olá Renato! Bom Dia Olá Renato! Bom Dia Olá Renato! Bom Dia Olá Renato! Bom Dia" />
+
+    </LinearLayout>
+
+</LinearLayout>

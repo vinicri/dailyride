@@ -12,6 +12,8 @@ public class User {
         R //Rider
     }
 
+    Long id;
+
     @SerializedName("first_name")
     String firstName;
 
@@ -35,6 +37,14 @@ public class User {
 
     @SerializedName("rider_mode")
     RiderMode riderMode;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getFirstName() {
         return firstName;

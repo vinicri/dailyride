@@ -27,7 +27,7 @@
             android:layout_marginLeft="90dp"
             android:text="Sharapova quer uma carona"
             android:id="@+id/header_user"
-            android:padding="@dimen/padding_half_half"
+            android:padding="@dimen/padding_quarter"
             android:textSize="16sp"/>
 
     </LinearLayout>
@@ -43,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/gray_dark"
-            android:padding="@dimen/padding_half_half"
+            android:padding="@dimen/padding_quarter"
             android:id="@+id/header_date_time"
             android:layout_marginLeft="90dp"
             android:text="Quarta às 8:30"

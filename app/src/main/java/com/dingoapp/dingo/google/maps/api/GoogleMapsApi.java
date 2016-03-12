@@ -1,5 +1,6 @@
 package com.dingoapp.dingo.google.maps.api;
 
+import com.dingoapp.dingo.google.maps.api.directions.model.DirectionsResponse;
 import com.dingoapp.dingo.google.maps.api.geocoding.model.GeocodingResponse;
 import com.dingoapp.dingo.google.maps.api.places.model.PlaceResponse;
 
@@ -22,5 +23,8 @@ public interface GoogleMapsApi {
     //FIXME key is being added to query, should it?
     @GET("geocode/json")
     Call<GeocodingResponse> getGeocodedAddresses(@Query("address") String address);
+
+    @GET("directions/json")
+    Call<DirectionsResponse> getDirections(@Query("origin")String origin, @Query("destination")String destination, @Query("waypoints")String waypoints, @Query("waypoint_order")String waypointOrder);
 
 }

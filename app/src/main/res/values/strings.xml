@@ -58,6 +58,10 @@
     <string name="address_generic_address">Seja mais preciso. Este endereço é muito generico.</string>
     <string name="offer_arriving_address_label">Destino</string>
     <string name="activity_slave_offer">Oferecer carona</string>
+    <string name="activity_offer_details">Oferta de carona</string>
+    <string name="menu_edit">Alterar</string>
+    <string name="menu_cancel">Cancelar</string>
+    <string name="activity_chat">Chat</string>
     <plurals name="request_new_got_new_matches">
         <item quantity="one">Uma carona disponível pra você.</item>
         <item quantity="two">Duas caronas disponíveis pra você.</item>
