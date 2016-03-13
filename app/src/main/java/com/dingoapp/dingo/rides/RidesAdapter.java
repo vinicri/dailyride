@@ -42,7 +42,7 @@ public class RidesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static final int TYPE_FOOTER = 2;
     private static final int TYPE_RIDE = 3;
 
-    private boolean isHeaderEnabled = true;
+    private boolean isHeaderEnabled = false;
 
     private final List<RideEntity> mRides;
     SimpleDateFormat mDayFormat = new SimpleDateFormat("EEEE");
@@ -329,7 +329,19 @@ public class RidesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             setBottomTextColor(holder, mContext.getResources().getColor(R.color.gray_dark));
         }
 
+    }
 
+    public void setHeaderEnabled(boolean enabled){
+        if(isHeaderEnabled == enabled){
+            return;
+        }
+        isHeaderEnabled = enabled;
+        if(isHeaderEnabled){
+            notifyItemInserted(0);
+        }
+        else{
+            notifyItemRemoved(0);
+        }
     }
 
     public int itemIndex(RideEntity entity){

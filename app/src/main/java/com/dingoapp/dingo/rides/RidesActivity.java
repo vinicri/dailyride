@@ -3,6 +3,8 @@ package com.dingoapp.dingo.rides;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -30,6 +32,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -56,6 +60,10 @@ public class RidesActivity extends BaseActivity {
     private LeavingDateComparator mLeavingDateComparator;
     private LinearLayoutManager mLayoutManager;
     private float mHeaderHeight;
+
+    private static final ScheduledExecutorService worker = Executors.newSingleThreadScheduledExecutor();
+    private QuickNoticeScrollListener mNoticeScrollListener;
+
 
     protected int getSelfNavDrawerItem() {
         return NAVDRAWER_ITEM_DEFAULT;
@@ -137,12 +145,45 @@ public class RidesActivity extends BaseActivity {
                 .isSnappable(false)
                 .build();*/
 
-        QuickNoticeScrollListener scrollListener = new QuickNoticeScrollListener.Builder(mHeaderView)
+        QuickNoticeScrollListener.NoticeListener noticeListener = new QuickNoticeScrollListener.NoticeListener() {
+            @Override
+            public void wasShown() {
+                mAdapter.setHeaderEnabled(true);
+            }
+
+            @Override
+            public void wasHidden() {
+                mAdapter.setHeaderEnabled(false);
+            }
+        };
+
+        mNoticeScrollListener = new QuickNoticeScrollListener.Builder(mHeaderView, mRecyclerView)
                 .maxTranslation((int)mHeaderHeight)
+                .listener(noticeListener)
                 .build();
 
-        mRecyclerView.addOnScrollListener(scrollListener);
+        //mRecyclerView.addOnScrollListener(mNoticeScrollListener);
         mLeavingDateComparator = new LeavingDateComparator();
+
+        final Handler mainHandler = new Handler(Looper.getMainLooper());
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                mNoticeScrollListener.showNotice("teste");
+               // mAdapter.setHeaderEnabled(true);
+                //mHeaderView.setTranslationY(mHeaderHeight);
+                //mNoticeScrollListener.scrollItDown();
+               // mNoticeScrollListener.showNotice("teste");
+                //mRecyclerView.addOnScrollListener(mNoticeScrollListener);
+                //mNoticeScrollListener.setEnabled(true);
+            }
+        };
+
+        mainHandler.postDelayed(task, 5000);
+
+
+
+       // worker.schedule(task, 5, TimeUnit.SECONDS);
     }
 
     private void refreshList(){
@@ -185,6 +226,8 @@ public class RidesActivity extends BaseActivity {
             }
         }
     }
+
+
 
 
     private class LeavingDateComparator implements Comparator<RideEntity> {

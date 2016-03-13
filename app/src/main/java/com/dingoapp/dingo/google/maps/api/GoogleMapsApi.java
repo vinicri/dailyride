@@ -24,7 +24,8 @@ public interface GoogleMapsApi {
     @GET("geocode/json")
     Call<GeocodingResponse> getGeocodedAddresses(@Query("address") String address);
 
+    //https://maps.googleapis.com/maps/api/directions/json?origin=-23.605671,-46.692275&destination=-23.515551,-46.624975&mode=driving&waypoints=-23.587741,-46.679778|-23.560541,-46.657462
     @GET("directions/json")
-    Call<DirectionsResponse> getDirections(@Query("origin")String origin, @Query("destination")String destination, @Query("waypoints")String waypoints, @Query("waypoint_order")String waypointOrder);
+    Call<DirectionsResponse> getDirections(@Query("origin")String origin, @Query("destination")String destination, @Query("waypoints")String waypoints);
 
 }

@@ -6,6 +6,7 @@ import com.dingoapp.dingo.api.model.RideMasterRequest;
 import com.dingoapp.dingo.api.model.RideOffer;
 import com.dingoapp.dingo.api.model.User;
 import com.dingoapp.dingo.api.model.UserRides;
+import com.dingoapp.dingo.util.DingoService;
 import com.dingoapp.dingo.util.OAuthInterceptor;
 import com.dingoapp.dingo.util.RetrofitLogInterceptor;
 import com.google.gson.Gson;
@@ -21,7 +22,7 @@ import retrofit2.Retrofit;
 /**
  * Created by guestguest on 13/01/16.
  */
-public class DingoApiService{
+public class DingoApiService extends DingoService{
 
     private static DingoApiService instance;
     private final DingoApi apiService;
@@ -133,22 +134,5 @@ public class DingoApiService{
         Call<GcmToken> call = apiService.createGcmToken(token);
         enqueueCall(call, callback);
     }
-
-    <T> void enqueueCall(final Call<T> call, final Callback<T> callback){
-        call.enqueue(new retrofit2.Callback<T>() {
-            @Override
-            public void onResponse(retrofit2.Response<T> response) {
-                Response<T> dResponse = new Response<T>(response.code(), response.body());
-                callback.onResponse(dResponse);
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                callback.onFailure(t);
-            }
-        });
-
-    }
-
 
 }

@@ -4,10 +4,13 @@ import com.dingoapp.dingo.api.AddressUtils;
 import com.dingoapp.dingo.api.Callback;
 import com.dingoapp.dingo.api.Response;
 import com.dingoapp.dingo.api.model.Address;
+import com.dingoapp.dingo.google.maps.api.directions.model.DirectionsResponse;
 import com.dingoapp.dingo.google.maps.api.geocoding.model.GeocodingResponse;
 import com.dingoapp.dingo.google.maps.api.places.model.AddressComponent;
 import com.dingoapp.dingo.google.maps.api.places.model.PlaceResponse;
+import com.dingoapp.dingo.util.DingoService;
 import com.dingoapp.dingo.util.RetrofitLogInterceptor;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 
 import java.util.List;
@@ -20,7 +23,7 @@ import retrofit2.Retrofit;
 /**
  * Created by guestguest on 03/02/16.
  */
-public class GoogleMapsApiService {
+public class GoogleMapsApiService extends DingoService{
 
     private static GoogleMapsApiService instance;
     private final GoogleMapsApi apiService;
@@ -51,21 +54,18 @@ public class GoogleMapsApiService {
     public void getGeocodedAddresses(String address, final Callback<GeocodingResponse> callback){
         address = address.replace(" ", "+");
         final Call<GeocodingResponse> call = apiService.getGeocodedAddresses(address);
-        call.enqueue(new retrofit2.Callback<GeocodingResponse>() {
-            @Override
-            public void onResponse(retrofit2.Response<GeocodingResponse> response) {
-                Response<GeocodingResponse> dResponse = new Response<GeocodingResponse>(response.code(),
-                        response.body());
-                callback.onResponse(dResponse);
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-
-            }
-        });
-
+        enqueueCall(call, callback);
     }
+
+    public void getDirections(LatLng origin, LatLng destination, LatLng[] waypoints, Callback<DirectionsResponse> callback){
+        String waypointsString = latLgnText(waypoints[0]);
+        for(int i = 1; i < waypoints.length; i++){
+            waypointsString += "|" + latLgnText(waypoints[1]);
+        }
+        Call<DirectionsResponse> call = apiService.getDirections(latLgnText(origin), latLgnText(destination), waypointsString);
+        enqueueCall(call, callback);
+    }
+
     public void getPlaceById(String placeId, final Callback<Address> callback){
         final Call<PlaceResponse> call = apiService.getPlaceById(placeId, GoogleMapsApi.LANGUAGE_PT_BR, false);
         call.enqueue(new retrofit2.Callback<PlaceResponse>() {
@@ -148,5 +148,9 @@ public class GoogleMapsApiService {
 
         return address;
 
+    }
+
+    private String latLgnText(LatLng latLng){
+        return latLng.latitude + "," + latLng.longitude;
     }
 }

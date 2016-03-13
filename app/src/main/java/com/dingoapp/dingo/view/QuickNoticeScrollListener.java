@@ -14,14 +14,19 @@ public class QuickNoticeScrollListener extends RecyclerView.OnScrollListener {
     private boolean mIsSnappable;
     private int mMaxTranslation;
     private int mHeaderDiffTotal = 0;
+    private RecyclerView mRecyclerView;
     private int mPrevScrollY = 0;
     private final int mColumnCount;
+    private boolean mEnabled = false;
+    private NoticeListener mListener;
 
     public QuickNoticeScrollListener(Builder builder) {
         mNoticeView = builder.mNoticeView;
         mIsSnappable = builder.mIsSnappable;
         mMaxTranslation = builder.mMaxTranslation;
         mColumnCount = builder.mColumnCount;
+        mRecyclerView = builder.mRecyclerView;
+        mListener =  builder.mListener;
     }
 
 
@@ -55,7 +60,7 @@ public class QuickNoticeScrollListener extends RecyclerView.OnScrollListener {
         int diff = mPrevScrollY - scrollY;
 //        Log.d("", "onScrolled() : diff - "+diff);
 
-        if (diff != 0) {
+        if (diff != 0 && mEnabled) {
             if (diff < 0) { // scrolling down
                 mHeaderDiffTotal = Math.max(mHeaderDiffTotal + diff, 0);
                // mHeaderDiffTotal = Math.max(mHeaderDiffTotal + diff, mMaxTranslation);
@@ -65,20 +70,46 @@ public class QuickNoticeScrollListener extends RecyclerView.OnScrollListener {
             }
 
             mNoticeView.setTranslationY(mHeaderDiffTotal);
+
+            if(mNoticeView.getTranslationY() == 0){
+                hideNotice();
+                mEnabled = false;
+            }
         }
 
         mPrevScrollY = scrollY;
     }
 
+    private void hideNotice(){
+        mEnabled = false;
+        mRecyclerView.removeOnScrollListener(this);
+        if(mListener != null){
+            mListener.wasHidden();
+        }
+    }
+
+    public void showNotice(String text){
+        if(mListener != null){
+            mListener.wasShown();
+        }
+        mNoticeView.setTranslationY(mMaxTranslation);
+        mHeaderDiffTotal = mMaxTranslation;
+        mEnabled = true;
+        mRecyclerView.addOnScrollListener(this);
+    }
+
     public static class Builder {
 
+        private RecyclerView mRecyclerView;
         private View mNoticeView = null;
         private int mMaxTranslation = 0;
         private int mColumnCount = 1;
         private boolean mIsSnappable = false;
+        private NoticeListener mListener;
 
-        public Builder(View noticeView) {
+        public Builder(View noticeView, RecyclerView recyclerView) {
             mNoticeView = noticeView;
+            mRecyclerView = recyclerView;
         }
 
         public Builder maxTranslation(int maxTranslation) {
@@ -96,8 +127,18 @@ public class QuickNoticeScrollListener extends RecyclerView.OnScrollListener {
             return this;
         }
 
+        public Builder listener(NoticeListener listener){
+            mListener = listener;
+            return this;
+        }
+
         public QuickNoticeScrollListener build() {
             return new QuickNoticeScrollListener(this);
         }
+    }
+
+    public interface NoticeListener{
+        void wasShown();
+        void wasHidden();
     }
 }

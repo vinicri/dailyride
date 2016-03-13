@@ -11,6 +11,11 @@ import com.bumptech.glide.Glide;
 import com.dingoapp.dingo.BaseActivity;
 import com.dingoapp.dingo.OfferDetailsActivity;
 import com.dingoapp.dingo.R;
+import com.dingoapp.dingo.api.Callback;
+import com.dingoapp.dingo.api.Response;
+import com.dingoapp.dingo.google.maps.api.GoogleMapsApiService;
+import com.dingoapp.dingo.google.maps.api.directions.Utils;
+import com.dingoapp.dingo.google.maps.api.directions.model.DirectionsResponse;
 import com.dingoapp.dingo.util.CircleTransform;
 import com.dingoapp.dingo.util.PhotosDownloader;
 import com.google.android.gms.maps.CameraUpdate;
@@ -20,6 +25,10 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -128,5 +137,27 @@ public class SlaveOfferReplyActivity extends BaseActivity implements OnMapReadyC
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(latLngBounds, 150);
 
         mMap.moveCamera(cameraUpdate);
+
+        GoogleMapsApiService.getInstance().getDirections(PE_ANTONIO, ROD, new LatLng[]{LEOPOLDO, PAULISTA},
+                new Callback<DirectionsResponse>() {
+                    @Override
+                    public void onResponse(Response<DirectionsResponse> response) {
+                        if (response.code() == Response.HTTP_200_OK) {
+                            String encodedPoly = response.body().getRoutes().get(0).getOverviewPolyline().getPoints();
+                            List<LatLng> polyLatLgn = Utils.decodePoly(encodedPoly);
+
+                            Polyline polyline = mMap.addPolyline(
+                                    new PolylineOptions()
+                                            .addAll(polyLatLgn)
+                                            .width(14).color(getResources().getColor(R.color.turquoise)).geodesic(true)
+                            );
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+
+                    }
+                });
     }
 }
