@@ -156,7 +156,7 @@ public class OfferDetailsActivity extends BaseActivity implements OnMapReadyCall
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_offer_details, menu);
+        getMenuInflater().inflate(R.menu.activity_ride_details, menu);
         return true;
     }
 }

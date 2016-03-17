@@ -8,6 +8,7 @@ import android.content.Context;
  */
 public class DingoApplication extends Application {
 
+    public static String APP_VERSION = "1";
     private static Context context;
 
     @Override

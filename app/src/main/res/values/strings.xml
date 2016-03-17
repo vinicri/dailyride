@@ -62,6 +62,9 @@
     <string name="menu_edit">Alterar</string>
     <string name="menu_cancel">Cancelar</string>
     <string name="activity_chat">Chat</string>
+    <string name="button_accept">Aceitar</string>
+    <string name="activity_offer_invite">Encontramos uma carona</string>
+    <string name="activity_request_details">Carona confirmada</string>
     <plurals name="request_new_got_new_matches">
         <item quantity="one">Uma carona disponível pra você.</item>
         <item quantity="two">Duas caronas disponíveis pra você.</item>

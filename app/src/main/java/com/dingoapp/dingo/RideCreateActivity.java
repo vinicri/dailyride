@@ -3,6 +3,7 @@ package com.dingoapp.dingo;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StyleSpan;
@@ -271,7 +272,7 @@ public abstract class RideCreateActivity extends BaseActivity {
                 populateAddressBox(address, mArrivingAddressLine1, mArrivingAddressLine2);
             } else if (requestCode == RESULT_TIME) {
                 Date time = (Date) data.getSerializableExtra("date");
-                mTimeText.setTextColor(getResources().getColor(R.color.gray_dark));
+                mTimeText.setTextColor(ContextCompat.getColor(this, R.color.gray_dark));
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(time);
                 cal.set(Calendar.HOUR_OF_DAY, 0);

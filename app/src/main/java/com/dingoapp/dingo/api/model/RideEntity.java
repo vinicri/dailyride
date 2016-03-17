@@ -20,6 +20,10 @@ public class RideEntity implements Serializable{
     boolean saturday;
     boolean sunday;
 
+    //this variable is used to present the alert view
+    //in the rides list
+    public transient boolean justCreated;
+
     @SerializedName("leaving_time")
     Date leavingTime;
 
@@ -116,4 +120,5 @@ public class RideEntity implements Serializable{
     public void setArrivingAddress(Address arrivingAddress) {
         this.arrivingAddress = arrivingAddress;
     }
+
 }

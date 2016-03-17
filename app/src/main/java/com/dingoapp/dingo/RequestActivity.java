@@ -55,9 +55,6 @@ public class RequestActivity extends RideCreateActivity {
     @Override
     void create() {
 
-           //FIXME
-            mRequest.setLeavingTime(new Date());
-
             Callback<RideMasterRequest> callback = new Callback<RideMasterRequest>() {
                 @Override
                 public void onResponse(Response<RideMasterRequest> response) {

@@ -61,6 +61,8 @@ public class RidesActivity extends BaseActivity {
     private LinearLayoutManager mLayoutManager;
     private float mHeaderHeight;
 
+    //private RidesAdapter.RideViewHolder.PreAnimationRunnable mPreAnimationRunnable;
+
     private static final ScheduledExecutorService worker = Executors.newSingleThreadScheduledExecutor();
     private QuickNoticeScrollListener mNoticeScrollListener;
 
@@ -137,6 +139,28 @@ public class RidesActivity extends BaseActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
+        //mPreAnimationRunnable = new RidesAdapter.RideViewHolder.PreAnimationRunnable();
+
+        /*mRecyclerView.setItemAnimator(new RecyclerViewItemAnimatorAdapter() {
+            @Override
+            public boolean animateAppearance(RecyclerView.ViewHolder viewHolder, ItemHolderInfo preLayoutInfo, ItemHolderInfo postLayoutInfo) {
+                if (viewHolder instanceof RidesAdapter.RideViewHolder) {
+                    RidesAdapter.RideViewHolder rideViewHolder = (RidesAdapter.RideViewHolder) viewHolder;
+                    rideViewHolder.mAlertBox.setVisibility(View.VISIBLE);
+                    rideViewHolder.itemView.requestLayout();
+                    rideViewHolder.showAlertAndShrinkUpAfter(RidesActivity.this, 4000, new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            super.onAnimationStart(animation);
+                        }
+                    });
+                }
+                return false;
+            }
+        });*/
+
+
+
         mHeaderHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics());
 
        /* QuickReturnRecyclerViewOnScrollListener scrollListener = new QuickReturnRecyclerViewOnScrollListener.Builder(QuickReturnViewType.HEADER)
@@ -145,7 +169,7 @@ public class RidesActivity extends BaseActivity {
                 .isSnappable(false)
                 .build();*/
 
-        QuickNoticeScrollListener.NoticeListener noticeListener = new QuickNoticeScrollListener.NoticeListener() {
+       /* QuickNoticeScrollListener.NoticeListener noticeListener = new QuickNoticeScrollListener.NoticeListener() {
             @Override
             public void wasShown() {
                 mAdapter.setHeaderEnabled(true);
@@ -155,12 +179,12 @@ public class RidesActivity extends BaseActivity {
             public void wasHidden() {
                 mAdapter.setHeaderEnabled(false);
             }
-        };
+        };*/
 
-        mNoticeScrollListener = new QuickNoticeScrollListener.Builder(mHeaderView, mRecyclerView)
+        /*mNoticeScrollListener = new QuickNoticeScrollListener.Builder(mHeaderView, mRecyclerView)
                 .maxTranslation((int)mHeaderHeight)
                 .listener(noticeListener)
-                .build();
+                .build();*/
 
         //mRecyclerView.addOnScrollListener(mNoticeScrollListener);
         mLeavingDateComparator = new LeavingDateComparator();
@@ -169,7 +193,7 @@ public class RidesActivity extends BaseActivity {
         Runnable task = new Runnable() {
             @Override
             public void run() {
-                mNoticeScrollListener.showNotice("teste");
+                //mNoticeScrollListener.showNotice("teste");
                // mAdapter.setHeaderEnabled(true);
                 //mHeaderView.setTranslationY(mHeaderHeight);
                 //mNoticeScrollListener.scrollItDown();
@@ -179,7 +203,9 @@ public class RidesActivity extends BaseActivity {
             }
         };
 
-        mainHandler.postDelayed(task, 5000);
+        //mainHandler.postDelayed(task, 5000);
+
+        //TSnackbar.make(findViewById(android.R.id.content), "Hello from TSnackBar.", TSnackbar.LENGTH_LONG).show();
 
 
 
@@ -207,11 +233,20 @@ public class RidesActivity extends BaseActivity {
                 RideOffer offer = (RideOffer)data.getSerializableExtra("offer");
                 mRideEntities.add(offer);
                 orderRideEntities();
-                int index = mAdapter.itemIndex(offer);
+                offer.justCreated = true;
+                final int index = mRideEntities.indexOf(offer);
+                /*mPreAnimationRunnable.setRunnable(new Runnable() {
+                    @Override
+                    public void run() {
+                        mLayoutManager.scrollToPositionWithOffset(index, 0);
+                    }
+                });*/
                 mAdapter.notifyItemInserted(index);
+                mLayoutManager.scrollToPositionWithOffset(index, 0);
+
                 //mLayoutManager.getPosition(mLayoutManager.getChildAt(index);
                 //mLayoutManager.scrollToPosition(index);
-                mLayoutManager.scrollToPositionWithOffset(index, -(int)mHeaderHeight);
+                //mLayoutManager.scrollToPositionWithOffset(index, -(int)mHeaderHeight);
                // int childLayoutPosY = mRecyclerView.getChildLayoutPosition(mRecyclerView.getChildAt(index));
 
                //mRecyclerView.scrollToPosition();
@@ -220,15 +255,20 @@ public class RidesActivity extends BaseActivity {
                 RideMasterRequest request = (RideMasterRequest)data.getSerializableExtra("request");
                 mRideEntities.add(request);
                 orderRideEntities();
-                int index = mAdapter.itemIndex(request);
+                final int index = mRideEntities.indexOf(request);
+                request.justCreated = true;
+                /*mPreAnimationRunnable.setRunnable(new Runnable() {
+                    @Override
+                    public void run() {
+                        mLayoutManager.scrollToPositionWithOffset(index, 0);
+                    }
+                });*/
                 mAdapter.notifyItemInserted(index);
-                mLayoutManager.scrollToPositionWithOffset(index, -(int)mHeaderHeight);
+                mLayoutManager.scrollToPositionWithOffset(index, 0);
+                //mLayoutManager.scrollToPositionWithOffset(index, -(int)mHeaderHeight);
             }
         }
     }
-
-
-
 
     private class LeavingDateComparator implements Comparator<RideEntity> {
 

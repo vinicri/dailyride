@@ -33,7 +33,7 @@
             android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <category android:name="com.example.gcm" />
+                <category android:name="com.dingoapp.dingo" />
             </intent-filter>
         </receiver>
         <service
@@ -49,6 +49,11 @@
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
+        </service>
+
+        <service
+            android:name=".gcm.RegistrationIntentService"
+            android:exported="false">
         </service>
 
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
@@ -84,6 +89,12 @@
         android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <activity android:name=".chat.ChatActivity"
+        android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <activity android:name=".OfferInviteActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <activity android:name=".RequestDetailsActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
 

@@ -1,5 +1,9 @@
 package com.dingoapp.dingo.rides;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -8,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StyleSpan;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.dingoapp.dingo.OfferInviteActivity;
 import com.dingoapp.dingo.R;
 import com.dingoapp.dingo.api.model.Address;
 import com.dingoapp.dingo.api.model.RideEntity;
@@ -38,11 +44,8 @@ public class RidesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static final int ITEM_BOTTOM_THEME_ORANGE = 2;
     private static final int ITEM_BOTTOM_THEME_GRAY = 3;
 
-    private static final int TYPE_HEADER = 1;
     private static final int TYPE_FOOTER = 2;
     private static final int TYPE_RIDE = 3;
-
-    private boolean isHeaderEnabled = false;
 
     private final List<RideEntity> mRides;
     SimpleDateFormat mDayFormat = new SimpleDateFormat("EEEE");
@@ -77,7 +80,7 @@ public class RidesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             return new FooterViewHolder(view);
         }
-        else if(viewType == TYPE_HEADER){
+       /* else if(viewType == TYPE_HEADER){
             LinearLayout view = new LinearLayout(mContext);
             // view.setOrientation(LinearLayout.HORIZONTAL);
             float height = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, mContext.getResources().getDisplayMetrics());
@@ -86,18 +89,16 @@ public class RidesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             return new HeaderViewHolder(view);
             //header
-        }
+        }*/
         else{
             throw new RuntimeException("Unknown view type");
         }
     }
 
+
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if(holder instanceof RideViewHolder) {
-            if(isHeaderEnabled){
-                position = position - 1;
-            }
             RideViewHolder rideViewHolder = (RideViewHolder) holder;
             RideEntity ride = mRides.get(position);
             //Date leavingTime = ride.getLeavingTime();
@@ -107,6 +108,16 @@ public class RidesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             populateAddress(ride.getLeavingAddress(), rideViewHolder.mLeavingAddress);
             populateAddress(ride.getArrivingAddress(), rideViewHolder.mArrivingAddress);
+
+            if(ride.justCreated){
+                rideViewHolder.mAlertBox.setVisibility(View.VISIBLE);
+                rideViewHolder.mAlertBox.setAlpha(1.0f);
+                rideViewHolder.showAlertAndShrinkUpAfter(mContext, 5000);
+                ride.justCreated = false;
+            }
+            else{
+                rideViewHolder.mAlertBox.setVisibility(View.GONE);
+            }
 
             if (ride instanceof RideOffer) {
 
@@ -183,6 +194,17 @@ public class RidesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 }
 
             } else if (ride instanceof RideMasterRequest) {
+
+                rideViewHolder.itemView.setOnClickListener(
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(mContext, OfferInviteActivity.class);
+                                mContext.startActivity(intent);
+                            }
+                        }
+                );
+
                 RideMasterRequest request = (RideMasterRequest) ride;
                 if (request.getLeavingTimeEnd() != null) {
                     timeText += "- " + mTimeFormat.format(request.getLeavingTime());
@@ -270,6 +292,22 @@ public class RidesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
     }
 
+
+   /* @Override
+    public long getItemId(int position) {
+        super.getItemId(position);
+        if(position == getItemCount() - 1){
+            RideEntity ride = mRides.get(position);
+            if(ride instanceof RideOffer){
+                return ride.getId() << 1;
+            }
+            else{
+                return (ride.getId() << 1) + 1;
+            }
+        }
+        return -1;
+    }*/
+
     private void showUserPhoto(ImageView v, User user){
         Glide.with(mContext).load(user.getPhotoUrl())
                 .bitmapTransform(mCircleTransform)
@@ -295,20 +333,14 @@ public class RidesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if(mRides == null) {
             return 0;
         }
-        if(isHeaderEnabled) {
-            return mRides.size() + 2; //header and footer added
-        }
         return mRides.size() + 1; //only footer is added
-
     }
+
 
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0 && isHeaderEnabled) {
-            return TYPE_HEADER;
-        }
-        else if(position == getItemCount() - 1){
+        if(position == getItemCount() - 1){
             return TYPE_FOOTER;
         }
         return TYPE_RIDE;
@@ -331,27 +363,8 @@ public class RidesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     }
 
-    public void setHeaderEnabled(boolean enabled){
-        if(isHeaderEnabled == enabled){
-            return;
-        }
-        isHeaderEnabled = enabled;
-        if(isHeaderEnabled){
-            notifyItemInserted(0);
-        }
-        else{
-            notifyItemRemoved(0);
-        }
-    }
-
     public int itemIndex(RideEntity entity){
         int index = mRides.indexOf(entity);
-        if(index == -1){
-            return -1;
-        }
-        if(isHeaderEnabled){
-            return index + 1;
-        }
         return index;
     }
 
@@ -363,6 +376,10 @@ public class RidesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     public static class RideViewHolder extends RecyclerView.ViewHolder{
+
+        LinearLayout mAlertBox;
+        ImageView mAlertIcon;
+        TextView mAlertText;
 
         ImageView mTypeIcon;
         TextView mDay;
@@ -382,12 +399,16 @@ public class RidesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public RideViewHolder(View itemView) {
             super(itemView);
 
+            mAlertBox = (LinearLayout)itemView.findViewById(R.id.alert_box);
+            mAlertIcon = (ImageView)itemView.findViewById(R.id.alert_icon);
+            mAlertText = (TextView)itemView.findViewById(R.id.alert_text);
+
             mTypeIcon = (ImageView)itemView.findViewById(R.id.type_icon);
             mDay = (TextView)itemView.findViewById(R.id.day_text);
             mTime = (TextView)itemView.findViewById(R.id.time_text);
             mLeavingAddress = (TextView)itemView.findViewById(R.id.leaving_address);
             mArrivingAddress = (TextView)itemView.findViewById(R.id.arriving_address);
-            mPicture1 = (ImageView)itemView.findViewById(R.id.picture1);
+            mPicture1 = (ImageView)itemView.findViewById(R.id.driver_picture);
             mPicture2 = (ImageView)itemView.findViewById(R.id.picture2);
             mPicture3 = (ImageView)itemView.findViewById(R.id.picture3);
             mBottomBox = (LinearLayout)itemView.findViewById(R.id.bottom_box);
@@ -396,6 +417,101 @@ public class RidesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             mNamesBottomText = (TextView)itemView.findViewById(R.id.names_bottom_text);
             mBottomText1 = (TextView)itemView.findViewById(R.id.bottom_text1);
             mBottomText2 = (TextView)itemView.findViewById(R.id.bottom_text2);
+        }
+
+        public void showAlertAndShrinkUpAfter(Context context, long milliseconds){
+           // mAlertBox.setVisibility(View.VISIBLE);
+           // mAlertBox.requestLayout();
+            /*if(runnable.getRunnable() != null){
+                Handler mainHandler = new Handler(Looper.getMainLooper());
+                mainHandler.post(runnable.getRunnable());
+            }*/
+            final View alertView = itemView.findViewById(R.id.alert_box);
+            //from: http://stackoverflow.com/questions/8309354/formula-px-to-dp-dp-to-px-android
+            DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+            final int initialHeight = Math.round(50 * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+            //final int initialHeight = alertView.getMeasuredHeight();
+            //ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), ContextCompat.getColor(context, R.color.orange), ContextCompat.getColor(context, R.color.beige));
+            ValueAnimator alphaAnimation = ValueAnimator.ofFloat(1f, 0f);
+            ValueAnimator animator = ValueAnimator.ofInt(initialHeight, 0);
+
+            animator.addUpdateListener(
+                    new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            int value = (Integer) animation.getAnimatedValue();
+                            alertView.getLayoutParams().height = value;
+                            alertView.requestLayout();
+                            /*layoutParams.height = value;
+                            alertView.setLayoutParams(layoutParams);
+                            alertView.invalidate();*/
+                        }
+                    }
+            );
+
+            /*colorAnimation.addUpdateListener(
+                    new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            int value = (Integer) animation.getAnimatedValue();
+                            alertView.setBackgroundColor(value);
+                        }
+                    }
+            );*/
+
+            alphaAnimation.addUpdateListener(
+                    new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            float value = (Float) animation.getAnimatedValue();
+                            alertView.setAlpha(value);
+                            mAlertText.setAlpha(value);
+                            mAlertIcon.setAlpha(value);
+                        }
+                    }
+            );
+
+            alphaAnimation.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+                    mAlertBox.setVisibility(View.VISIBLE);
+                }
+            });
+
+            animator.addListener(new AnimatorListenerAdapter() {
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    mAlertBox.setVisibility(View.GONE);
+                    alertView.getLayoutParams().height = initialHeight;
+                    alertView.requestLayout();
+                    //layoutParams.height = initalHeight;
+                    //alertView.setLayoutParams(layoutParams);
+                }
+            });
+
+            AnimatorSet animatorSet = new AnimatorSet();
+            animatorSet.play(alphaAnimation).before(animator);
+
+            alphaAnimation.setDuration(750);
+            animator.setDuration(250);
+
+            animatorSet.setStartDelay(milliseconds);
+            animatorSet.start();
+
+        }
+
+        public static class PreAnimationRunnable {
+            private Runnable mRunnable;
+
+            public Runnable getRunnable() {
+                return mRunnable;
+            }
+
+            public void setRunnable(Runnable runnable) {
+                this.mRunnable = runnable;
+            }
         }
     }
 

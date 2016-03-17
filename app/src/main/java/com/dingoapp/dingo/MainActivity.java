@@ -11,6 +11,7 @@ import com.dingoapp.dingo.api.Callback;
 import com.dingoapp.dingo.api.DingoApiService;
 import com.dingoapp.dingo.api.Response;
 import com.dingoapp.dingo.api.model.User;
+import com.dingoapp.dingo.gcm.RegistrationIntentService;
 import com.dingoapp.dingo.rides.RidesActivity;
 import com.dingoapp.dingo.util.CurrentUser;
 import com.dingoapp.dingo.util.SettingsUtil;
@@ -22,12 +23,16 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 import java.util.Arrays;
 
 import static com.dingoapp.dingo.util.LogUtil.makeLogTag;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
     private Button facebookLogin;
     private CallbackManager fbCallbackManager;
@@ -37,6 +42,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //PreferenceManager.getDefaultSharedPreferences(this).edit().clear().commit();
+        if (!SettingsUtil.getSentTokenToServer(this) && checkPlayServices()) {
+            // Start IntentService to register this application with GCM.
+            Intent intent = new Intent(this, RegistrationIntentService.class);
+            startService(intent);
+        }
+
         if(CurrentUser.getInstance().isLoggedIn()){
             Intent intent = new Intent(this, RidesActivity.class);
             startActivity(intent);
@@ -132,5 +143,26 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         fbCallbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    /**
+     * Check the device to make sure it has the Google Play Services APK. If
+     * it doesn't, display a dialog that allows users to download the APK from
+     * the Google Play Store or enable it in the device's system settings.
+     */
+    private boolean checkPlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else {
+                Log.i(TAG, "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        return true;
     }
 }

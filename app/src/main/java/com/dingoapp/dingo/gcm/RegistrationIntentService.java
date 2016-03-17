@@ -19,16 +19,15 @@ package com.dingoapp.dingo.gcm;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.dingoapp.dingo.DingoApplication;
 import com.dingoapp.dingo.R;
-import com.dingoapp.dingo.api.Callback;
 import com.dingoapp.dingo.api.DingoApiService;
 import com.dingoapp.dingo.api.Response;
 import com.dingoapp.dingo.api.model.GcmToken;
 import com.dingoapp.dingo.util.Installation;
+import com.dingoapp.dingo.util.SettingsUtil;
 import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
@@ -43,13 +42,14 @@ public class RegistrationIntentService extends IntentService {
     public static final String SENT_TOKEN_TO_SERVER = "sentTokenToServer";
     public static final String REGISTRATION_COMPLETE = "registrationComplete";
 
+    //SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
     public RegistrationIntentService() {
         super(TAG);
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         try {
             // [START register_for_gcm]
@@ -67,19 +67,15 @@ public class RegistrationIntentService extends IntentService {
             // TODO: Implement this method to send any registration to your app's servers.
             sendRegistrationToServer(token);
 
-            // Subscribe to topic channels
-            subscribeTopics(token);
-
             // You should store a boolean that indicates whether the generated token has been
             // sent to your server. If the boolean is false, send the token to your server,
             // otherwise your server should have already received the token.
-            sharedPreferences.edit().putBoolean(SENT_TOKEN_TO_SERVER, true).apply();
             // [END register_for_gcm]
         } catch (Exception e) {
             Log.d(TAG, "Failed to complete token refresh", e);
             // If an exception happens while fetching the new token or updating our registration data
             // on a third-party server, this ensures that we'll attempt the update at a later time.
-            sharedPreferences.edit().putBoolean(SENT_TOKEN_TO_SERVER, false).apply();
+            SettingsUtil.setSentTokenToServer(this, false);
         }
         // Notify UI that registration has completed, so the progress indicator can be hidden.
         //Intent registrationComplete = new Intent(QuickstartPreferences.REGISTRATION_COMPLETE);
@@ -99,22 +95,24 @@ public class RegistrationIntentService extends IntentService {
         GcmToken gcmToken = new GcmToken();
         gcmToken.setGcmToken(token);
         gcmToken.setInstallationUuid(Installation.id(this));
-        DingoApiService.getInstance().createGcmToken(gcmToken, new Callback<GcmToken>() {
-            @Override
-            public void onResponse(Response<GcmToken> response) {
-                if(response.code() == Response.HTTP_201_CREATED){
-                    Log.i(TAG, "gcm token successfully registered");
-                }
-                else{
+        gcmToken.setAppVersion(DingoApplication.APP_VERSION);
 
-                }
+        try {
+
+            Response<GcmToken> response = DingoApiService.getInstance().createGcmToken(gcmToken);
+
+            if(response.code() == Response.HTTP_201_CREATED){
+                Log.i(TAG, "gcm token successfully registered");
+                subscribeTopics(response.body().getGcmToken());
+                SettingsUtil.setSentTokenToServer(RegistrationIntentService.this, true);
             }
-
-            @Override
-            public void onFailure(Throwable t) {
-
+            else{
+                //todo
             }
-        });
+        }
+        catch (IOException e){
+            SettingsUtil.setSentTokenToServer(RegistrationIntentService.this, false);
+        }
     }
 
     /**

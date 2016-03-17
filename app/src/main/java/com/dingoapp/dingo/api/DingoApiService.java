@@ -12,6 +12,7 @@ import com.dingoapp.dingo.util.RetrofitLogInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.IOException;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -130,9 +131,10 @@ public class DingoApiService extends DingoService{
         enqueueCall(call, callback);
     }
 
-    public void createGcmToken(GcmToken token, Callback<GcmToken> callback){
-        Call<GcmToken> call = apiService.createGcmToken(token);
-        enqueueCall(call, callback);
+    //sycronoues method
+    public Response<GcmToken> createGcmToken(GcmToken token) throws IOException {
+        retrofit2.Response<GcmToken> response = apiService.createGcmToken(token).execute();
+        return new Response<>(response.code(), response.body());
     }
 
 }

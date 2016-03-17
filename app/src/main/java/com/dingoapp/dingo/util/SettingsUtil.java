@@ -18,6 +18,7 @@ public class SettingsUtil {
     private static final String TAG = makeLogTag(SettingsUtil.class);
 
     private static final String PREF_USER = "pref_user";
+    private static final String PREF_SENT_TOKEN_TO_SERVER = "pref_send_token_to_server";
 
     private static Gson gson;
 
@@ -37,5 +38,15 @@ public class SettingsUtil {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         sp.edit().putString(PREF_USER, gson.toJson(user)).commit();
         CurrentUser.getInstance().reload();
+    }
+
+    public static void setSentTokenToServer(Context context, boolean sent){
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        sp.edit().putBoolean(PREF_SENT_TOKEN_TO_SERVER, sent).commit();
+    }
+
+    public static boolean getSentTokenToServer(Context context){
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getBoolean(PREF_SENT_TOKEN_TO_SERVER, false);
     }
 }

@@ -13,6 +13,9 @@ public class GcmToken {
     @SerializedName("gcm_token")
     String gcmToken;
 
+    @SerializedName("app_version")
+    String appVersion;
+
     public String getInstallationUuid() {
         return installationUuid;
     }
@@ -27,5 +30,13 @@ public class GcmToken {
 
     public void setGcmToken(String gcmToken) {
         this.gcmToken = gcmToken;
+    }
+
+    public String getAppVersion() {
+        return appVersion;
+    }
+
+    public void setAppVersion(String appVersion) {
+        this.appVersion = appVersion;
     }
 }

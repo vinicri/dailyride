@@ -57,8 +57,6 @@ public class OfferActivity extends RideCreateActivity{
 
     @Override
     void create() {
-        //FIXME
-        mRideOffer.setLeavingTime(new Date());
 
         Callback<RideOffer> callback = new Callback<RideOffer>() {
             @Override

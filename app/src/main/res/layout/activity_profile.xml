@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/beige"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:background="@drawable/shape_user_photo_border_oval"
+        android:padding="@dimen/user_photo_oval_padding"
+        android:layout_marginTop="@dimen/padding"
+        android:paddingTop="@dimen/padding"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/driver_picture"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/half_padding"
+            android:layout_gravity="center_horizontal"
+            android:textSize="22sp"
+            android:text="Marlon Teixeira"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="bottom">
+
+            <ImageView
+                android:src="@drawable/star"
+                android:layout_width="24dp"
+                android:layout_height="24dp" />
+            <TextView
+                android:layout_marginLeft="@dimen/padding_quarter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="4,6 de 24 usuários"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginRight="@dimen/padding"
+        android:layout_marginLeft="@dimen/padding"
+        android:layout_marginBottom="@dimen/half_padding">
+        <ImageView
+            android:id="@+id/fb_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/facebook_36px"/>
+
+        <TextView
+            android:layout_marginLeft="@dimen/padding_quarter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_toRightOf="@+id/fb_icon"
+            android:layout_centerVertical="true"
+            android:text="(Facebook não conectado)"/>
+
+        <ImageView
+            android:src="@drawable/checkmark_checked_24px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/half_padding"
+        android:layout_marginRight="@dimen/half_padding"
+        android:background="@color/gray"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/half_padding"
+        android:layout_marginRight="@dimen/padding"
+        android:layout_marginLeft="@dimen/padding"
+        android:layout_marginBottom="@dimen/half_padding">
+
+        <ImageView
+            android:id="@+id/university_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/facebook_36px"/>
+
+        <TextView
+            android:layout_marginLeft="@dimen/padding_quarter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_toRightOf="@+id/university_icon"
+            android:layout_centerVertical="true"
+            android:text="(Facebook não conectado)"/>
+
+        <ImageView
+            android:src="@drawable/checkmark_checked_24px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

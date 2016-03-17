@@ -19,9 +19,7 @@ package com.dingoapp.dingo.gcm;
 
 import android.content.Intent;
 
-import com.google.android.gms.iid.InstanceIDListenerService;
-
-public class MyInstanceIDListenerService extends InstanceIDListenerService {
+public class MyInstanceIDListenerService extends com.google.android.gms.iid.InstanceIDListenerService {
 
     private static final String TAG = "MyInstanceIDLS";
 
