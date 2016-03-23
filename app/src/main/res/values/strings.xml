@@ -70,9 +70,9 @@
     <string name="slave_offer_user_wants_a_ride">%1$s quer uma carona</string>
     <string name="slave_offer_datetime">%1$s às %2$s</string>
     <string name="slave_offer_meets_at">Encontra %1$s em</string>
+    <string name="slave_offer_leaving_address">%1$s às %2$s</string>
     <string name="slave_offer_meets_address">%1$s às %2$s</string>
     <string name="slave_offer_drops_at">Deixa %1$s em</string>
-    <string name="slave_offer_drops_address">%1$s às %2$s</string>
     <plurals name="request_new_got_new_matches">
         <item quantity="one">Uma carona disponível pra você.</item>
         <item quantity="two">Duas caronas disponíveis pra você.</item>

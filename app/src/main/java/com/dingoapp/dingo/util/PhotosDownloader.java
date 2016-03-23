@@ -59,6 +59,7 @@ public class PhotosDownloader extends AsyncTask<Void, Void, Bitmap> {
         float radius = 55.0f;//markerBitmap.getWidth() / 2.0f - 4.0f// ;
         float newWidth;
         float newHeight;
+        //fixme null pointer exception when server is down
         if(bitmap.getWidth() < bitmap.getHeight() ){
             newWidth = radius * 2.0f;
             newHeight = bitmap.getHeight() * newWidth / bitmap.getWidth();

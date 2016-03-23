@@ -2,6 +2,7 @@ package com.dingoapp.dingo.api.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -36,8 +37,7 @@ public class RideOffer extends RideEntity {
 
     RideOfferSlave slave;
 
-
-    List<RideMasterRequest> requests;
+    List<RideMasterRequest> requests = new ArrayList<>();
 
     public static RideOffer getWeekdaysCheckedInstance(){
         RideOffer offer = new RideOffer();
@@ -136,6 +136,7 @@ public class RideOffer extends RideEntity {
     public void setSlave(RideOfferSlave slave) {
         this.slave = slave;
     }
+
 }
 
 
