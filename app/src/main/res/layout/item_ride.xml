@@ -48,6 +48,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/type_background"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/shape_ride_item_type_background"
@@ -194,7 +195,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_marginLeft="5dp"
-                    android:layout_gravity="bottom">
+                    android:layout_gravity="center">
 
                     <TextView
                         android:id="@+id/names"

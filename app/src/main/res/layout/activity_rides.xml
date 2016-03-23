@@ -12,6 +12,7 @@
         android:layout_height="match_parent"
         android:background="@color/beige">
 
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rides_list"
             android:layout_width="match_parent"
@@ -90,6 +91,40 @@
                 android:textColor="@color/white"
                 android:text="@string/button_create_offer"/>
         </LinearLayout>
+        
+        <RelativeLayout
+            android:id="@+id/notification_box"
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:background="@drawable/shape_button_orange"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/padding"
+            android:layout_below="@+id/toolbar_actionbar"
+            android:visibility="gone"
+            android:layout_marginTop="@dimen/padding">
+            
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_notifications_white_24dp"
+                android:layout_marginRight="8dp"
+                android:scaleType="centerInside"/>
+
+
+            <TextView
+                android:id="@+id/notification_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="40dp"
+                android:text="Renato quer uma carona"/>
+            
+            
+        </RelativeLayout>
 
     </RelativeLayout>
 

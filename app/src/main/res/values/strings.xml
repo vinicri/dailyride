@@ -29,7 +29,7 @@
     <string name="menu_customer_service">Fale conosco</string>
     <string name="request_create_request_now">Peça carona agora!</string>
     <string name="new_request_searching_rides">Buscando caronas...</string>
-    <string name="offer_no_requests">Nenhum possível interressado ainda.</string>
+    <string name="offer_no_requests">Buscando passageiros...</string>
     <string name="offer_will_notify_you">Não se preocupe! Avisaremos logo que o primeiro surgir!</string>
     <string name="button_create_request">Pedir carona</string>
     <string name="button_create_offer">Oferecer carona</string>
@@ -63,8 +63,16 @@
     <string name="menu_cancel">Cancelar</string>
     <string name="activity_chat">Chat</string>
     <string name="button_accept">Aceitar</string>
+    <string name="user_wants_a_ride">%1$s quer uma carona</string>
     <string name="activity_offer_invite">Encontramos uma carona</string>
     <string name="activity_request_details">Carona confirmada</string>
+    <string name="notification_user_wants_a_ride">%1$s quer uma carona</string>
+    <string name="slave_offer_user_wants_a_ride">%1$s quer uma carona</string>
+    <string name="slave_offer_datetime">%1$s às %2$s</string>
+    <string name="slave_offer_meets_at">Encontra %1$s em</string>
+    <string name="slave_offer_meets_address">%1$s às %2$s</string>
+    <string name="slave_offer_drops_at">Deixa %1$s em</string>
+    <string name="slave_offer_drops_address">%1$s às %2$s</string>
     <plurals name="request_new_got_new_matches">
         <item quantity="one">Uma carona disponível pra você.</item>
         <item quantity="two">Duas caronas disponíveis pra você.</item>

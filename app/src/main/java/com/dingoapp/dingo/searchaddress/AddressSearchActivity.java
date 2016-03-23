@@ -222,7 +222,7 @@ public class AddressSearchActivity extends BaseActivity implements GoogleApiClie
                                                     //endereco completo
                                                     mPartialAddress.setNumber(number);
                                                     mPartialAddress.setLatitude(result.getGeometry().getLocation().getLat());
-                                                    mPartialAddress.setLatitude(result.getGeometry().getLocation().getLng());
+                                                    mPartialAddress.setLongitude(result.getGeometry().getLocation().getLng());
                                                     finishWithAddress(mPartialAddress);
                                                 }//nao encontrado
 

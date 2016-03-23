@@ -2,10 +2,12 @@ package com.dingoapp.dingo.api.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by guestguest on 13/01/16.
  */
-public class User {
+public class User implements Serializable{
 
     public enum RiderMode{
         D, //Driver
@@ -25,6 +27,9 @@ public class User {
 
     @SerializedName("photo_url")
     String photoUrl;
+
+    @SerializedName("profile_photo_original")
+    String profilePhotoOriginal;
 
     @SerializedName("fb_access_token")
     String fbAccessToken;
@@ -92,6 +97,14 @@ public class User {
 
     public void setAuthToken(OAuthToken authToken) {
         this.authToken = authToken;
+    }
+
+    public String getProfilePhotoOriginal() {
+        return profilePhotoOriginal;
+    }
+
+    public void setProfilePhotoOriginal(String profilePhotoOriginal) {
+        this.profilePhotoOriginal = profilePhotoOriginal;
     }
 
     public RiderMode getRiderMode() {

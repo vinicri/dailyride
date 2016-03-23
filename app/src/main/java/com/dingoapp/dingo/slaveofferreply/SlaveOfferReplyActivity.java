@@ -12,7 +12,10 @@ import com.dingoapp.dingo.BaseActivity;
 import com.dingoapp.dingo.OfferDetailsActivity;
 import com.dingoapp.dingo.R;
 import com.dingoapp.dingo.api.Callback;
+import com.dingoapp.dingo.api.DingoApiService;
 import com.dingoapp.dingo.api.Response;
+import com.dingoapp.dingo.api.model.RideOffer;
+import com.dingoapp.dingo.api.model.RideOfferSlave;
 import com.dingoapp.dingo.google.maps.api.GoogleMapsApiService;
 import com.dingoapp.dingo.google.maps.api.directions.Utils;
 import com.dingoapp.dingo.google.maps.api.directions.model.DirectionsResponse;
@@ -28,6 +31,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import butterknife.Bind;
@@ -37,6 +41,12 @@ import butterknife.ButterKnife;
  * Created by guestguest on 08/03/16.
  */
 public class SlaveOfferReplyActivity extends BaseActivity implements OnMapReadyCallback, GoogleMap.OnMapLoadedCallback{
+
+    //when it's opened from main screen
+    public static final String EXTRA_OFFER = "EXTRA_OFFER";
+
+    //when it's opened from notification
+    public static final String EXTRA_SLAVE_OFFER_ID = "EXTRA_SLAVE_OFFER_ID";
 
     @Bind(R.id.header_user)TextView mHeaderUser;
     @Bind(R.id.header_date_time)TextView mDateTime;
@@ -69,13 +79,34 @@ public class SlaveOfferReplyActivity extends BaseActivity implements OnMapReadyC
         getActionBarToolbar().showOverflowMenu();
         ButterKnife.bind(this);
 
+        RideOffer offer = (RideOffer)getIntent().getSerializableExtra(EXTRA_OFFER);
+
+        if(offer != null){
+            RideOfferSlave slaveOffer = offer.getSlave();
+            String riderName = slaveOffer.getToRideRequest().getUser().getFirstName();
+            mHeaderUser.setText(getString(R.string.slave_offer_user_wants_a_ride, riderName));
+
+            SimpleDateFormat mDayFormat = new SimpleDateFormat("EEEE");
+            SimpleDateFormat mTimeFormat = new SimpleDateFormat("HH:mm");
+
+            mDateTime.setText(getString(R.string.slave_offer_datetime,
+                    mDayFormat.format(offer.getLeavingTime()),
+                    mTimeFormat.format(offer.getLeavingTime())));
+
+            Glide.with(this).load(DingoApiService.getPhotoUrl(offer.getSlave().getToRideRequest().getUser()))
+                    .bitmapTransform(new CircleTransform(this))
+                    .into(mHeaderPicture);
+
+            mRouteText2Top.setText(getString(R.string.slave_offer_meets_at, riderName));
+            mRouteText3Top.setText(getString(R.string.slave_offer_drops_at, riderName));
+
+
+
+        }
+
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        Glide.with(this).load("http://ndl.mgccw.com/mu3/000/390/055/sss/fbe75c22e38349b587df7de1cfa842b2_small.png")
-                .bitmapTransform(new CircleTransform(this))
-                .into(mHeaderPicture);
 
         mOfferButton.setOnClickListener(
                 new View.OnClickListener() {

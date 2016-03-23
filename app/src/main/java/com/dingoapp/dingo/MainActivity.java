@@ -42,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //PreferenceManager.getDefaultSharedPreferences(this).edit().clear().commit();
-        if (!SettingsUtil.getSentTokenToServer(this) && checkPlayServices()) {
+       // if (!SettingsUtil.getSentTokenToServer(this) && checkPlayServices()) {
+        {
             // Start IntentService to register this application with GCM.
             Intent intent = new Intent(this, RegistrationIntentService.class);
             startService(intent);

@@ -1,19 +1,32 @@
 package com.dingoapp.dingo.rides;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.dingoapp.dingo.BaseActivity;
+import com.dingoapp.dingo.BroadcastExtras;
 import com.dingoapp.dingo.OfferActivity;
 import com.dingoapp.dingo.R;
 import com.dingoapp.dingo.RequestActivity;
@@ -23,6 +36,7 @@ import com.dingoapp.dingo.api.Response;
 import com.dingoapp.dingo.api.model.RideEntity;
 import com.dingoapp.dingo.api.model.RideMasterRequest;
 import com.dingoapp.dingo.api.model.RideOffer;
+import com.dingoapp.dingo.api.model.RideOfferSlave;
 import com.dingoapp.dingo.api.model.User;
 import com.dingoapp.dingo.api.model.UserRides;
 import com.dingoapp.dingo.util.CurrentUser;
@@ -54,6 +68,9 @@ public class RidesActivity extends BaseActivity {
     @Bind(R.id.offer) Button mOfferButton;
     @Bind(R.id.rides_list) RecyclerView mRecyclerView;
     @Bind(R.id.header) LinearLayout mHeaderView;
+    @Bind(R.id.notification_box) RelativeLayout mNotificationBox;
+
+    @Bind(R.id.notification_text) TextView mNotificationText;
 
     List<RideEntity> mRideEntities = new ArrayList<>();
     private RidesAdapter mAdapter;
@@ -65,6 +82,7 @@ public class RidesActivity extends BaseActivity {
 
     private static final ScheduledExecutorService worker = Executors.newSingleThreadScheduledExecutor();
     private QuickNoticeScrollListener mNoticeScrollListener;
+    private BroadcastReceiver mRideOfferSlaveReceiver;
 
 
     protected int getSelfNavDrawerItem() {
@@ -208,8 +226,155 @@ public class RidesActivity extends BaseActivity {
         //TSnackbar.make(findViewById(android.R.id.content), "Hello from TSnackBar.", TSnackbar.LENGTH_LONG).show();
 
 
+        /*Runnable task2 = new Runnable() {
+            @Override
+            public void run() {
+                showNotification("teste", null);
+            }
+        };
+
+        mainHandler.postDelayed(task2, 1000);*/
 
        // worker.schedule(task, 5, TimeUnit.SECONDS);
+
+        mRideOfferSlaveReceiver = new BroadcastReceiver(){
+
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                RideOfferSlave offerSlave = (RideOfferSlave)intent.getSerializableExtra(BroadcastExtras.EXTRA_RIDE_OFFER_SLAVE);
+
+                long offerSlaveId = offerSlave.getMaster().getId();
+                for(RideEntity ride: mRideEntities){
+                    if(ride instanceof RideOffer){
+                        RideOffer offer = (RideOffer)ride;
+                        if(offer.getId() == offerSlaveId){
+                            offer.setSlave(offerSlave);
+                            int index = mRideEntities.indexOf(offer);
+                            showNotification(getString(R.string.notification_user_wants_a_ride, offerSlave.getToRideRequest().getUser().getFirstName()), null);
+                            mAdapter.notifyItemChanged(index);
+                        }
+                    }
+                }
+
+
+            }
+        };
+
+
+
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRideOfferSlaveReceiver, new IntentFilter(BroadcastExtras.NOTIFICATION_RIDE_OFFER_SLAVE));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRideOfferSlaveReceiver);
+    }
+
+    private void showNotification(CharSequence text, View.OnClickListener action){
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        final int initialWidth = Math.round(250 * getResources().getDisplayMetrics().density);
+        final int finalWidth = Math.round(40 * getResources().getDisplayMetrics().density);
+        ValueAnimator alphaAnimationBox = ValueAnimator.ofFloat(0f, 1f);
+        ValueAnimator alphaAnimationText = ValueAnimator.ofFloat(1f, 0f);
+        ValueAnimator widthAnimation  = ValueAnimator.ofInt(initialWidth, finalWidth);
+
+        alphaAnimationBox.addUpdateListener(
+                new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        float value = (Float) animation.getAnimatedValue();
+                        mNotificationBox.setAlpha(value);
+                    }
+                }
+        );
+
+        widthAnimation.addUpdateListener(
+                new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        int value = (Integer) animation.getAnimatedValue();
+                        mNotificationBox.getLayoutParams().width = value;
+                        mNotificationBox.requestLayout();
+                            /*layoutParams.height = value;
+                            alertView.setLayoutParams(layoutParams);
+                            alertView.invalidate();*/
+                    }
+                }
+        );
+
+        alphaAnimationText.addUpdateListener(
+                new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        float value = (Float) animation.getAnimatedValue();
+                        mNotificationText.setAlpha(value);
+                    }
+                }
+        );
+
+
+        alphaAnimationBox.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                mNotificationBox.setAlpha(0);
+                mNotificationText.setAlpha(1);
+                mNotificationBox.getLayoutParams().width = initialWidth;
+                mNotificationBox.setVisibility(View.VISIBLE);
+                mNotificationBox.requestLayout();
+
+            }
+        });
+
+
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.play(alphaAnimationBox).before(alphaAnimationText);
+        animatorSet.play(alphaAnimationText).before(widthAnimation);
+
+        alphaAnimationBox.setDuration(200);
+        alphaAnimationText.setDuration(100);
+        widthAnimation.setDuration(400);
+
+        alphaAnimationText.setInterpolator(new AccelerateDecelerateInterpolator());
+        widthAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
+
+        alphaAnimationText.setStartDelay(3000);
+
+        animatorSet.start();
+
+    }
+
+    private void hideNotification(){
+        ValueAnimator alphaAnimationBox = ValueAnimator.ofFloat(1f, 0f);
+        alphaAnimationBox.addUpdateListener(
+                new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        float value = (Float) animation.getAnimatedValue();
+                        mNotificationText.setAlpha(value);
+                    }
+                }
+        );
+
+        alphaAnimationBox.addListener(
+                new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        mNotificationText.setVisibility(View.GONE);
+                    }
+                }
+        );
+
+        alphaAnimationBox.setDuration(300);
+        alphaAnimationBox.start();
     }
 
     private void refreshList(){
@@ -269,6 +434,8 @@ public class RidesActivity extends BaseActivity {
             }
         }
     }
+
+
 
     private class LeavingDateComparator implements Comparator<RideEntity> {
 

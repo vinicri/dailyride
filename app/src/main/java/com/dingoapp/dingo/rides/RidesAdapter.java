@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -24,10 +25,12 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.dingoapp.dingo.OfferInviteActivity;
 import com.dingoapp.dingo.R;
+import com.dingoapp.dingo.api.DingoApiService;
 import com.dingoapp.dingo.api.model.Address;
 import com.dingoapp.dingo.api.model.RideEntity;
 import com.dingoapp.dingo.api.model.RideMasterRequest;
 import com.dingoapp.dingo.api.model.RideOffer;
+import com.dingoapp.dingo.api.model.RideOfferSlave;
 import com.dingoapp.dingo.api.model.User;
 import com.dingoapp.dingo.slaveofferreply.SlaveOfferReplyActivity;
 import com.dingoapp.dingo.util.CircleTransform;
@@ -100,7 +103,7 @@ public class RidesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if(holder instanceof RideViewHolder) {
             RideViewHolder rideViewHolder = (RideViewHolder) holder;
-            RideEntity ride = mRides.get(position);
+            final RideEntity ride = mRides.get(position);
             //Date leavingTime = ride.getLeavingTime();
 
             rideViewHolder.mDay.setText(mDayFormat.format(ride.getLeavingTime()));
@@ -121,22 +124,45 @@ public class RidesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             if (ride instanceof RideOffer) {
 
+                rideViewHolder.mTime.setText(timeText);
+                final RideOffer offer = (RideOffer) ride;
+
                 rideViewHolder.itemView.setOnClickListener(
                         new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 Intent intent = new Intent(mContext, SlaveOfferReplyActivity.class);
+                                intent.putExtra(SlaveOfferReplyActivity.EXTRA_OFFER, offer);
                                 mContext.startActivity(intent);
                             }
                         }
                 );
 
-                rideViewHolder.mTime.setText(timeText);
-                RideOffer offer = (RideOffer) ride;
+                rideViewHolder.mTypeIcon.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.wheel));
 
-                rideViewHolder.mTypeIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.wheel));
+                rideViewHolder.mNamesBox.setVisibility(View.GONE);
+                rideViewHolder.mBottomText1.setVisibility(View.GONE);
+                rideViewHolder.mBottomText2.setVisibility(View.GONE);
 
-                if (offer.getAcceptedUsers() != null && offer.getAcceptedUsers().size() > 0) {
+                if(offer.getSlave() != null){
+                    rideViewHolder.mNamesBox.setVisibility(View.VISIBLE);
+                    rideViewHolder.mPicture1.setVisibility(View.VISIBLE);
+                    rideViewHolder.mPicture2.setVisibility(View.GONE);
+                    rideViewHolder.mPicture3.setVisibility(View.GONE);
+
+                    RideOfferSlave offerSlave = offer.getSlave();
+
+                    Glide.with(mContext).load(DingoApiService.getPhotoUrl(offerSlave.getToRideRequest().getUser()))
+                            .bitmapTransform(new CircleTransform(mContext))
+                            .into(rideViewHolder.mPicture1);
+
+                    rideViewHolder.mNames.setText(mContext.getString(R.string.user_wants_a_ride, offerSlave.getToRideRequest().getUser().getFirstName()));
+                    rideViewHolder.mNamesBottomText.setVisibility(View.GONE);
+
+                    setItemTheme(rideViewHolder, ITEM_BOTTOM_THEME_ORANGE);
+
+                }
+                else if (offer.getAcceptedUsers() != null && offer.getAcceptedUsers().size() > 0) {
                     rideViewHolder.mNamesBox.setVisibility(View.VISIBLE);
                     rideViewHolder.mPicture2.setVisibility(View.GONE);
                     rideViewHolder.mPicture3.setVisibility(View.GONE);
@@ -163,13 +189,21 @@ public class RidesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                                 break;
                         }
                     }
+
                     rideViewHolder.mNames.setText(names);
                     rideViewHolder.mNamesBottomText.setText(mContext.getResources().getQuantityString(R.plurals.offer_accepted_users, size));
-                } else {
-                    rideViewHolder.mNamesBox.setVisibility(View.GONE);
+                    rideViewHolder.mNamesBottomText.setVisibility(View.VISIBLE);
+                    setItemTheme(rideViewHolder, ITEM_BOTTOM_THEME_TURQUOISE);
+                }
+                else {
+                    //rideViewHolder.mNamesBox.setVisibility(View.GONE);
+                    rideViewHolder.mBottomText1.setVisibility(View.VISIBLE);
+                    rideViewHolder.mBottomText1.setText(mContext.getString(R.string.offer_no_requests));
+                    //rideViewHolder.mBottomText2.setText(mContext.getString(R.string.offer_will_notify_you));
+                    setItemTheme(rideViewHolder, ITEM_BOTTOM_THEME_GRAY);
                 }
 
-                rideViewHolder.mBottomText1.setVisibility(View.GONE);
+                /*rideViewHolder.mBottomText1.setVisibility(View.GONE);
                 rideViewHolder.mBottomText2.setVisibility(View.GONE);
                 if (offer.getState() == RideOffer.STATE_OPEN) {
                     if (offer.getOpenRequests() > 0) {
@@ -186,12 +220,11 @@ public class RidesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         setItemTheme(rideViewHolder, ITEM_BOTTOM_THEME_TURQUOISE);
                     } else {
                         rideViewHolder.mBottomText1.setVisibility(View.VISIBLE);
-                        rideViewHolder.mBottomText2.setVisibility(View.VISIBLE);
                         rideViewHolder.mBottomText1.setText(mContext.getString(R.string.offer_no_requests));
-                        rideViewHolder.mBottomText2.setText(mContext.getString(R.string.offer_will_notify_you));
+                        //rideViewHolder.mBottomText2.setText(mContext.getString(R.string.offer_will_notify_you));
                         setItemTheme(rideViewHolder, ITEM_BOTTOM_THEME_GRAY);
                     }
-                }
+                }*/
 
             } else if (ride instanceof RideMasterRequest) {
 
@@ -347,20 +380,23 @@ public class RidesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     private void setItemTheme(RideViewHolder holder, int theme){
-        GradientDrawable shape = (GradientDrawable)holder.mBottomBox.getBackground();
+        GradientDrawable typeShape = (GradientDrawable)holder.mTypeBackground.getBackground();
+        GradientDrawable bottomShape = (GradientDrawable)holder.mBottomBox.getBackground();
         if(theme == ITEM_BOTTOM_THEME_TURQUOISE){
-            shape.setColor(mContext.getResources().getColor(R.color.turquoise));
-            setBottomTextColor(holder, mContext.getResources().getColor(R.color.white));
+            typeShape.setColor(ContextCompat.getColor(mContext, R.color.gray_dark));
+            bottomShape.setColor(ContextCompat.getColor(mContext, R.color.turquoise));
+            setBottomTextColor(holder, ContextCompat.getColor(mContext, R.color.white));
         }
         else if(theme == ITEM_BOTTOM_THEME_ORANGE){
-            shape.setColor(mContext.getResources().getColor(R.color.orange));
-            setBottomTextColor(holder, mContext.getResources().getColor(R.color.white));
+            typeShape.setColor(ContextCompat.getColor(mContext, R.color.gray_dark));
+            bottomShape.setColor(ContextCompat.getColor(mContext, R.color.orange));
+            setBottomTextColor(holder, ContextCompat.getColor(mContext, R.color.white));
         }
         else if(theme == ITEM_BOTTOM_THEME_GRAY){
-            shape.setColor(mContext.getResources().getColor(R.color.ride_item_gray_light));
-            setBottomTextColor(holder, mContext.getResources().getColor(R.color.gray_dark));
+            typeShape.setColor(ContextCompat.getColor(mContext, R.color.gray_medium));
+            bottomShape.setColor(ContextCompat.getColor(mContext, R.color.ride_item_gray_light));
+            setBottomTextColor(holder, ContextCompat.getColor(mContext, R.color.gray_dark));
         }
-
     }
 
     public int itemIndex(RideEntity entity){
@@ -381,6 +417,7 @@ public class RidesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         ImageView mAlertIcon;
         TextView mAlertText;
 
+        LinearLayout mTypeBackground;
         ImageView mTypeIcon;
         TextView mDay;
         TextView mTime;
@@ -402,7 +439,7 @@ public class RidesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             mAlertBox = (LinearLayout)itemView.findViewById(R.id.alert_box);
             mAlertIcon = (ImageView)itemView.findViewById(R.id.alert_icon);
             mAlertText = (TextView)itemView.findViewById(R.id.alert_text);
-
+            mTypeBackground = (LinearLayout)itemView.findViewById(R.id.type_background);
             mTypeIcon = (ImageView)itemView.findViewById(R.id.type_icon);
             mDay = (TextView)itemView.findViewById(R.id.day_text);
             mTime = (TextView)itemView.findViewById(R.id.time_text);

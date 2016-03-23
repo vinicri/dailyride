@@ -4,6 +4,7 @@ import com.dingoapp.dingo.api.model.CreditCardInfo;
 import com.dingoapp.dingo.api.model.GcmToken;
 import com.dingoapp.dingo.api.model.RideMasterRequest;
 import com.dingoapp.dingo.api.model.RideOffer;
+import com.dingoapp.dingo.api.model.RideOfferSlave;
 import com.dingoapp.dingo.api.model.User;
 import com.dingoapp.dingo.api.model.UserRides;
 import com.dingoapp.dingo.util.DingoService;
@@ -131,7 +132,16 @@ public class DingoApiService extends DingoService{
         enqueueCall(call, callback);
     }
 
-    //sycronoues method
+    public void getRideOfferSlave(long id, Callback<RideOfferSlave> callback){
+        Call<RideOfferSlave> call = apiService.getRideOfferSlave(id);
+        enqueueCall(call, callback);
+    }
+
+    public static String getPhotoUrl(User user){
+       return DingoApi.STATIC_URL + user.getProfilePhotoOriginal();
+    }
+
+    //syncronous method
     public Response<GcmToken> createGcmToken(GcmToken token) throws IOException {
         retrofit2.Response<GcmToken> response = apiService.createGcmToken(token).execute();
         return new Response<>(response.code(), response.body());

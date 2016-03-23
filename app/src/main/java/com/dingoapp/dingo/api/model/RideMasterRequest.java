@@ -15,6 +15,8 @@ public class RideMasterRequest extends RideEntity implements Serializable {
     public static final char STATE_ACCEPTED = 'A';
     public static final char STATE_CANCELLED = 'C';
 
+    User user;
+
     @SerializedName("leaving_time_end")
     Date leavingTimeEnd;
 
@@ -45,6 +47,14 @@ public class RideMasterRequest extends RideEntity implements Serializable {
         request.thursday = true;
         request.friday = true;
         return request;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Date getLeavingTimeEnd() {

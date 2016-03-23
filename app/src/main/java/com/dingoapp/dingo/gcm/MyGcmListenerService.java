@@ -17,14 +17,25 @@ package com.dingoapp.dingo.gcm;
  */
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import com.dingoapp.dingo.BroadcastExtras;
+import com.dingoapp.dingo.api.Callback;
+import com.dingoapp.dingo.api.DingoApiService;
+import com.dingoapp.dingo.api.Response;
+import com.dingoapp.dingo.api.model.RideOfferSlave;
+import com.dingoapp.dingo.rides.RidesActivity;
+import com.dingoapp.dingo.util.AppLifeCycle;
 import com.google.android.gms.gcm.GcmListenerService;
 
 public class MyGcmListenerService extends GcmListenerService {
 
     private static final String TAG = "MyGcmListenerService";
+
+    private static final String TYPE_OFFER_SLAVE = "OFFER_SLAVE";
 
     /**
      * Called when message is received.
@@ -36,14 +47,51 @@ public class MyGcmListenerService extends GcmListenerService {
     // [START receive_message]
     @Override
     public void onMessageReceived(String from, Bundle data) {
-        String message = data.getString("message");
+        //String message = data.getString("message");
         Log.d(TAG, "From: " + from);
-        Log.d(TAG, "Message: " + message);
+        //Log.d(TAG, "Message: " + message);
+
+
+
 
         if (from.startsWith("/topics/")) {
             // message received from some topic.
         } else {
             // normal downstream message.
+            try {
+                //JSONObject jsonData = new JSONObject(data.getString("data"));
+
+                long id;
+                switch(data.getString("type")){
+                    case TYPE_OFFER_SLAVE:
+                        id = Long.parseLong(data.getString("id"));
+                        DingoApiService.getInstance().getRideOfferSlave(id,
+                                new Callback<RideOfferSlave>() {
+                                    @Override
+                                    public void onResponse(Response<RideOfferSlave> response) {
+                                        if(response.code() == Response.HTTP_200_OK){
+                                            RideOfferSlave offerSlave = response.body();
+                                            if(AppLifeCycle.getInstance().isActivityVisible(RidesActivity.class)){
+                                                Intent intent = new Intent(BroadcastExtras.NOTIFICATION_RIDE_OFFER_SLAVE);
+                                                intent.putExtra(BroadcastExtras.EXTRA_RIDE_OFFER_SLAVE, offerSlave);
+                                                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                                            }
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Throwable t) {
+                                        Log.d(TAG, "err");
+                                    }
+                                });
+                        break;
+                    default:
+                        break;
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         // [START_EXCLUDE]
@@ -58,7 +106,7 @@ public class MyGcmListenerService extends GcmListenerService {
          * In some cases it may be useful to show a notification indicating to the user
          * that a message was received.
          */
-        sendNotification(message);
+        //sendNotification(message);
         // [END_EXCLUDE]
     }
     // [END receive_message]
