@@ -70,7 +70,7 @@ public abstract class BaseMapActivity extends BaseActivity implements OnMapReady
             for(int i = 0; i < mOrderedRequests.size(); i++){
                 RideMasterRequest request = mOrderedRequests.get(i);
                 waypoints[i] = getLatLng(request.getLeavingAddress());
-                waypoints[i * 2] = getLatLng(request.getArrivingAddress());
+                waypoints[i * 2 + 1] = getLatLng(request.getArrivingAddress());
             }
         }
 
@@ -78,16 +78,18 @@ public abstract class BaseMapActivity extends BaseActivity implements OnMapReady
                 new Callback<DirectionsResponse>() {
                     @Override
                     public void onResponse(Response<DirectionsResponse> response) {
-                        String encodedPoly = response.body().getRoutes().get(0).getOverviewPolyline().getPoints();
-                        List<LatLng> polyLatLgn = Utils.decodePoly(encodedPoly);
+                        if(response.code() == Response.HTTP_200_OK) {
+                            String encodedPoly = response.body().getRoutes().get(0).getOverviewPolyline().getPoints();
+                            List<LatLng> polyLatLgn = Utils.decodePoly(encodedPoly);
 
-                        mPolylineOptions = new PolylineOptions()
-                                .addAll(polyLatLgn)
-                                .width(14).color(getResources().getColor(R.color.turquoise)).geodesic(true);
+                            mPolylineOptions = new PolylineOptions()
+                                    .addAll(polyLatLgn)
+                                    .width(14).color(getResources().getColor(R.color.turquoise)).geodesic(true);
 
-                        showPolyline();
+                            showPolyline();
 
-                        gotDirections(response.body());
+                            gotDirections(response.body(), mOrderedRequests);
+                        }
 
                     }
 
@@ -104,9 +106,14 @@ public abstract class BaseMapActivity extends BaseActivity implements OnMapReady
 
     protected abstract List<RideMasterRequest> getRequests();
 
-    protected void gotDirections(DirectionsResponse directions){
+    protected void gotDirections(DirectionsResponse directions, List<RideMasterRequest> orderedRequests){
 
     }
+
+
+    protected void directionsFailed(){
+
+    };
 
     private synchronized void showPolyline(){
 
@@ -121,8 +128,12 @@ public abstract class BaseMapActivity extends BaseActivity implements OnMapReady
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        new PhotosDownloader(this, googleMap, mOrigin,   DingoApiService.getPhotoUrl(getOffer().getUser())).execute();
-        new PhotosDownloader(this, googleMap, mDestination, DingoApiService.getPhotoUrl(getOffer().getUser())).execute();
+        //fixme remove
+        new PhotosDownloader(this, googleMap, mOrigin, "http://36.media.tumblr.com/0495e65a4f15696b4f3cc0dcff59a9e0/tumblr_mtqdx1uILV1r93kc1o1_r1_1280.jpg").execute();
+        new PhotosDownloader(this, googleMap, mDestination, "http://36.media.tumblr.com/0495e65a4f15696b4f3cc0dcff59a9e0/tumblr_mtqdx1uILV1r93kc1o1_r1_1280.jpg").execute();
+
+        // new PhotosDownloader(this, googleMap, mOrigin,   DingoApiService.getPhotoUrl(getOffer().getUser())).execute();
+       // new PhotosDownloader(this, googleMap, mDestination, DingoApiService.getPhotoUrl(getOffer().getUser())).execute();
 
         for(RideMasterRequest request: mOrderedRequests){
             new PhotosDownloader(this, googleMap, getLatLng(request.getLeavingAddress()),
