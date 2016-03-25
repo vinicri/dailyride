@@ -248,7 +248,7 @@ public class RidesActivity extends BaseActivity {
                     if(ride instanceof RideOffer){
                         RideOffer offer = (RideOffer)ride;
                         if(offer.getId() == offerSlaveId){
-                            offer.setSlave(offerSlave);
+                            offer.getInvitesToAccept().add(offerSlave);
                             int index = mRideEntities.indexOf(offer);
                             showNotification(getString(R.string.notification_user_wants_a_ride, offerSlave.getToRideRequest().getUser().getFirstName()), null);
                             mAdapter.notifyItemChanged(index);

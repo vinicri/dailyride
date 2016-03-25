@@ -15,6 +15,7 @@ import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -37,6 +38,9 @@ public class DingoApiService extends DingoService{
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(new RetrofitLogInterceptor())
                 .addInterceptor(new OAuthInterceptor())
+                //todo review timeouts
+                .readTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(60, TimeUnit.SECONDS)
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -134,6 +138,16 @@ public class DingoApiService extends DingoService{
 
     public void getRideOfferSlave(long id, Callback<RideOfferSlave> callback){
         Call<RideOfferSlave> call = apiService.getRideOfferSlave(id);
+        enqueueCall(call, callback);
+    }
+
+    public void acceptRideOfferSlave(long id, int estimatedPickupTime, Callback<RideOfferSlave> callback){
+        Call<RideOfferSlave> call = apiService.acceptRideOfferSlave(id, estimatedPickupTime);
+        enqueueCall(call, callback);
+    }
+
+    public void declineRideOfferSlave(long id, int estimatedPickupTime, Callback<RideOfferSlave> callback){
+        Call<RideOfferSlave> call = apiService.declineRideOfferSlave(id, estimatedPickupTime);
         enqueueCall(call, callback);
     }
 

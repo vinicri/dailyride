@@ -13,15 +13,27 @@ public class RideOfferSlave implements Serializable {
     public static final char STATE_ACCEPTED = 'C';
     public static final char STATE_REFUSED = 'R';
 
+    long id;
+
     RideOffer master;
 
     @SerializedName("to_ride_request")
     RideMasterRequest toRideRequest;
 
+    @SerializedName("estimated_pickup_time")
+    int estimatedPickupTime;
+
     double price;
 
     char state;
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public RideOffer getMaster() {
         return master;
@@ -53,5 +65,13 @@ public class RideOfferSlave implements Serializable {
 
     public void setState(char state) {
         this.state = state;
+    }
+
+    public int getEstimatedPickupTime() {
+        return estimatedPickupTime;
+    }
+
+    public void setEstimatedPickupTime(int estimatedPickupTime) {
+        this.estimatedPickupTime = estimatedPickupTime;
     }
 }

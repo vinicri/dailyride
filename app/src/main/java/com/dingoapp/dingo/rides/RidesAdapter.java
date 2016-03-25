@@ -144,13 +144,13 @@ public class RidesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 rideViewHolder.mBottomText1.setVisibility(View.GONE);
                 rideViewHolder.mBottomText2.setVisibility(View.GONE);
 
-                if(offer.getSlave() != null){
+                if(!offer.getInvitesToAccept().isEmpty()){
                     rideViewHolder.mNamesBox.setVisibility(View.VISIBLE);
                     rideViewHolder.mPicture1.setVisibility(View.VISIBLE);
                     rideViewHolder.mPicture2.setVisibility(View.GONE);
                     rideViewHolder.mPicture3.setVisibility(View.GONE);
 
-                    RideOfferSlave offerSlave = offer.getSlave();
+                    RideOfferSlave offerSlave = offer.getInvitesToAccept().get(0);
 
                     Glide.with(mContext).load(DingoApiService.getPhotoUrl(offerSlave.getToRideRequest().getUser()))
                             .bitmapTransform(new CircleTransform(mContext))

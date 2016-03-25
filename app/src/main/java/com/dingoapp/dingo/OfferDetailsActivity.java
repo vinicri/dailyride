@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.dingoapp.dingo.api.Callback;
 import com.dingoapp.dingo.api.Response;
+import com.dingoapp.dingo.api.model.RideOffer;
 import com.dingoapp.dingo.chat.ChatActivity;
 import com.dingoapp.dingo.google.maps.api.GoogleMapsApiService;
 import com.dingoapp.dingo.google.maps.api.directions.Utils;
@@ -29,6 +30,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import butterknife.Bind;
@@ -39,14 +41,17 @@ import butterknife.ButterKnife;
  */
 public class OfferDetailsActivity extends BaseActivity implements OnMapReadyCallback, GoogleMap.OnMapLoadedCallback {
 
+    public static final String EXTRA_OFFER = "EXTRA_OFFER";
+
     @Bind(R.id.ride_date)TextView mRideDateTime;
-    @Bind(R.id.rider1_picture)ImageView mRider1Picture;
-    @Bind(R.id.rider_text)TextView mRiderText;
+    @Bind(R.id.accepted_picture1)ImageView mAcceptedPicture1;
+    @Bind(R.id.accepted_picture2)ImageView mAcceptedPicture2;
+    @Bind(R.id.accepted_text)TextView mAcceptedText;
     @Bind(R.id.chat_button)ImageView mChatButton;
 
-    @Bind(R.id.match1_picture)ImageView mMatch1Picture;
-    @Bind(R.id.match2_picture)ImageView mMatch2Picture;
-    @Bind(R.id.match_text)TextView mMatchText;
+    @Bind(R.id.to_confirm_picture1)ImageView mToConfirmPicture1;
+    @Bind(R.id.to_confirm_picture2)ImageView mToConfirmPicture2;
+    @Bind(R.id.to_confirm_text)TextView mToConfirmText;
 
     @Bind(R.id.start)Button mStartButton;
 
@@ -55,6 +60,9 @@ public class OfferDetailsActivity extends BaseActivity implements OnMapReadyCall
     LatLng PAULISTA = new LatLng(-23.568586, -46.647527);
     LatLng ROD = new LatLng(-23.515551, -46.624975);
     private GoogleMap mMap;
+    private RideOffer mOffer;
+    private boolean mMapDidLoad;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,23 +71,34 @@ public class OfferDetailsActivity extends BaseActivity implements OnMapReadyCall
         getSupportActionBar().setTitle(R.string.activity_offer_details);
         ButterKnife.bind(this);
 
-        MapFragment mapFragment = (MapFragment) getFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        mOffer = (RideOffer)getIntent().getSerializableExtra(EXTRA_OFFER);
+
+        SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE");
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+
+        mRideDateTime.setText(getString(R.string.offer_details_ride_date_time,
+                dayFormat.format(mOffer.getLeavingTime()),
+                timeFormat.format(mOffer.getLeavingTime())));
+
+
 
         Glide.with(this).load("http://imguol.com/2012/09/14/o-carioca-jeferson-monteiro-22-e-o-responsavel-pelo-perfil-falso-dilma-bolada-no-twitter-e-no-facebook-1347654373519_300x280.jpg")
                 .bitmapTransform(new CircleTransform(this))
-                .into(mRider1Picture);
+                .into(mAcceptedPicture1);
 
 
         Glide.with(this).load("http://ndl.mgccw.com/mu3/000/390/055/sss/fbe75c22e38349b587df7de1cfa842b2_small.png")
                 .bitmapTransform(new CircleTransform(this))
-                .into(mMatch1Picture);
+                .into(mToConfirmPicture1);
 
 
         Glide.with(this).load("http://www.bctr.cornell.edu/wp-content/uploads/2012/02/studentprofile-sheasmall.jpg")
                 .bitmapTransform(new CircleTransform(this))
-                .into(mMatch2Picture);
+                .into(mToConfirmPicture2);
+
+        MapFragment mapFragment = (MapFragment) getFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
 
         mChatButton.setOnClickListener(
@@ -130,6 +149,8 @@ public class OfferDetailsActivity extends BaseActivity implements OnMapReadyCall
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(latLngBounds, 150);
 
         mMap.moveCamera(cameraUpdate);
+
+        mMapDidLoad = true;
 
         GoogleMapsApiService.getInstance().getDirections(PE_ANTONIO, ROD, new LatLng[]{OLIMPIADAS, PAULISTA},
                 new Callback<DirectionsResponse>() {

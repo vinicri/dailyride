@@ -69,8 +69,8 @@ public class SlaveOfferReplyActivity extends BaseActivity implements OnMapReadyC
     @Bind(R.id.route_text3)TextView mRouteText3;
     @Bind(R.id.route_text4)TextView mRouteText4;
 
-    @Bind(R.id.decline)Button mDeclineButton;
     @Bind(R.id.offer)Button mOfferButton;
+    @Bind(R.id.decline)Button mDeclineButton;
 
     LatLng PE_ANTONIO = new LatLng(-23.605671, -46.692275);
     LatLng LEOPOLDO = new LatLng(-23.587741, -46.679778);
@@ -80,11 +80,13 @@ public class SlaveOfferReplyActivity extends BaseActivity implements OnMapReadyC
     private GoogleMap mMap;
     private List<RideMasterRequest> mOrderedRequests;
     private RideOffer mOffer;
+    private RideOfferSlave mSlaveOffer;
     private SimpleDateFormat mTimeFormat;
     private PolylineOptions mPolylineOptions;
     private LatLng mOrigin;
     private LatLng mDestination;
     private boolean mMapDidLoad;
+    private int mDuration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,8 +99,8 @@ public class SlaveOfferReplyActivity extends BaseActivity implements OnMapReadyC
         mOffer = (RideOffer)getIntent().getSerializableExtra(EXTRA_OFFER);
 
         if(mOffer != null){
-            final RideOfferSlave slaveOffer = mOffer.getSlave();
-            String riderName = slaveOffer.getToRideRequest().getUser().getFirstName();
+            mSlaveOffer = mOffer.getInvitesToAccept().get(0);
+            String riderName = mSlaveOffer.getToRideRequest().getUser().getFirstName();
             mHeaderUser.setText(getString(R.string.slave_offer_user_wants_a_ride, riderName));
 
             SimpleDateFormat mDayFormat = new SimpleDateFormat("EEEE");
@@ -108,7 +110,7 @@ public class SlaveOfferReplyActivity extends BaseActivity implements OnMapReadyC
                     mDayFormat.format(mOffer.getLeavingTime()),
                     mTimeFormat.format(mOffer.getLeavingTime())));
 
-            Glide.with(this).load(DingoApiService.getPhotoUrl(mOffer.getSlave().getToRideRequest().getUser()))
+            Glide.with(this).load(DingoApiService.getPhotoUrl(mSlaveOffer.getToRideRequest().getUser()))
                     .bitmapTransform(new CircleTransform(this))
                     .into(mHeaderPicture);
 
@@ -120,14 +122,14 @@ public class SlaveOfferReplyActivity extends BaseActivity implements OnMapReadyC
             LatLng[] waypoints;
             if(mOffer.getRequests().isEmpty()){
                 waypoints = new LatLng[2];
-                waypoints[0] = getLatLng(slaveOffer.getToRideRequest().getLeavingAddress());
-                waypoints[1] = getLatLng(slaveOffer.getToRideRequest().getArrivingAddress());
+                waypoints[0] = getLatLng(mSlaveOffer.getToRideRequest().getLeavingAddress());
+                waypoints[1] = getLatLng(mSlaveOffer.getToRideRequest().getArrivingAddress());
                 mOrderedRequests = new ArrayList<>();
-                mOrderedRequests.add(slaveOffer.getToRideRequest());
+                mOrderedRequests.add(mSlaveOffer.getToRideRequest());
             }
             else{
                 List<RideMasterRequest> requestsWithSlaveOfferRequest = new ArrayList<>(mOffer.getRequests());
-                requestsWithSlaveOfferRequest.add(slaveOffer.getToRideRequest());
+                requestsWithSlaveOfferRequest.add(mSlaveOffer.getToRideRequest());
 
                 mOrderedRequests = RideUtils.orderRequestsByLeavingDistanceFromOffer(mOffer, requestsWithSlaveOfferRequest);
 
@@ -162,22 +164,23 @@ public class SlaveOfferReplyActivity extends BaseActivity implements OnMapReadyC
                                 for (int i = 0; i < mOrderedRequests.size(); i++) {
                                     RideMasterRequest request = mOrderedRequests.get(i);
                                     duration += response.body().getRoutes().get(0).getLegs().get(i).getDuration().getValue();
-                                    if (request == slaveOffer.getToRideRequest()) {
+                                    if (request == mSlaveOffer.getToRideRequest()) {
                                         break;
                                     }
                                 }
 
+                                mDuration = duration;
                                 //fill up address using duration
-                                showAddresses(duration);
+                                showAddresses();
                             } else {
-                                showAddresses(0);
+                                showAddresses();
                             }
                         }
 
                         @Override
                         public void onFailure(Throwable t) {
                             //todo show retry option over the map
-                            showAddresses(0);
+                            showAddresses();
                         }
                     });
 
@@ -191,38 +194,76 @@ public class SlaveOfferReplyActivity extends BaseActivity implements OnMapReadyC
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(SlaveOfferReplyActivity.this, OfferDetailsActivity.class);
-                        startActivity(intent);
+                        DingoApiService.getInstance().acceptRideOfferSlave(mSlaveOffer.getId(), mDuration,
+                                new Callback<RideOfferSlave>() {
+                                    @Override
+                                    public void onResponse(Response<RideOfferSlave> response) {
+                                        if(response.code() == Response.HTTP_200_OK){
+                                            mOffer.getInvitesToAccept().clear();
+                                            mOffer.getInvitesWaitingConfirmation().add(response.body());
+                                            Intent intent = new Intent(SlaveOfferReplyActivity.this, OfferDetailsActivity.class);
+                                            intent.putExtra(SlaveOfferReplyActivity.EXTRA_OFFER, mOffer);
+                                            startActivity(intent);
+                                        }
+
+                                    }
+
+                                    @Override
+                                    public void onFailure(Throwable t) {
+
+                                    }
+                                });
                     }
                 }
 
         );
 
+        mDeclineButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        DingoApiService.getInstance().declineRideOfferSlave(mSlaveOffer.getId(), mDuration,
+                                new Callback<RideOfferSlave>() {
+                                    @Override
+                                    public void onResponse(Response<RideOfferSlave> response) {
+                                        mOffer.getInvitesToAccept().clear();
+                                        Intent intent = new Intent(SlaveOfferReplyActivity.this, OfferDetailsActivity.class);
+                                        intent.putExtra(SlaveOfferReplyActivity.EXTRA_OFFER, mOffer);
+                                        startActivity(intent);
+                                    }
 
+                                    @Override
+                                    public void onFailure(Throwable t) {
+
+                                    }
+                                });
+                    }
+                }
+        );
     }
 
-    private void showAddresses(int duration){
+    private void showAddresses(){
        mRouteText1.setText(
                getString(R.string.slave_offer_leaving_address,
                        getOneLineAddress(mOffer.getLeavingAddress(), true),
                        mTimeFormat.format(mOffer.getLeavingTime())));
 
-        if(duration > 0){
+        if(mDuration > 0){
             Calendar cal = Calendar.getInstance();
             cal.setTime(mOffer.getLeavingTime());
-            cal.add(Calendar.SECOND, duration);
+            cal.add(Calendar.SECOND, mDuration);
 
             mRouteText2.setText(
                     getString(R.string.slave_offer_meets_address,
-                            getOneLineAddress(mOffer.getSlave().getToRideRequest().getLeavingAddress(), true),
+                            getOneLineAddress(mSlaveOffer.getToRideRequest().getLeavingAddress(), true),
                             mTimeFormat.format(cal.getTime())));
 
         }
         else{
-            mRouteText2.setText(getOneLineAddress(mOffer.getSlave().getToRideRequest().getLeavingAddress(), true));
+            mRouteText2.setText(getOneLineAddress(mSlaveOffer.getToRideRequest().getLeavingAddress(), true));
         }
 
-        mRouteText3.setText(getOneLineAddress(mOffer.getSlave().getToRideRequest().getArrivingAddress(), true));
+        mRouteText3.setText(getOneLineAddress(mSlaveOffer.getToRideRequest().getArrivingAddress(), true));
 
     }
 
@@ -265,27 +306,6 @@ public class SlaveOfferReplyActivity extends BaseActivity implements OnMapReadyC
 
         showPolyline();
 
-        /*GoogleMapsApiService.getInstance().getDirections(PE_ANTONIO, ROD, new LatLng[]{LEOPOLDO, PAULISTA},
-                new Callback<DirectionsResponse>() {
-                    @Override
-                    public void onResponse(Response<DirectionsResponse> response) {
-                        if (response.code() == Response.HTTP_200_OK) {
-                            String encodedPoly = response.body().getRoutes().get(0).getOverviewPolyline().getPoints();
-                            List<LatLng> polyLatLgn = Utils.decodePoly(encodedPoly);
-
-                            Polyline polyline = mMap.addPolyline(
-                                    new PolylineOptions()
-                                            .addAll(polyLatLgn)
-                                            .width(14).color(getResources().getColor(R.color.turquoise)).geodesic(true)
-                            );
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Throwable t) {
-
-                    }
-                });*/
     }
 
     private synchronized void showPolyline(){

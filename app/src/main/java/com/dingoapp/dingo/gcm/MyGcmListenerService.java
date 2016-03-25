@@ -35,7 +35,7 @@ public class MyGcmListenerService extends GcmListenerService {
 
     private static final String TAG = "MyGcmListenerService";
 
-    private static final String TYPE_OFFER_SLAVE = "OFFER_SLAVE";
+    private static final String TYPE_OFFER_INVITE_TO_ACCEPT = "OFFER_INVITE_TO_ACCEPT";
 
     /**
      * Called when message is received.
@@ -63,7 +63,7 @@ public class MyGcmListenerService extends GcmListenerService {
 
                 long id;
                 switch(data.getString("type")){
-                    case TYPE_OFFER_SLAVE:
+                    case TYPE_OFFER_INVITE_TO_ACCEPT:
                         id = Long.parseLong(data.getString("id"));
                         DingoApiService.getInstance().getRideOfferSlave(id,
                                 new Callback<RideOfferSlave>() {

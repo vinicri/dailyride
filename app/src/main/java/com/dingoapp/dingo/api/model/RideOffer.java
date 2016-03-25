@@ -35,7 +35,19 @@ public class RideOffer extends RideEntity {
     @SerializedName("new_matches")
     int newMatches;
 
-    RideOfferSlave slave;
+    @SerializedName("invites_to_accept")
+    List<RideOfferSlave> invitesToAccept = new ArrayList<>();
+
+    @SerializedName("invites_accepted")
+    List<RideOfferSlave> invitesAccepted = new ArrayList<>();
+
+    @SerializedName("invites_refused")
+    List<RideOfferSlave> invitesRefused = new ArrayList<>();
+
+    @SerializedName("invites_waiting_confirmation")
+    List<RideOfferSlave> invitesWaitingConfirmation = new ArrayList<>();
+
+    //RideOfferSlave slave;
 
     List<RideMasterRequest> requests = new ArrayList<>();
 
@@ -129,13 +141,47 @@ public class RideOffer extends RideEntity {
         this.requests = requests;
     }
 
-    public RideOfferSlave getSlave() {
+    public List<RideOfferSlave> getInvitesToAccept() {
+        return invitesToAccept;
+    }
+
+    public void setInvitesToAccept(List<RideOfferSlave> invitesToAccept) {
+        this.invitesToAccept = invitesToAccept;
+    }
+
+    public List<RideOfferSlave> getInvitesAccepted() {
+        return invitesAccepted;
+    }
+
+    public void setInvitesAccepted(List<RideOfferSlave> invitesAccepted) {
+        this.invitesAccepted = invitesAccepted;
+    }
+
+    public List<RideOfferSlave> getInvitesRefused() {
+        return invitesRefused;
+    }
+
+    public void setInvitesRefused(List<RideOfferSlave> invitesRefused) {
+        this.invitesRefused = invitesRefused;
+    }
+
+    public List<RideOfferSlave> getInvitesWaitingConfirmation() {
+        return invitesWaitingConfirmation;
+    }
+
+    public void setInvitesWaitingConfirmation(List<RideOfferSlave> invitesWaitingConfirmation) {
+        this.invitesWaitingConfirmation = invitesWaitingConfirmation;
+    }
+
+    /*public RideOfferSlave getSlave() {
         return slave;
     }
 
     public void setSlave(RideOfferSlave slave) {
         this.slave = slave;
-    }
+    }*/
+
+
 
 }
 

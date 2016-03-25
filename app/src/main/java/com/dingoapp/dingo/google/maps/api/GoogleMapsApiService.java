@@ -58,10 +58,17 @@ public class GoogleMapsApiService extends DingoService{
     }
 
     public void getDirections(LatLng origin, LatLng destination, LatLng[] waypoints, Callback<DirectionsResponse> callback){
-        String waypointsString = latLgnText(waypoints[0]);
-        for(int i = 1; i < waypoints.length; i++){
-            waypointsString += "|" + latLgnText(waypoints[1]);
+        String waypointsString;
+        if(waypoints != null) {
+            waypointsString = latLgnText(waypoints[0]);
+            for (int i = 1; i < waypoints.length; i++) {
+                waypointsString += "|" + latLgnText(waypoints[1]);
+            }
         }
+        else{
+            waypointsString = null;
+        }
+
         Call<DirectionsResponse> call = apiService.getDirections(latLgnText(origin), latLgnText(destination), waypointsString);
         enqueueCall(call, callback);
     }
