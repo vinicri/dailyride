@@ -2,7 +2,6 @@ package com.dingoapp.dingo;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -11,26 +10,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.dingoapp.dingo.api.Callback;
-import com.dingoapp.dingo.api.Response;
+import com.dingoapp.dingo.api.DingoApiService;
+import com.dingoapp.dingo.api.model.RideMasterRequest;
 import com.dingoapp.dingo.api.model.RideOffer;
+import com.dingoapp.dingo.api.model.RideOfferSlave;
 import com.dingoapp.dingo.chat.ChatActivity;
-import com.dingoapp.dingo.google.maps.api.GoogleMapsApiService;
-import com.dingoapp.dingo.google.maps.api.directions.Utils;
 import com.dingoapp.dingo.google.maps.api.directions.model.DirectionsResponse;
 import com.dingoapp.dingo.util.CircleTransform;
-import com.dingoapp.dingo.util.PhotosDownloader;
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -39,11 +31,20 @@ import butterknife.ButterKnife;
 /**
  * Created by guestguest on 09/03/16.
  */
-public class OfferDetailsActivity extends BaseActivity implements OnMapReadyCallback, GoogleMap.OnMapLoadedCallback {
+public class OfferDetailsActivity extends BaseMapActivity implements OnMapReadyCallback, GoogleMap.OnMapLoadedCallback {
 
     public static final String EXTRA_OFFER = "EXTRA_OFFER";
 
     @Bind(R.id.ride_date)TextView mRideDateTime;
+
+    @Bind(R.id.invites_box)View mInvitesBox;
+    @Bind(R.id.invites_accepted)View mInvitesAccepted;
+    @Bind(R.id.no_invites_accepted)View mInvitesAcceptedNone;
+    @Bind(R.id.no_invites_accepted_text)TextView mNoInvitesAcceptedText;
+    @Bind(R.id.invites_waiting_confirmation)View mInvitesWaitingConfirmation;
+    @Bind(R.id.no_invites_waiting_confirmation)View mInvitesWaitingConfirmationNone;
+    @Bind(R.id.finding_riders)View mFindindRiders;
+
     @Bind(R.id.accepted_picture1)ImageView mAcceptedPicture1;
     @Bind(R.id.accepted_picture2)ImageView mAcceptedPicture2;
     @Bind(R.id.accepted_text)TextView mAcceptedText;
@@ -63,6 +64,10 @@ public class OfferDetailsActivity extends BaseActivity implements OnMapReadyCall
     private RideOffer mOffer;
     private boolean mMapDidLoad;
 
+    List<RideMasterRequest> mAcceptedRequests;
+    private ImageView[] mAcceptedPictures;
+    private ImageView[] mToConfirmPictures;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +76,15 @@ public class OfferDetailsActivity extends BaseActivity implements OnMapReadyCall
         getSupportActionBar().setTitle(R.string.activity_offer_details);
         ButterKnife.bind(this);
 
+        mAcceptedPictures = new ImageView[] {mAcceptedPicture1, mAcceptedPicture2};
+        mToConfirmPictures = new ImageView[] {mToConfirmPicture1, mToConfirmPicture2};
+
+
         mOffer = (RideOffer)getIntent().getSerializableExtra(EXTRA_OFFER);
+        mAcceptedRequests = new ArrayList<>();
+        for(RideOfferSlave invite: mOffer.getInvitesAccepted()){
+            mAcceptedRequests.add(invite.getToRideRequest());
+        }
 
         SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE");
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
@@ -80,26 +93,9 @@ public class OfferDetailsActivity extends BaseActivity implements OnMapReadyCall
                 dayFormat.format(mOffer.getLeavingTime()),
                 timeFormat.format(mOffer.getLeavingTime())));
 
-
-
-        Glide.with(this).load("http://imguol.com/2012/09/14/o-carioca-jeferson-monteiro-22-e-o-responsavel-pelo-perfil-falso-dilma-bolada-no-twitter-e-no-facebook-1347654373519_300x280.jpg")
-                .bitmapTransform(new CircleTransform(this))
-                .into(mAcceptedPicture1);
-
-
-        Glide.with(this).load("http://ndl.mgccw.com/mu3/000/390/055/sss/fbe75c22e38349b587df7de1cfa842b2_small.png")
-                .bitmapTransform(new CircleTransform(this))
-                .into(mToConfirmPicture1);
-
-
-        Glide.with(this).load("http://www.bctr.cornell.edu/wp-content/uploads/2012/02/studentprofile-sheasmall.jpg")
-                .bitmapTransform(new CircleTransform(this))
-                .into(mToConfirmPicture2);
-
-        MapFragment mapFragment = (MapFragment) getFragmentManager()
+        /*MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-
+        mapFragment.getMapAsync(this);*/
 
         mChatButton.setOnClickListener(
                 new View.OnClickListener() {
@@ -121,63 +117,111 @@ public class OfferDetailsActivity extends BaseActivity implements OnMapReadyCall
         );
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
 
-        new PhotosDownloader(this, googleMap, PE_ANTONIO, "http://36.media.tumblr.com/0495e65a4f15696b4f3cc0dcff59a9e0/tumblr_mtqdx1uILV1r93kc1o1_r1_1280.jpg").execute();
-        new PhotosDownloader(this, googleMap, OLIMPIADAS, "http://imguol.com/2012/09/14/o-carioca-jeferson-monteiro-22-e-o-responsavel-pelo-perfil-falso-dilma-bolada-no-twitter-e-no-facebook-1347654373519_300x280.jpg").execute();
-        new PhotosDownloader(this, googleMap, PAULISTA, "http://imguol.com/2012/09/14/o-carioca-jeferson-monteiro-22-e-o-responsavel-pelo-perfil-falso-dilma-bolada-no-twitter-e-no-facebook-1347654373519_300x280.jpg").execute();
-        new PhotosDownloader(this, googleMap, ROD, "http://36.media.tumblr.com/0495e65a4f15696b4f3cc0dcff59a9e0/tumblr_mtqdx1uILV1r93kc1o1_r1_1280.jpg").execute();
+    private void showInvites(List<RideMasterRequest> orderedAcceptedRequests){
 
-        mMap = googleMap;
-        mMap.setOnMapLoadedCallback(this);
+        if(mOffer.getInvitesAccepted().isEmpty() &&
+                mOffer.getInvitesWaitingConfirmation().isEmpty() &&
+                mOffer.getInvitesRefused().isEmpty()){
+            //nothing had happened in this offer yet
+            mInvitesBox.setVisibility(View.GONE);
+            mFindindRiders.setVisibility(View.VISIBLE);
+            mStartButton.setVisibility(View.GONE);
+        }
+        else{
+            mInvitesBox.setVisibility(View.VISIBLE);
+            mFindindRiders.setVisibility(View.GONE);
+            mStartButton.setVisibility(View.VISIBLE);
 
+            if(!mOffer.getInvitesAccepted().isEmpty()){
+                mInvitesAccepted.setVisibility(View.VISIBLE);
+                mInvitesAcceptedNone.setVisibility(View.GONE);
+                showUsersForRequests(orderedAcceptedRequests, mAcceptedPictures, mAcceptedText, R.plurals.offer_details_go_with_you);
+            }
+            else{
+                //make it invisible so layout won't mess #needs-fix
+                mInvitesAccepted.setVisibility(View.INVISIBLE);
+                mInvitesAcceptedNone.setVisibility(View.VISIBLE);
+
+                if(mOffer.getInvitesWaitingConfirmation().isEmpty()){
+                    mNoInvitesAcceptedText.setText(getString(R.string.offer_details_no_invites_accepted));
+                }
+                else{
+                    mNoInvitesAcceptedText.setText(getString(R.string.offer_details_waiting_acceptance));
+                }
+            }
+
+            //waiting confirmation box
+            if(!mOffer.getInvitesWaitingConfirmation().isEmpty()){
+
+                mInvitesWaitingConfirmation.setVisibility(View.VISIBLE);
+                mInvitesWaitingConfirmationNone.setVisibility(View.GONE);
+
+                List<RideMasterRequest> requestsToConfirm = new ArrayList<>();
+                for(RideOfferSlave invite: mOffer.getInvitesWaitingConfirmation()){
+                    requestsToConfirm.add(invite.getToRideRequest());
+                }
+                showUsersForRequests(requestsToConfirm, mToConfirmPictures, mToConfirmText, R.plurals.offer_details_needs_to_confirm);
+            }
+            else{
+                //make it invisible so layout won't mess #needs-fix
+                mInvitesWaitingConfirmation.setVisibility(View.INVISIBLE);
+                mInvitesWaitingConfirmationNone.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
 
+    private void showUsersForRequests(List<RideMasterRequest> requests, ImageView[] imageViews, TextView namesTextView, int pluralForNames){
+        String names = null;
+        for(int i = 0; i < requests.size() && i < imageViews.length; i++){
+            RideMasterRequest request = requests.get(i);
+
+            Glide.with(this).load(DingoApiService.getPhotoUrl(request.getUser()))
+                    .bitmapTransform(new CircleTransform(this))
+                    .into(imageViews[i]);
+
+            if(i == 0){
+                names = request.getUser().getFirstName();
+            }
+            else if(i == requests.size() - 1 || i == imageViews.length - 1){
+                //last user in list
+                names += " " + getString(R.string.offer_details_and_conjuction) + " " + request.getUser().getFirstName();
+            }
+            else{
+                names += ", " + request.getUser().getFirstName();
+            }
+        }
+
+        String acceptedText = names + "\n" + getResources().getQuantityString(pluralForNames, requests.size());
+
+        namesTextView.setText(acceptedText);
+
+    }
+
     @Override
-    public void onMapLoaded() {
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+    protected RideOffer getOffer() {
+        return mOffer;
+    }
 
-        builder.include(PE_ANTONIO);
-        builder.include(OLIMPIADAS);
-        //builder.include(PAULISTA);
-        //builder.include(ROD);
-
-        LatLngBounds latLngBounds = builder.build();
-
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(latLngBounds, 150);
-
-        mMap.moveCamera(cameraUpdate);
-
-        mMapDidLoad = true;
-
-        GoogleMapsApiService.getInstance().getDirections(PE_ANTONIO, ROD, new LatLng[]{OLIMPIADAS, PAULISTA},
-                new Callback<DirectionsResponse>() {
-                    @Override
-                    public void onResponse(Response<DirectionsResponse> response) {
-                        if (response.code() == Response.HTTP_200_OK) {
-                            String encodedPoly = response.body().getRoutes().get(0).getOverviewPolyline().getPoints();
-                            List<LatLng> polyLatLgn = Utils.decodePoly(encodedPoly);
-
-                            Polyline polyline = mMap.addPolyline(
-                                    new PolylineOptions()
-                                            .addAll(polyLatLgn)
-                                            .width(14).color(ContextCompat.getColor(OfferDetailsActivity.this, R.color.turquoise)).geodesic(true)
-                            );
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Throwable t) {
-
-                    }
-                });
+    @Override
+    protected List<RideMasterRequest> getRequests() {
+        return mAcceptedRequests;
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_ride_details, menu);
         return true;
+    }
+
+    @Override
+    protected void gotDirections(DirectionsResponse directions, List<RideMasterRequest> orderedRequests) {
+        showInvites(orderedRequests);
+    }
+
+    @Override
+    protected void directionsFailed(List<RideMasterRequest> orderedRequests) {
+        showInvites(orderedRequests);
     }
 }

@@ -62,6 +62,7 @@
 
 
         <Button
+            android:visibility="gone"
             android:id="@+id/start"
             android:layout_width="80dp"
             android:layout_height="30dp"
@@ -78,163 +79,287 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_height="100dp"
+    <LinearLayout
+        android:id="@+id/invites_box"
+        android:visibility="visible"
         android:layout_width="match_parent"
-        android:background="@color/beige">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_centerVertical="true">
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="CONFIRMADOS"
-                android:textSize="12sp"
-                android:layout_marginLeft="@dimen/padding"
-                android:textStyle="bold"/>
+        <RelativeLayout
+            android:id="@+id/accepted_box"
+            android:layout_height="100dp"
+            android:layout_width="match_parent"
+            android:background="@color/beige">
 
             <LinearLayout
-                android:layout_marginTop="@dimen/padding_quarter"
-                android:layout_marginLeft="@dimen/padding"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:orientation="vertical"
+                android:layout_centerVertical="true">
 
-                <ImageView
-                    android:id="@+id/accepted_picture1"
-                    android:background="@drawable/shape_user_photo_border_oval"
-                    android:padding="@dimen/user_photo_oval_padding"
-                    android:layout_width="@dimen/offer_details_rider_picture_size"
-                    android:layout_height="@dimen/offer_details_rider_picture_size" />
-
-                <ImageView
-                    android:id="@+id/accepted_picture2"
-                    android:background="@drawable/shape_user_photo_border_oval"
-                    android:padding="@dimen/user_photo_oval_padding"
-                    android:layout_marginLeft="@dimen/padding_quarter"
-                    android:layout_width="@dimen/offer_details_rider_picture_size"
-                    android:layout_height="@dimen/offer_details_rider_picture_size" />
 
                 <TextView
-                    android:id="@+id/accepted_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/half_padding"
-                    android:textSize="16sp"
-                    android:text="Pedro e Vinícius \nvão com você"/>
+                    android:text="CONFIRMADOS"
+                    android:textSize="12sp"
+                    android:layout_marginLeft="@dimen/padding"
+                    android:textStyle="bold"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:visibility="visible"
+                        android:id="@+id/invites_accepted"
+                        android:layout_marginTop="@dimen/padding_quarter"
+                        android:layout_marginLeft="@dimen/padding"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:id="@+id/accepted_picture1"
+                            android:background="@drawable/shape_user_photo_border_oval"
+                            android:padding="@dimen/user_photo_oval_padding"
+                            android:layout_width="@dimen/offer_details_rider_picture_size"
+                            android:layout_height="@dimen/offer_details_rider_picture_size" />
+
+                        <ImageView
+                            android:id="@+id/accepted_picture2"
+                            android:background="@drawable/shape_user_photo_border_oval"
+                            android:padding="@dimen/user_photo_oval_padding"
+                            android:layout_marginLeft="@dimen/padding_quarter"
+                            android:layout_width="@dimen/offer_details_rider_picture_size"
+                            android:layout_height="@dimen/offer_details_rider_picture_size" />
+
+                        <TextView
+                            android:id="@+id/accepted_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/padding_half"
+                            android:textSize="16sp"
+                            android:text="Pedro e Vinícius \nvão com você"/>
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/no_invites_accepted"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        android:layout_centerInParent="true">
+
+                        <TextView
+                            android:id="@+id/no_invites_accepted_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/gray"
+                            android:text="@string/offer_details_no_invites_accepted"/>
+
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
 
 
             </LinearLayout>
 
-        </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="5dp">
-
-            <ImageView
-                android:id="@+id/chat_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/chat"
-                />
-
-            <TextView
-                android:text="1"
-                android:textColor="@color/orange"
-                android:layout_alignParentBottom="true"
+            <RelativeLayout
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_alignParentRight="true"
-                android:layout_width="20dp"
-                android:layout_marginRight="2dp"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:background="@drawable/shape_chat_notification"
-                android:layout_height="20dp" />
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp">
+
+                <ImageView
+                    android:id="@+id/chat_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/chat"
+                    />
+
+                <TextView
+                    android:text="1"
+                    android:textColor="@color/orange"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="20dp"
+                    android:layout_marginRight="2dp"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:background="@drawable/shape_chat_notification"
+                    android:layout_height="20dp" />
+
+
+            </RelativeLayout>
+
 
 
         </RelativeLayout>
 
 
+        <RelativeLayout
+            android:layout_height="100dp"
+            android:layout_width="match_parent">
 
-    </RelativeLayout>
-
-
-    <RelativeLayout
-        android:layout_height="100dp"
-        android:layout_width="match_parent">
-
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="PRECISA CONFIRMAR"
-                android:textSize="12sp"
-                android:layout_marginLeft="@dimen/padding"
-                android:textStyle="bold"/>
 
             <LinearLayout
-                android:layout_marginTop="@dimen/padding_quarter"
-                android:layout_marginLeft="@dimen/padding"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <ImageView
-                    android:id="@+id/to_confirm_picture1"
-                    android:background="@drawable/shape_user_photo_border_oval"
-                    android:padding="@dimen/user_photo_oval_padding"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    />
-
-                <ImageView
-                    android:visibility="gone"
-                    android:id="@+id/to_confirm_picture2"
-                    android:layout_marginLeft="@dimen/half_padding"
-                    android:background="@drawable/shape_user_photo_border_oval"
-                    android:padding="@dimen/user_photo_oval_padding"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    />
+                android:layout_centerVertical="true"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/to_confirm_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/half_padding"
-                    android:textSize="16sp"
-                    android:text="Sharapova \nainda precisa confirmar"/>
+                    android:text="PRECISA CONFIRMAR"
+                    android:textSize="12sp"
+                    android:layout_marginLeft="@dimen/padding"
+                    android:textStyle="bold"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/invites_waiting_confirmation"
+                        android:visibility="invisible"
+                        android:layout_marginTop="@dimen/padding_quarter"
+                        android:layout_marginLeft="@dimen/padding"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:id="@+id/to_confirm_picture1"
+                            android:background="@drawable/shape_user_photo_border_oval"
+                            android:padding="@dimen/user_photo_oval_padding"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            />
+
+                        <ImageView
+                            android:visibility="gone"
+                            android:id="@+id/to_confirm_picture2"
+                            android:layout_marginLeft="@dimen/padding_half"
+                            android:background="@drawable/shape_user_photo_border_oval"
+                            android:padding="@dimen/user_photo_oval_padding"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            />
+
+                        <TextView
+                            android:id="@+id/to_confirm_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/padding_half"
+                            android:textSize="16sp"
+                            android:text="Sharapova \nainda precisa confirmar"/>
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/no_invites_waiting_confirmation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_centerInParent="true">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/gray"
+                            android:gravity="center"
+                            android:padding="@dimen/padding"
+                            android:text="@string/offer_details_no_invites_waiting_confirmation"/>
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
 
 
             </LinearLayout>
 
-        </LinearLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/go_to_detail"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:visibility="gone"
+                android:layout_marginRight="5dp" />
 
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/go_to_detail"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="5dp" />
 
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/finding_riders"
+        android:layout_height="120dp"
+        android:background="@color/beige"
+        android:layout_width="match_parent">
+
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_centerInParent="true">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/man_face1_36px_light_grey"/>
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/man_face1_36px_light_grey"/>
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/man_face1_36px_light_grey"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_marginTop="@dimen/padding_quarter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="BUSCANDO PASSAGEIROS"
+                        android:textSize="12sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:paddingLeft="@dimen/padding"
+                        android:paddingRight="@dimen/padding"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/offer_details_finding_riders"/>
+
+                </LinearLayout>
 
 
     </RelativeLayout>

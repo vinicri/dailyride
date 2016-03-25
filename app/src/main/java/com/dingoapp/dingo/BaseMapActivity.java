@@ -55,13 +55,13 @@ public abstract class BaseMapActivity extends BaseActivity implements OnMapReady
         mDestination = getLatLng(getOffer().getArrivingAddress());
 
         LatLng[] waypoints = null;
+        mOrderedRequests = new ArrayList<>();
 
         if(!getRequests().isEmpty()){
             if(getRequests().size() > 1){
                 mOrderedRequests = RideUtils.orderRequestsByLeavingDistanceFromOffer(getOffer(), getRequests());
             }
             else{
-                mOrderedRequests = new ArrayList<>();
                 mOrderedRequests.addAll(getRequests());
             }
 
@@ -90,12 +90,15 @@ public abstract class BaseMapActivity extends BaseActivity implements OnMapReady
 
                             gotDirections(response.body(), mOrderedRequests);
                         }
+                        else{
+                            directionsFailed(mOrderedRequests);
+                        }
 
                     }
 
                     @Override
                     public void onFailure(Throwable t) {
-
+                        directionsFailed(mOrderedRequests);
                     }
                 });
 
@@ -111,7 +114,7 @@ public abstract class BaseMapActivity extends BaseActivity implements OnMapReady
     }
 
 
-    protected void directionsFailed(){
+    protected void directionsFailed(List<RideMasterRequest> orderedRequests){
 
     };
 
@@ -152,6 +155,10 @@ public abstract class BaseMapActivity extends BaseActivity implements OnMapReady
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
         builder.include(mOrigin);
+        if(mOrderedRequests.size() == 0){
+            //no request, include also destination, show all user route
+            builder.include(mDestination);
+        }
         for(RideMasterRequest request: mOrderedRequests) {
             builder.include(getLatLng(request.getLeavingAddress()));
         }

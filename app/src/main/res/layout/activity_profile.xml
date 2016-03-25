@@ -26,7 +26,7 @@
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/half_padding"
+            android:layout_marginTop="@dimen/padding_half"
             android:layout_gravity="center_horizontal"
             android:textSize="22sp"
             android:text="Marlon Teixeira"/>
@@ -60,7 +60,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginRight="@dimen/padding"
         android:layout_marginLeft="@dimen/padding"
-        android:layout_marginBottom="@dimen/half_padding">
+        android:layout_marginBottom="@dimen/padding_half">
         <ImageView
             android:id="@+id/fb_icon"
             android:layout_width="wrap_content"
@@ -90,17 +90,17 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginLeft="@dimen/half_padding"
-        android:layout_marginRight="@dimen/half_padding"
+        android:layout_marginLeft="@dimen/padding_half"
+        android:layout_marginRight="@dimen/padding_half"
         android:background="@color/gray"/>
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/half_padding"
+        android:layout_marginTop="@dimen/padding_half"
         android:layout_marginRight="@dimen/padding"
         android:layout_marginLeft="@dimen/padding"
-        android:layout_marginBottom="@dimen/half_padding">
+        android:layout_marginBottom="@dimen/padding_half">
 
         <ImageView
             android:id="@+id/university_icon"

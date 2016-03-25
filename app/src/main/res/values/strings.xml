@@ -74,6 +74,11 @@
     <string name="slave_offer_meets_address">%1$s às %2$s</string>
     <string name="slave_offer_drops_at">Deixa %1$s em</string>
     <string name="offer_details_ride_date_time">%1$s, saindo às %2$s</string>
+    <string name="offer_details_no_invites_accepted">Nenhuma confirmação por enquanto.</string>
+    <string name="offer_details_no_invites_waiting_confirmation">Nenhuma oferta à confirmar por enquanto.\nEstamos buscando mais passageiros. </string>
+    <string name="offer_details_finding_riders">Ainda não encontramos passageiros. Fique tranquilo, assim que encontrarmos avisaremos você.</string>
+    <string name="offer_details_and_conjuction">e</string>
+    <string name="offer_details_waiting_acceptance">Aguardando confirmações</string>
     <plurals name="request_new_got_new_matches">
         <item quantity="one">Uma carona disponível pra você.</item>
         <item quantity="two">Duas caronas disponíveis pra você.</item>
@@ -107,4 +112,13 @@
         <item quantity="one">Ofereça carona para ela agora!</item>
         <item quantity="other">Ofereça carona para elas agora!</item>
     </plurals>
+    <plurals name="offer_details_go_with_you">
+        <item quantity="one">irá com você</item>
+        <item quantity="other">irão com você</item>
+    </plurals>
+    <plurals name="offer_details_needs_to_confirm">
+        <item quantity="one">ainda precisa confirmar</item>
+        <item quantity="other">ainda precisam confirmar</item>
+    </plurals>
+
 </resources>

@@ -75,7 +75,7 @@
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/half_padding"
+            android:layout_marginTop="@dimen/padding_half"
             android:layout_gravity="center_horizontal"
             android:textSize="22sp"
             android:text="Marlon Teixeira"/>
@@ -109,14 +109,14 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginLeft="@dimen/half_padding"
-        android:layout_marginRight="@dimen/half_padding"
+        android:layout_marginLeft="@dimen/padding_half"
+        android:layout_marginRight="@dimen/padding_half"
         android:background="@color/gray"/>
     
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/half_padding"
+        android:layout_marginTop="@dimen/padding_half"
         android:orientation="vertical"
         >
 
@@ -182,8 +182,8 @@
             android:orientation="horizontal"
             android:paddingLeft="@dimen/padding"
             android:paddingRight="@dimen/padding"
-            android:paddingBottom="@dimen/half_padding"
-            android:layout_marginTop="@dimen/half_padding">
+            android:paddingBottom="@dimen/padding_half"
+            android:layout_marginTop="@dimen/padding_half">
 
             <ImageView
                 android:layout_width="10dp"
@@ -223,15 +223,15 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginLeft="@dimen/half_padding"
-            android:layout_marginRight="@dimen/half_padding"
+            android:layout_marginLeft="@dimen/padding_half"
+            android:layout_marginRight="@dimen/padding_half"
             android:background="@color/gray"/>
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingRight="@dimen/padding"
-            android:paddingTop="@dimen/half_padding"
+            android:paddingTop="@dimen/padding_half"
             android:paddingBottom="@dimen/padding"
             android:paddingLeft="@dimen/padding">
 

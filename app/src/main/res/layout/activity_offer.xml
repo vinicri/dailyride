@@ -41,7 +41,7 @@
 
             <TextView
                 android:id="@+id/leaving_address_line1"
-                android:layout_marginTop="@dimen/half_padding"
+                android:layout_marginTop="@dimen/padding_half"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/offer_leaving_address_line1"
@@ -98,7 +98,7 @@
 
             <TextView
                 android:id="@+id/arriving_address_line1"
-                android:layout_marginTop="@dimen/half_padding"
+                android:layout_marginTop="@dimen/padding_half"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/offer_leaving_address_line1"
@@ -153,7 +153,7 @@
 
             <TextView
                 android:id="@+id/time_text"
-                android:layout_marginTop="@dimen/half_padding"
+                android:layout_marginTop="@dimen/padding_half"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/gray"

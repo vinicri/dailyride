@@ -105,7 +105,12 @@ public class SlaveOfferReplyActivity extends BaseMapActivity{
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        DingoApiService.getInstance().acceptRideOfferSlave(mSlaveOffer.getId(), mDuration,
+
+                        Intent intent = new Intent(SlaveOfferReplyActivity.this, OfferDetailsActivity.class);
+                        intent.putExtra(SlaveOfferReplyActivity.EXTRA_OFFER, mOffer);
+                        startActivity(intent);
+                    }
+                      /*  DingoApiService.getInstance().acceptRideOfferSlave(mSlaveOffer.getId(), mDuration,
                                 new Callback<RideOfferSlave>() {
                                     @Override
                                     public void onResponse(Response<RideOfferSlave> response) {
@@ -124,7 +129,7 @@ public class SlaveOfferReplyActivity extends BaseMapActivity{
 
                                     }
                                 });
-                    }
+                    }*/
                 }
 
         );
