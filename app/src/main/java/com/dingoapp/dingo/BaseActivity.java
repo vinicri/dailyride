@@ -10,11 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.dingoapp.dingo.api.DingoApiService;
 import com.dingoapp.dingo.paymentinfo.PaymentInfoActivity;
 import com.dingoapp.dingo.util.CircleTransform;
 import com.dingoapp.dingo.util.CurrentUser;
+import com.dingoapp.dingo.util.SettingsUtil;
 
 /**
  * Created by guestguest on 15/02/16.
@@ -109,14 +112,19 @@ public class BaseActivity extends AppCompatActivity {
         }
 
         mUserPhotoImageView = (ImageView)findViewById(R.id.user_photo);
-        if(true || CurrentUser.getUser().hasPhoto()){
-            Glide.with(this).load("http://36.media.tumblr.com/0495e65a4f15696b4f3cc0dcff59a9e0/tumblr_mtqdx1uILV1r93kc1o1_r1_1280.jpg")
+        if(CurrentUser.getUser().hasPhoto()){
+            Glide.with(this).load(DingoApiService.getPhotoUrl(CurrentUser.getUser()))
                     .bitmapTransform(new CircleTransform(this))
                     .into(mUserPhotoImageView);
         }
         else{
             //todo static image
         }
+
+
+        TextView userName = (TextView)findViewById(R.id.user_name);
+        userName.setText(CurrentUser.getUser().getFullName());
+
 
         //Glide.with(mContext).load(contact.getPhotoUri())
         //        .bitmapTransform(new CircleTransform(mContext))
@@ -144,6 +152,11 @@ public class BaseActivity extends AppCompatActivity {
             case R.id.payment_item:
                 openActivity(PaymentInfoActivity.class);
                 break;
+            case R.id.logout_item:
+                SettingsUtil.setCurrentUser(this, null);
+                SettingsUtil.setSentTokenToServer(this, false);
+                openActivity(MainActivity.class);
+                finish();
         }
     }
 

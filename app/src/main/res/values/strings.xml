@@ -85,6 +85,7 @@
     <string name="request_invite_confirm_month_day">%1$s de %2$s</string>
     <string name="activity_request_details_looking_for_driver">Buscando caronas</string>
     <string name="request_details_will_give_you_a_ride">%1$s te dará carona</string>
+    <string name="notification_rider_accepted_invite">%1$s aceitou sua carona</string>
     <plurals name="request_new_got_new_matches">
         <item quantity="one">Uma carona disponível pra você.</item>
         <item quantity="two">Duas caronas disponíveis pra você.</item>

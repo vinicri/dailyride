@@ -58,8 +58,7 @@ public class MainActivity extends AppCompatActivity {
         if (!SettingsUtil.getSentTokenToServer(this) && checkPlayServices()) {
 
             // Start IntentService to register this application with GCM.
-            Intent intent = new Intent(this, RegistrationIntentService.class);
-            startService(intent);
+            registerGCM();
         }
 
         if(CurrentUser.getInstance().isLoggedIn()){
@@ -179,6 +178,8 @@ public class MainActivity extends AppCompatActivity {
                                                                 if(response.code() == Response.HTTP_200_OK){
                                                                     User user = response.body();
                                                                     SettingsUtil.setCurrentUser(MainActivity.this, user);
+                                                                    //register gcm after set user so the http request will contain user bearer
+                                                                    registerGCM();
                                                                     if(user.getAcceptedTerms()){
                                                                         Intent intent = new Intent(MainActivity.this, RidesActivity.class);
                                                                         startActivity(intent);
@@ -192,6 +193,8 @@ public class MainActivity extends AppCompatActivity {
 
                                                                 else if(response.code() == Response.HTTP_201_CREATED){
                                                                     SettingsUtil.setCurrentUser(MainActivity.this, response.body());
+                                                                    //register gcm after set user so the http request will contain user bearer
+                                                                    registerGCM();
                                                                     Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
                                                                     startActivity(intent);
                                                                 }
@@ -219,6 +222,11 @@ public class MainActivity extends AppCompatActivity {
 
                 }
         );
+    }
+
+    private void registerGCM(){
+        Intent intent = new Intent(this, RegistrationIntentService.class);
+        startService(intent);
     }
 
     @Override

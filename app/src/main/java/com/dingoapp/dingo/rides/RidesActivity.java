@@ -90,6 +90,8 @@ public class RidesActivity extends BaseActivity {
     private QuickNoticeScrollListener mNoticeScrollListener;
     private BroadcastReceiver mRideOfferSlaveReceiver;
     private BroadcastReceiver mRequestInviteToConfirm;
+    private BroadcastReceiver mOfferInviteAccepted;
+    private BroadcastReceiver mOfferInviteDeclined;
 
 
     protected int getSelfNavDrawerItem() {
@@ -317,6 +319,42 @@ public class RidesActivity extends BaseActivity {
         };
 
 
+        mOfferInviteAccepted = new BroadcastReceiver(){
+
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                RideOfferSlave invite = (RideOfferSlave)intent.getSerializableExtra(BroadcastExtras.EXTRA_RIDE_INVITE);
+                RideOffer offer = findRideForInvite(RideOffer.class, invite);
+                if(offer != null) {
+                    offer.getInvitesAccepted().add(invite);
+                    offer.getInvitesWaitingConfirmation().remove(invite);
+                    int index = mRideEntities.indexOf(offer);
+                    mAdapter.notifyItemChanged(index);
+                    showNotification(getString(R.string.notification_rider_accepted_invite, invite.getToRideRequest().getUser().getFirstName()), null);
+                }
+                else{
+                    //todo not expected:report
+                }
+            }
+        };
+
+
+        mOfferInviteDeclined = new BroadcastReceiver(){
+
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                RideOfferSlave invite = (RideOfferSlave)intent.getSerializableExtra(BroadcastExtras.EXTRA_RIDE_INVITE);
+                RideOffer offer = findRideForInvite(RideOffer.class, invite);
+                if(offer != null) {
+                    offer.getInvitesRefused().add(invite);
+                    int index = mRideEntities.indexOf(offer);
+                    mAdapter.notifyItemChanged(index);
+                }
+                else{
+                    //todo not expected:report
+                }
+            }
+        };
 
     }
 
@@ -338,6 +376,8 @@ public class RidesActivity extends BaseActivity {
         super.onResume();
         LocalBroadcastManager.getInstance(this).registerReceiver(mRequestInviteToConfirm, new IntentFilter(BroadcastExtras.NOTIFICATION_REQUEST_INVITE_TO_CONFIRM));
         LocalBroadcastManager.getInstance(this).registerReceiver(mRideOfferSlaveReceiver, new IntentFilter(BroadcastExtras.NOTIFICATION_RIDE_OFFER_SLAVE));
+        LocalBroadcastManager.getInstance(this).registerReceiver(mOfferInviteAccepted, new IntentFilter(BroadcastExtras.NOTIFICATION_OFFER_INVITE_ACCEPTED));
+        LocalBroadcastManager.getInstance(this).registerReceiver(mOfferInviteDeclined, new IntentFilter(BroadcastExtras.NOTIFICATION_OFFER_INVITE_DECLINED));
     }
 
     @Override
@@ -345,6 +385,8 @@ public class RidesActivity extends BaseActivity {
         super.onPause();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mRideOfferSlaveReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mRequestInviteToConfirm);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mOfferInviteAccepted);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mOfferInviteDeclined);
     }
 
     private void showNotification(CharSequence text, View.OnClickListener action){

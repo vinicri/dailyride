@@ -280,7 +280,7 @@ public class User implements Serializable{
     }
 
     public boolean hasPhoto(){
-        return photoUrl != null;
+        return profilePhotoOriginal != null;
     }
 
     public class OAuthToken{

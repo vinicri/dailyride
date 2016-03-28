@@ -37,6 +37,7 @@ public class MyGcmListenerService extends GcmListenerService {
 
     private static final String TYPE_OFFER_INVITE_TO_ACCEPT = "OFFER_INVITE_TO_ACCEPT";
     private static final String TYPE_OFFER_INVITE_ACCEPTED = "OFFER_INVITE_ACCEPTED";
+    private static final String TYPE_OFFER_INVITE_DECLINED = "OFFER_INVITE_DECLINED";
     private static final String TYPE_REQUEST_INVITE_TO_CONFIRM = "REQUEST_INVITE_TO_CONFIRM";
 
     /**
@@ -70,6 +71,12 @@ public class MyGcmListenerService extends GcmListenerService {
                         break;
                     case TYPE_REQUEST_INVITE_TO_CONFIRM:
                         handleInvite(data, BroadcastExtras.NOTIFICATION_REQUEST_INVITE_TO_CONFIRM);
+                        break;
+                    case TYPE_OFFER_INVITE_ACCEPTED:
+                        handleInvite(data, BroadcastExtras.NOTIFICATION_OFFER_INVITE_ACCEPTED);
+                        break;
+                    case TYPE_OFFER_INVITE_DECLINED:
+                        handleInvite(data, BroadcastExtras.NOTIFICATION_OFFER_INVITE_DECLINED);
                     default:
                         break;
                 }
