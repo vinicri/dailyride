@@ -3,6 +3,7 @@ package com.dingoapp.dingo.api.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -32,6 +33,12 @@ public class RideMasterRequest extends RideEntity implements Serializable {
 
     @SerializedName("new_matches")
     int newMatches;
+
+    @SerializedName("invites_to_confirm")
+    List<RideOfferSlave> invitesToConfirm = new ArrayList<>();
+
+    @SerializedName("invites_accepted")
+    List<RideOfferSlave> invitesAccepted = new ArrayList<>();
 
     //when a user is offering the ride
     @SerializedName("offering_user")
@@ -111,5 +118,21 @@ public class RideMasterRequest extends RideEntity implements Serializable {
 
     public void setDriver(User driver) {
         this.driver = driver;
+    }
+
+    public List<RideOfferSlave> getInvitesToConfirm() {
+        return invitesToConfirm;
+    }
+
+    public void setInvitesToConfirm(List<RideOfferSlave> invitesToConfirm) {
+        this.invitesToConfirm = invitesToConfirm;
+    }
+
+    public List<RideOfferSlave> getInvitesAccepted() {
+        return invitesAccepted;
+    }
+
+    public void setInvitesAccepted(List<RideOfferSlave> invitesAccepted) {
+        this.invitesAccepted = invitesAccepted;
     }
 }

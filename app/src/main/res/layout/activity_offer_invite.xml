@@ -9,6 +9,7 @@
     <include layout="@layout/toolbar_actionbar" />
 
     <TextView
+        android:id="@+id/presentation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Marlon está lhe oferencendo carona"
@@ -50,6 +51,7 @@
                 android:text="Quarta"/>
 
             <TextView
+                android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="26sp"
@@ -206,6 +208,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/driver_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"

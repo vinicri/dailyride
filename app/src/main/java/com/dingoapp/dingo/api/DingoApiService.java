@@ -141,12 +141,12 @@ public class DingoApiService extends DingoService{
         enqueueCall(call, callback);
     }
 
-    public void acceptRideOfferSlave(long id, int estimatedPickupTime, Callback<RideOfferSlave> callback){
+    public void acceptRideOfferSlave(long id, Integer estimatedPickupTime, Callback<RideOfferSlave> callback){
         Call<RideOfferSlave> call = apiService.acceptRideOfferSlave(id, estimatedPickupTime);
         enqueueCall(call, callback);
     }
 
-    public void declineRideOfferSlave(long id, int estimatedPickupTime, Callback<RideOfferSlave> callback){
+    public void declineRideOfferSlave(long id, Integer estimatedPickupTime, Callback<RideOfferSlave> callback){
         Call<RideOfferSlave> call = apiService.declineRideOfferSlave(id, estimatedPickupTime);
         enqueueCall(call, callback);
     }

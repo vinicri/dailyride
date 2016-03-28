@@ -2,6 +2,7 @@ package com.dingoapp.dingo.slaveofferreply;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -105,12 +106,7 @@ public class SlaveOfferReplyActivity extends BaseMapActivity{
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
-                        Intent intent = new Intent(SlaveOfferReplyActivity.this, OfferDetailsActivity.class);
-                        intent.putExtra(SlaveOfferReplyActivity.EXTRA_OFFER, mOffer);
-                        startActivity(intent);
-                    }
-                      /*  DingoApiService.getInstance().acceptRideOfferSlave(mSlaveOffer.getId(), mDuration,
+                        DingoApiService.getInstance().acceptRideOfferSlave(mSlaveOffer.getId(), mDuration,
                                 new Callback<RideOfferSlave>() {
                                     @Override
                                     public void onResponse(Response<RideOfferSlave> response) {
@@ -120,16 +116,20 @@ public class SlaveOfferReplyActivity extends BaseMapActivity{
                                             Intent intent = new Intent(SlaveOfferReplyActivity.this, OfferDetailsActivity.class);
                                             intent.putExtra(SlaveOfferReplyActivity.EXTRA_OFFER, mOffer);
                                             startActivity(intent);
+                                            Intent resultData = new Intent();
+                                            resultData.putExtra("offer", mOffer);
+                                            setResult(RESULT_OK, resultData);
+                                            finish();
                                         }
 
                                     }
 
                                     @Override
                                     public void onFailure(Throwable t) {
-
+                                            Log.d("e", "e");
                                     }
                                 });
-                    }*/
+                    }
                 }
 
         );
@@ -192,7 +192,7 @@ public class SlaveOfferReplyActivity extends BaseMapActivity{
     }
 
     @Override
-    protected void directionsFailed() {
+    protected void directionsFailed(List<RideMasterRequest> orderedRequests) {
         showAddresses();
     }
 

@@ -4,23 +4,35 @@
     android:background="@color/beige"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:background="@drawable/shape_user_photo_border_oval"
-        android:padding="@dimen/user_photo_oval_padding"
-        android:layout_marginTop="@dimen/padding"
-        android:paddingTop="@dimen/padding"
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/driver_picture"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        />
-
-
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:background="@color/turquoise"
+        android:paddingBottom="@dimen/padding"
         android:orientation="vertical">
+
+        <ImageView
+            android:layout_marginTop="@dimen/padding_quarter"
+            android:layout_marginLeft="@dimen/padding_quarter"
+            android:id="@+id/back_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_arrow_back_white_24dp"/>
+
+
+        <ImageView
+            android:background="@drawable/shape_user_photo_border_oval"
+            android:padding="@dimen/user_photo_oval_padding"
+            android:layout_marginTop="32dp"
+            android:paddingTop="@dimen/padding"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/picture"
+            android:layout_centerHorizontal="true"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            />
+
 
         <TextView
             android:id="@+id/name"
@@ -28,36 +40,45 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_half"
             android:layout_gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/picture"
             android:textSize="22sp"
+            android:textColor="@color/white"
             android:text="Marlon Teixeira"/>
 
         <LinearLayout
+            android:visibility="invisible"
+            android:layout_below="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/padding"
             android:gravity="bottom">
 
             <ImageView
                 android:src="@drawable/star"
                 android:layout_width="24dp"
                 android:layout_height="24dp" />
+
             <TextView
                 android:layout_marginLeft="@dimen/padding_quarter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/white"
                 android:textSize="18sp"
-                android:text="4,6 de 24 usuários"/>
+                android:text="4,6"/>
 
         </LinearLayout>
 
-    </LinearLayout>
 
 
+    </RelativeLayout>
 
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="@dimen/padding"
         android:layout_marginRight="@dimen/padding"
         android:layout_marginLeft="@dimen/padding"
         android:layout_marginBottom="@dimen/padding_half">
@@ -69,16 +90,16 @@
             android:src="@drawable/facebook_36px"/>
 
         <TextView
-            android:layout_marginLeft="@dimen/padding_quarter"
+            android:layout_marginLeft="@dimen/padding_half"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:layout_toRightOf="@+id/fb_icon"
             android:layout_centerVertical="true"
-            android:text="(Facebook não conectado)"/>
+            android:text="765 amigos"/>
 
         <ImageView
-            android:src="@drawable/checkmark_checked_24px"
+            android:src="@drawable/check_24px"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -87,12 +108,6 @@
 
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="@dimen/padding_half"
-        android:layout_marginRight="@dimen/padding_half"
-        android:background="@color/gray"/>
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -107,19 +122,87 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:src="@drawable/facebook_36px"/>
+            android:src="@drawable/university_36px"/>
 
         <TextView
-            android:layout_marginLeft="@dimen/padding_quarter"
+            android:layout_marginLeft="@dimen/padding_half"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:layout_toRightOf="@+id/university_icon"
             android:layout_centerVertical="true"
-            android:text="(Facebook não conectado)"/>
+            android:text="FEA - USP"/>
 
         <ImageView
-            android:src="@drawable/checkmark_checked_24px"
+            android:src="@drawable/check_24px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_half"
+        android:layout_marginRight="@dimen/padding"
+        android:layout_marginLeft="@dimen/padding"
+        android:layout_marginBottom="@dimen/padding_half">
+
+        <ImageView
+            android:id="@+id/work_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/work_36px"/>
+
+        <TextView
+            android:layout_marginLeft="@dimen/padding_half"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_toRightOf="@+id/work_icon"
+            android:layout_centerVertical="true"
+            android:text="Goldman Sachs"/>
+
+        <ImageView
+            android:src="@drawable/check_24px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_half"
+        android:layout_marginRight="@dimen/padding"
+        android:layout_marginLeft="@dimen/padding"
+        android:layout_marginBottom="@dimen/padding_half">
+
+        <ImageView
+            android:id="@+id/phone_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/phone_36px"/>
+
+        <TextView
+            android:layout_marginLeft="@dimen/padding_half"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_toRightOf="@+id/phone_icon"
+            android:layout_centerVertical="true"
+            android:text="(11) 96431-1561"/>
+
+        <ImageView
+            android:src="@drawable/check_24px"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

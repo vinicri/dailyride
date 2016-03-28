@@ -1,12 +1,17 @@
 package com.dingoapp.dingo;
 
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.dingoapp.dingo.api.Callback;
 import com.dingoapp.dingo.api.DingoApiService;
 import com.dingoapp.dingo.api.Response;
@@ -28,12 +33,20 @@ import com.google.android.gms.common.GoogleApiAvailability;
 
 import java.util.Arrays;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 import static com.dingoapp.dingo.util.LogUtil.makeLogTag;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
+    @Bind(R.id.background) ImageView mBackground;
+    @Bind(R.id.buttons_box)View mButtonsBox;
+    @Bind(R.id.login_box)View mLoginBox;
+    @Bind(R.id.sign_up)Button mSignUpButton;
+    @Bind(R.id.login1)Button mLogin1Button;
     private Button facebookLogin;
     private CallbackManager fbCallbackManager;
     private final String TAG = makeLogTag("MainActivity");
@@ -42,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //PreferenceManager.getDefaultSharedPreferences(this).edit().clear().commit();
-       // if (!SettingsUtil.getSentTokenToServer(this) && checkPlayServices()) {
-        {
+        if (!SettingsUtil.getSentTokenToServer(this) && checkPlayServices()) {
+
             // Start IntentService to register this application with GCM.
             Intent intent = new Intent(this, RegistrationIntentService.class);
             startService(intent);
@@ -56,13 +69,70 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+
+        Glide.with(this).load(R.drawable.friends_green).transform(new CenterCrop(this)).into(mBackground);
+
+        //int height = mLoginBox.getMeasuredHeight();
 
         /*
          * Facebook login
          */
+
         FacebookSdk.sdkInitialize(getApplicationContext());
         fbCallbackManager = CallbackManager.Factory.create();
         facebookLogin = (Button)findViewById(R.id.facebook_login);
+
+        Point size = new Point();
+        getWindowManager().getDefaultDisplay().getSize(size);
+        int initialY = size.y;
+        final int loginBoxHeight = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 215, getResources().getDisplayMetrics());
+        final int finalY  = initialY - loginBoxHeight;
+
+
+        mLogin1Button.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+
+                      //  ObjectAnimator.ofInt(mButtonsBox, "translationY", 0, -loginBoxHeight).setDuration(250).start();
+                        //mButtonsBox.animate().translationYBy(-loginBoxHeight).setDuration(250).start();
+                        mLoginBox.animate().translationYBy(-loginBoxHeight).setDuration(250).start();
+                        mLoginBox.setVisibility(View.VISIBLE);
+
+                        // translateY.setDuration(400);
+                       // translateY.start();
+                        /*ValueAnimator translateYAnimator = ValueAnimator.ofInt(0, -loginBoxHeight);
+                        translateYAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+                        translateYAnimator.setDuration(750);
+                        translateYAnimator.addUpdateListener(
+                                new ValueAnimator.AnimatorUpdateListener() {
+                                    @Override
+                                    public void onAnimationUpdate(ValueAnimator animation) {
+                                        int value = (Integer) animation.getAnimatedValue();
+                                        mButtonsBox.setTranslationY(value);
+                                        mLoginBox.setTranslationY(value);
+
+                                        //mButtonsBox.requestLayout();
+                                    }
+                                }
+                        );
+
+                        translateYAnimator.addListener(
+                                new AnimatorListenerAdapter() {
+                                    @Override
+                                    public void onAnimationStart(Animator animation) {
+                                        mLoginBox.setVisibility(View.VISIBLE);
+                                    }
+                                }
+                        );
+                        translateYAnimator.start();*/
+                    }
+                }
+        );
+
+
 
         facebookLogin.setOnClickListener(
                 new View.OnClickListener() {
@@ -107,6 +177,17 @@ public class MainActivity extends AppCompatActivity {
 
 
                                                                 if(response.code() == Response.HTTP_200_OK){
+                                                                    User user = response.body();
+                                                                    SettingsUtil.setCurrentUser(MainActivity.this, user);
+                                                                    if(user.getAcceptedTerms()){
+                                                                        Intent intent = new Intent(MainActivity.this, RidesActivity.class);
+                                                                        startActivity(intent);
+                                                                    }
+                                                                    else{
+                                                                        Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
+                                                                        startActivity(intent);
+                                                                    }
+
                                                                 }
 
                                                                 else if(response.code() == Response.HTTP_201_CREATED){

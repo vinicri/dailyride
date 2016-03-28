@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v4.content.ContextCompat;
@@ -23,7 +22,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.dingoapp.dingo.OfferInviteActivity;
 import com.dingoapp.dingo.R;
 import com.dingoapp.dingo.api.DingoApiService;
 import com.dingoapp.dingo.api.model.Address;
@@ -32,7 +30,6 @@ import com.dingoapp.dingo.api.model.RideMasterRequest;
 import com.dingoapp.dingo.api.model.RideOffer;
 import com.dingoapp.dingo.api.model.RideOfferSlave;
 import com.dingoapp.dingo.api.model.User;
-import com.dingoapp.dingo.slaveofferreply.SlaveOfferReplyActivity;
 import com.dingoapp.dingo.util.CircleTransform;
 
 import java.text.SimpleDateFormat;
@@ -56,7 +53,11 @@ public class RidesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     Context mContext;
     CircleTransform mCircleTransform;
 
-    public RidesAdapter(Context context, List<RideEntity> rides){
+
+
+    OnRideClickListener mOnRideClickListener;
+
+    public RidesAdapter(Context context, List<RideEntity> rides) {
         mContext = context;
         mCircleTransform = new CircleTransform(context);
         mRides = rides;
@@ -64,7 +65,7 @@ public class RidesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if(viewType == TYPE_RIDE) {
+        if (viewType == TYPE_RIDE) {
             Context context = parent.getContext();
             LayoutInflater inflater = LayoutInflater.from(context);
 
@@ -73,12 +74,11 @@ public class RidesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             RideViewHolder viewHolder = new RideViewHolder(view);
 
             return viewHolder;
-        }
-        else if(viewType == TYPE_FOOTER){
+        } else if (viewType == TYPE_FOOTER) {
             LinearLayout view = new LinearLayout(mContext);
-           // view.setOrientation(LinearLayout.HORIZONTAL);
+            // view.setOrientation(LinearLayout.HORIZONTAL);
             float height = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 85, mContext.getResources().getDisplayMetrics());
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int)height);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) height);
             view.setLayoutParams(lp);
 
             return new FooterViewHolder(view);
@@ -93,7 +93,7 @@ public class RidesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             return new HeaderViewHolder(view);
             //header
         }*/
-        else{
+        else {
             throw new RuntimeException("Unknown view type");
         }
     }
@@ -101,7 +101,7 @@ public class RidesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if(holder instanceof RideViewHolder) {
+        if (holder instanceof RideViewHolder) {
             RideViewHolder rideViewHolder = (RideViewHolder) holder;
             final RideEntity ride = mRides.get(position);
             //Date leavingTime = ride.getLeavingTime();
@@ -112,28 +112,27 @@ public class RidesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             populateAddress(ride.getLeavingAddress(), rideViewHolder.mLeavingAddress);
             populateAddress(ride.getArrivingAddress(), rideViewHolder.mArrivingAddress);
 
-            if(ride.justCreated){
+            if (ride.justCreated) {
                 rideViewHolder.mAlertBox.setVisibility(View.VISIBLE);
                 rideViewHolder.mAlertBox.setAlpha(1.0f);
                 rideViewHolder.showAlertAndShrinkUpAfter(mContext, 5000);
                 ride.justCreated = false;
-            }
-            else{
+            } else {
                 rideViewHolder.mAlertBox.setVisibility(View.GONE);
             }
 
             if (ride instanceof RideOffer) {
 
-                rideViewHolder.mTime.setText(timeText);
                 final RideOffer offer = (RideOffer) ride;
+                rideViewHolder.mTime.setText(timeText);
 
                 rideViewHolder.itemView.setOnClickListener(
                         new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent = new Intent(mContext, SlaveOfferReplyActivity.class);
-                                intent.putExtra(SlaveOfferReplyActivity.EXTRA_OFFER, offer);
-                                mContext.startActivity(intent);
+                                if (mOnRideClickListener != null) {
+                                    mOnRideClickListener.onOfferClick(offer);
+                                }
                             }
                         }
                 );
@@ -144,56 +143,17 @@ public class RidesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 rideViewHolder.mBottomText1.setVisibility(View.GONE);
                 rideViewHolder.mBottomText2.setVisibility(View.GONE);
 
-                if(!offer.getInvitesToAccept().isEmpty()){
-                    rideViewHolder.mNamesBox.setVisibility(View.VISIBLE);
-                    rideViewHolder.mPicture1.setVisibility(View.VISIBLE);
-                    rideViewHolder.mPicture2.setVisibility(View.GONE);
-                    rideViewHolder.mPicture3.setVisibility(View.GONE);
-
-                    RideOfferSlave offerSlave = offer.getInvitesToAccept().get(0);
-
-                    Glide.with(mContext).load(DingoApiService.getPhotoUrl(offerSlave.getToRideRequest().getUser()))
-                            .bitmapTransform(new CircleTransform(mContext))
-                            .into(rideViewHolder.mPicture1);
-
-                    rideViewHolder.mNames.setText(mContext.getString(R.string.user_wants_a_ride, offerSlave.getToRideRequest().getUser().getFirstName()));
-                    rideViewHolder.mNamesBottomText.setVisibility(View.GONE);
-
+                if (!offer.getInvitesToAccept().isEmpty()) {
+                    showUsers(rideViewHolder, offer, offer.getInvitesToAccept(), R.plurals.rides_offer_wants_a_ride);
                     setItemTheme(rideViewHolder, ITEM_BOTTOM_THEME_ORANGE);
 
-                }
-                else if (offer.getAcceptedUsers() != null && offer.getAcceptedUsers().size() > 0) {
-                    rideViewHolder.mNamesBox.setVisibility(View.VISIBLE);
-                    rideViewHolder.mPicture2.setVisibility(View.GONE);
-                    rideViewHolder.mPicture3.setVisibility(View.GONE);
-                    String names = null;
-                    int size = offer.getAcceptedUsers().size();
-                    for (int i = 0; i < size; i++) {
-                        User user = offer.getAcceptedUsers().get(i);
-                        if (i == 0) {
-                            names = user.getFirstName();
-                        } else {
-                            names += ", " + user.getFirstName();
-                        }
-                        switch (i) {
-                            case 0:
-                                showUserPhoto(rideViewHolder.mPicture1, user);
-                                break;
-                            case 1:
-                                rideViewHolder.mPicture2.setVisibility(View.VISIBLE);
-                                showUserPhoto(rideViewHolder.mPicture2, user);
-                                break;
-                            case 2:
-                                rideViewHolder.mPicture3.setVisibility(View.VISIBLE);
-                                showUserPhoto(rideViewHolder.mPicture3, user);
-                                break;
-                        }
-                    }
-
-                    rideViewHolder.mNames.setText(names);
-                    rideViewHolder.mNamesBottomText.setText(mContext.getResources().getQuantityString(R.plurals.offer_accepted_users, size));
-                    rideViewHolder.mNamesBottomText.setVisibility(View.VISIBLE);
+                } else if (!offer.getInvitesAccepted().isEmpty()) {
+                    showUsers(rideViewHolder, offer, offer.getInvitesAccepted(), R.plurals.rides_offer_accepted_users);
                     setItemTheme(rideViewHolder, ITEM_BOTTOM_THEME_TURQUOISE);
+                }
+                else if(!offer.getInvitesWaitingConfirmation().isEmpty()){
+                    showUsers(rideViewHolder, offer, offer.getInvitesWaitingConfirmation(), R.plurals.rides_offer_waiting_confirmation);
+                    setItemTheme(rideViewHolder, ITEM_BOTTOM_THEME_GRAY);
                 }
                 else {
                     //rideViewHolder.mNamesBox.setVisibility(View.GONE);
@@ -203,42 +163,9 @@ public class RidesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     setItemTheme(rideViewHolder, ITEM_BOTTOM_THEME_GRAY);
                 }
 
-                /*rideViewHolder.mBottomText1.setVisibility(View.GONE);
-                rideViewHolder.mBottomText2.setVisibility(View.GONE);
-                if (offer.getState() == RideOffer.STATE_OPEN) {
-                    if (offer.getOpenRequests() > 0) {
-                        rideViewHolder.mBottomText1.setVisibility(View.VISIBLE);
-                        rideViewHolder.mBottomText1.setText(mContext.getResources().getQuantityString(R.plurals.offer_open_requests, offer.getOpenRequests(), offer.getOpenRequests()));
-                        setItemTheme(rideViewHolder, ITEM_BOTTOM_THEME_ORANGE);
-                    } else if (offer.getNewMatches() > 0) {
-                        rideViewHolder.mBottomText1.setVisibility(View.VISIBLE);
-                        rideViewHolder.mBottomText2.setVisibility(View.VISIBLE);
-                        rideViewHolder.mBottomText1.setText(mContext.getResources().getQuantityString(R.plurals.offer_new_matches, offer.getNewMatches(), offer.getNewMatches()));
-                        rideViewHolder.mBottomText2.setText(mContext.getResources().getQuantityString(R.plurals.offer_offer_this_ride, offer.getNewMatches()));
-                        setItemTheme(rideViewHolder, ITEM_BOTTOM_THEME_ORANGE);
-                    } else if (offer.getAcceptedRequests() > 0) {
-                        setItemTheme(rideViewHolder, ITEM_BOTTOM_THEME_TURQUOISE);
-                    } else {
-                        rideViewHolder.mBottomText1.setVisibility(View.VISIBLE);
-                        rideViewHolder.mBottomText1.setText(mContext.getString(R.string.offer_no_requests));
-                        //rideViewHolder.mBottomText2.setText(mContext.getString(R.string.offer_will_notify_you));
-                        setItemTheme(rideViewHolder, ITEM_BOTTOM_THEME_GRAY);
-                    }
-                }*/
-
             } else if (ride instanceof RideMasterRequest) {
 
-                rideViewHolder.itemView.setOnClickListener(
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent(mContext, OfferInviteActivity.class);
-                                mContext.startActivity(intent);
-                            }
-                        }
-                );
-
-                RideMasterRequest request = (RideMasterRequest) ride;
+                final RideMasterRequest request = (RideMasterRequest) ride;
                 if (request.getLeavingTimeEnd() != null) {
                     timeText += "- " + mTimeFormat.format(request.getLeavingTime());
                 }
@@ -246,7 +173,36 @@ public class RidesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 rideViewHolder.mTypeIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.passenger));
                 rideViewHolder.mTime.setText(timeText);
 
-                if (request.getOfferingUser() != null) {
+                rideViewHolder.itemView.setOnClickListener(
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if(mOnRideClickListener != null){
+                                    mOnRideClickListener.onRequestClick(request);
+                                }
+                            }
+                        }
+                );
+
+                rideViewHolder.mNamesBox.setVisibility(View.GONE);
+                rideViewHolder.mBottomText1.setVisibility(View.GONE);
+                rideViewHolder.mBottomText2.setVisibility(View.GONE);
+
+                if(!request.getInvitesToConfirm().isEmpty()){
+                    showUsers(rideViewHolder, request, request.getInvitesToConfirm(), R.plurals.rides_request_driver_offers_a_ride);
+                    setItemTheme(rideViewHolder, ITEM_BOTTOM_THEME_ORANGE);
+                }
+                else if(!request.getInvitesAccepted().isEmpty()){
+                    showUsers(rideViewHolder, request, request.getInvitesAccepted(), R.plurals.rides_request_accepted);
+                    setItemTheme(rideViewHolder, ITEM_BOTTOM_THEME_TURQUOISE);
+                }
+                else{
+                    rideViewHolder.mBottomText1.setVisibility(View.VISIBLE);
+                    rideViewHolder.mBottomText1.setText(mContext.getString(R.string.new_request_searching_rides));
+                    setItemTheme(rideViewHolder, ITEM_BOTTOM_THEME_GRAY);
+                }
+
+                /*if (request.getOfferingUser() != null) {
                     rideViewHolder.mNamesBox.setVisibility(View.VISIBLE);
                     rideViewHolder.mPicture2.setVisibility(View.GONE);
                     rideViewHolder.mPicture3.setVisibility(View.GONE);
@@ -320,98 +276,114 @@ public class RidesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     }
 
 
-                }
+                }*/
             }
         }
     }
 
-
-   /* @Override
-    public long getItemId(int position) {
-        super.getItemId(position);
-        if(position == getItemCount() - 1){
-            RideEntity ride = mRides.get(position);
-            if(ride instanceof RideOffer){
-                return ride.getId() << 1;
-            }
-            else{
-                return (ride.getId() << 1) + 1;
-            }
-        }
-        return -1;
-    }*/
-
-    private void showUserPhoto(ImageView v, User user){
-        Glide.with(mContext).load(user.getPhotoUrl())
+    private void showUserPhoto(ImageView v, User user) {
+        Glide.with(mContext).load(DingoApiService.getPhotoUrl(user))
                 .bitmapTransform(mCircleTransform)
                 .into(v);
     }
 
-    private void populateAddress(Address address, TextView view){
-        if(address.isRouteType()){
+
+    private void showUsers(RideViewHolder rideViewHolder, RideEntity ride, List<RideOfferSlave> invites, int pluralString){
+        rideViewHolder.mNamesBox.setVisibility(View.VISIBLE);
+        rideViewHolder.mPicture2.setVisibility(View.GONE);
+        rideViewHolder.mPicture3.setVisibility(View.GONE);
+        String names = null;
+        int size = invites.size();
+        for (int i = 0; i < size && i < 2; i++) {
+            User user = ride.getClass().isAssignableFrom(RideOffer.class) ? invites.get(i).getToRideRequest().getUser() : invites.get(i).getMaster().getUser();
+            if (i == 0) {
+                names = user.getFirstName();
+            } else {
+                names += " " + mContext.getString(R.string.activity_rides_and_conjunction) + " " + user.getFirstName();
+            }
+            switch (i) {
+                case 0:
+                    showUserPhoto(rideViewHolder.mPicture1, user);
+                    break;
+                case 1:
+                    rideViewHolder.mPicture2.setVisibility(View.VISIBLE);
+                    showUserPhoto(rideViewHolder.mPicture2, user);
+                    break;
+            }
+        }
+
+        if(size == 1) {
+            rideViewHolder.mNames.setText(names + " " + mContext.getResources().getQuantityString(pluralString, size));
+            rideViewHolder.mNamesBottomText.setVisibility(View.GONE);
+        }
+        else{
+            rideViewHolder.mNames.setText(names);
+            rideViewHolder.mNamesBottomText.setText(mContext.getResources().getQuantityString(pluralString, size));
+            rideViewHolder.mNamesBottomText.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void populateAddress(Address address, TextView view) {
+        if (address.isRouteType()) {
             //fixme create a function at utils do to this
             SpannableString route = new SpannableString(address.getRouteLong() + ", ");
             SpannableString number = new SpannableString(address.getNumber());
             number.setSpan(new StyleSpan(Typeface.BOLD), 0, number.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             view.setText(route);
             view.append(number);
-        }
-        else if(address.isEstablishmentType()){
+        } else if (address.isEstablishmentType()) {
             view.setText(address.getName());
         }
     }
 
     @Override
     public int getItemCount() {
-        if(mRides == null) {
+        if (mRides == null) {
             return 0;
         }
         return mRides.size() + 1; //only footer is added
     }
 
 
-
     @Override
     public int getItemViewType(int position) {
-        if(position == getItemCount() - 1){
+        if (position == getItemCount() - 1) {
             return TYPE_FOOTER;
         }
         return TYPE_RIDE;
     }
 
-    private void setItemTheme(RideViewHolder holder, int theme){
-        GradientDrawable typeShape = (GradientDrawable)holder.mTypeBackground.getBackground();
-        GradientDrawable bottomShape = (GradientDrawable)holder.mBottomBox.getBackground();
-        if(theme == ITEM_BOTTOM_THEME_TURQUOISE){
+    private void setItemTheme(RideViewHolder holder, int theme) {
+        GradientDrawable typeShape = (GradientDrawable) holder.mTypeBackground.getBackground();
+        GradientDrawable bottomShape = (GradientDrawable) holder.mBottomBox.getBackground();
+        if (theme == ITEM_BOTTOM_THEME_TURQUOISE) {
             typeShape.setColor(ContextCompat.getColor(mContext, R.color.gray_dark));
             bottomShape.setColor(ContextCompat.getColor(mContext, R.color.turquoise));
             setBottomTextColor(holder, ContextCompat.getColor(mContext, R.color.white));
-        }
-        else if(theme == ITEM_BOTTOM_THEME_ORANGE){
+        } else if (theme == ITEM_BOTTOM_THEME_ORANGE) {
             typeShape.setColor(ContextCompat.getColor(mContext, R.color.gray_dark));
             bottomShape.setColor(ContextCompat.getColor(mContext, R.color.orange));
             setBottomTextColor(holder, ContextCompat.getColor(mContext, R.color.white));
-        }
-        else if(theme == ITEM_BOTTOM_THEME_GRAY){
+        } else if (theme == ITEM_BOTTOM_THEME_GRAY) {
             typeShape.setColor(ContextCompat.getColor(mContext, R.color.gray_medium));
             bottomShape.setColor(ContextCompat.getColor(mContext, R.color.ride_item_gray_light));
             setBottomTextColor(holder, ContextCompat.getColor(mContext, R.color.gray_dark));
         }
     }
 
-    public int itemIndex(RideEntity entity){
+    public int itemIndex(RideEntity entity) {
         int index = mRides.indexOf(entity);
         return index;
     }
 
-    private void setBottomTextColor(RideViewHolder holder, int color){
+    private void setBottomTextColor(RideViewHolder holder, int color) {
         holder.mNames.setTextColor(color);
         holder.mNamesBottomText.setTextColor(color);
         holder.mBottomText1.setTextColor(color);
         holder.mBottomText2.setTextColor(color);
     }
 
-    public static class RideViewHolder extends RecyclerView.ViewHolder{
+    public static class RideViewHolder extends RecyclerView.ViewHolder {
 
         LinearLayout mAlertBox;
         ImageView mAlertIcon;
@@ -436,29 +408,29 @@ public class RidesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public RideViewHolder(View itemView) {
             super(itemView);
 
-            mAlertBox = (LinearLayout)itemView.findViewById(R.id.alert_box);
-            mAlertIcon = (ImageView)itemView.findViewById(R.id.alert_icon);
-            mAlertText = (TextView)itemView.findViewById(R.id.alert_text);
-            mTypeBackground = (LinearLayout)itemView.findViewById(R.id.type_background);
-            mTypeIcon = (ImageView)itemView.findViewById(R.id.type_icon);
-            mDay = (TextView)itemView.findViewById(R.id.day_text);
-            mTime = (TextView)itemView.findViewById(R.id.time_text);
-            mLeavingAddress = (TextView)itemView.findViewById(R.id.leaving_address);
-            mArrivingAddress = (TextView)itemView.findViewById(R.id.arriving_address);
-            mPicture1 = (ImageView)itemView.findViewById(R.id.driver_picture);
-            mPicture2 = (ImageView)itemView.findViewById(R.id.picture2);
-            mPicture3 = (ImageView)itemView.findViewById(R.id.picture3);
-            mBottomBox = (LinearLayout)itemView.findViewById(R.id.bottom_box);
-            mNamesBox = (LinearLayout)itemView.findViewById(R.id.names_box);
-            mNames = (TextView)itemView.findViewById(R.id.names);
-            mNamesBottomText = (TextView)itemView.findViewById(R.id.names_bottom_text);
-            mBottomText1 = (TextView)itemView.findViewById(R.id.bottom_text1);
-            mBottomText2 = (TextView)itemView.findViewById(R.id.bottom_text2);
+            mAlertBox = (LinearLayout) itemView.findViewById(R.id.alert_box);
+            mAlertIcon = (ImageView) itemView.findViewById(R.id.alert_icon);
+            mAlertText = (TextView) itemView.findViewById(R.id.alert_text);
+            mTypeBackground = (LinearLayout) itemView.findViewById(R.id.type_background);
+            mTypeIcon = (ImageView) itemView.findViewById(R.id.type_icon);
+            mDay = (TextView) itemView.findViewById(R.id.day_text);
+            mTime = (TextView) itemView.findViewById(R.id.time_text);
+            mLeavingAddress = (TextView) itemView.findViewById(R.id.leaving_address);
+            mArrivingAddress = (TextView) itemView.findViewById(R.id.arriving_address);
+            mPicture1 = (ImageView) itemView.findViewById(R.id.driver_picture);
+            mPicture2 = (ImageView) itemView.findViewById(R.id.picture2);
+            mPicture3 = (ImageView) itemView.findViewById(R.id.picture3);
+            mBottomBox = (LinearLayout) itemView.findViewById(R.id.bottom_box);
+            mNamesBox = (LinearLayout) itemView.findViewById(R.id.names_box);
+            mNames = (TextView) itemView.findViewById(R.id.names);
+            mNamesBottomText = (TextView) itemView.findViewById(R.id.names_bottom_text);
+            mBottomText1 = (TextView) itemView.findViewById(R.id.bottom_text1);
+            mBottomText2 = (TextView) itemView.findViewById(R.id.bottom_text2);
         }
 
-        public void showAlertAndShrinkUpAfter(Context context, long milliseconds){
-           // mAlertBox.setVisibility(View.VISIBLE);
-           // mAlertBox.requestLayout();
+        public void showAlertAndShrinkUpAfter(Context context, long milliseconds) {
+            // mAlertBox.setVisibility(View.VISIBLE);
+            // mAlertBox.requestLayout();
             /*if(runnable.getRunnable() != null){
                 Handler mainHandler = new Handler(Looper.getMainLooper());
                 mainHandler.post(runnable.getRunnable());
@@ -552,16 +524,27 @@ public class RidesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
     }
 
-    public static class HeaderViewHolder extends RecyclerView.ViewHolder{
+    public static class HeaderViewHolder extends RecyclerView.ViewHolder {
 
         public HeaderViewHolder(View itemView) {
             super(itemView);
         }
     }
 
-    public static class FooterViewHolder extends RecyclerView.ViewHolder{
+    public static class FooterViewHolder extends RecyclerView.ViewHolder {
         public FooterViewHolder(View itemView) {
             super(itemView);
         }
     }
+
+    public interface OnRideClickListener {
+        void onOfferClick(RideOffer offer);
+
+        void onRequestClick(RideMasterRequest request);
+    }
+
+    public void setOnRideClickListener(OnRideClickListener listener) {
+        this.mOnRideClickListener = listener;
+    }
+
 }

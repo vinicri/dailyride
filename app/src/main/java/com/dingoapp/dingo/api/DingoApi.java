@@ -72,9 +72,9 @@ public interface DingoApi {
     @GET("/rideofferslave/{id}/")
     Call<RideOfferSlave> getRideOfferSlave(@Path("id") long id);
 
-    @GET("/rideofferslave/{id}/accept")
-    Call<RideOfferSlave> acceptRideOfferSlave(@Path("id") long id, @Query("estimated_pickup_time") int estimatedPickupTime);
+    @POST("/rideofferslave/{id}/accept/")
+    Call<RideOfferSlave> acceptRideOfferSlave(@Path("id") long id, @Query("estimated_pickup_time") Integer estimatedPickupTime);
 
-    @GET("/rideofferslave/{id}/decline")
-    Call<RideOfferSlave> declineRideOfferSlave(@Path("id") long id, @Query("estimated_pickup_time") int estimatedPickupTime);
+    @POST("/rideofferslave/{id}/decline/")
+    Call<RideOfferSlave> declineRideOfferSlave(@Path("id") long id, @Query("estimated_pickup_time") Integer estimatedPickupTime);
 }

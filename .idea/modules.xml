@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Dingo.iml" filepath="$PROJECT_DIR$/Dingo.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dingo-android.iml" filepath="$PROJECT_DIR$/dingo-android.iml" />
     </modules>
   </component>
 </project>

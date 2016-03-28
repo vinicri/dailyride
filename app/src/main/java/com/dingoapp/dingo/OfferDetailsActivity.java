@@ -174,9 +174,13 @@ public class OfferDetailsActivity extends BaseMapActivity implements OnMapReadyC
 
     private void showUsersForRequests(List<RideMasterRequest> requests, ImageView[] imageViews, TextView namesTextView, int pluralForNames){
         String names = null;
+        for(int i = 0; i < imageViews.length; i++){
+            imageViews[i].setVisibility(View.GONE);
+        }
         for(int i = 0; i < requests.size() && i < imageViews.length; i++){
             RideMasterRequest request = requests.get(i);
 
+            imageViews[i].setVisibility(View.VISIBLE);
             Glide.with(this).load(DingoApiService.getPhotoUrl(request.getUser()))
                     .bitmapTransform(new CircleTransform(this))
                     .into(imageViews[i]);

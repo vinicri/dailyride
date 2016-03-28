@@ -60,7 +60,8 @@
 
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyBMuK91NXU0-1-eOU3KcBZ4alEDIjrJ_xw"/>
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -95,6 +96,9 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <activity android:name=".RequestDetailsActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <activity android:name=".profile.ProfileActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
 

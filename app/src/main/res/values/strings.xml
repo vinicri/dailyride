@@ -65,7 +65,7 @@
     <string name="button_accept">Aceitar</string>
     <string name="user_wants_a_ride">%1$s quer uma carona</string>
     <string name="activity_offer_invite">Encontramos uma carona</string>
-    <string name="activity_request_details">Carona confirmada</string>
+    <string name="activity_request_details_accepted">Carona confirmada</string>
     <string name="notification_user_wants_a_ride">%1$s quer uma carona</string>
     <string name="slave_offer_user_wants_a_ride">%1$s quer uma carona</string>
     <string name="slave_offer_datetime">%1$s às %2$s</string>
@@ -79,6 +79,12 @@
     <string name="offer_details_finding_riders">Ainda não encontramos passageiros. Fique tranquilo, assim que encontrarmos avisaremos você.</string>
     <string name="offer_details_and_conjuction">e</string>
     <string name="offer_details_waiting_acceptance">Aguardando confirmações</string>
+    <string name="activity_rides_and_conjunction">e</string>
+    <string name="notification_driver_is_offering_a_ride">%1$s está oferecendo uma carona</string>
+    <string name="request_invite_confirm_presentation">%1$s está lhe oferecendo carona</string>
+    <string name="request_invite_confirm_month_day">%1$s de %2$s</string>
+    <string name="activity_request_details_looking_for_driver">Buscando caronas</string>
+    <string name="request_details_will_give_you_a_ride">%1$s te dará carona</string>
     <plurals name="request_new_got_new_matches">
         <item quantity="one">Uma carona disponível pra você.</item>
         <item quantity="two">Duas caronas disponíveis pra você.</item>
@@ -94,9 +100,22 @@
         <item quantity="two">Aguardando resposta de dois pedidos de carona</item>
         <item quantity="other">Aguardando resposta de %1$d pedidos de carona</item>
     </plurals>
-    <plurals name="offer_accepted_users">
+    <plurals name="rides_offer_accepted_users">
         <item quantity="one">irá com você</item>
         <item quantity="other">irão com você</item>
+    </plurals>
+    <plurals name="rides_offer_waiting_confirmation">
+        <item quantity="one">precisa confirmar</item>
+        <item quantity="other">precisam confirmar</item>
+    </plurals>
+    <plurals name="rides_offer_wants_a_ride">
+        <item quantity="other">quer uma carona</item>
+    </plurals>
+    <plurals name="rides_request_driver_offers_a_ride">
+        <item quantity="other">está oferecendo uma carona</item>
+    </plurals>
+    <plurals name="rides_request_accepted">
+        <item quantity="other">te dará carona</item>
     </plurals>
     <plurals name="offer_open_requests" >
         <item quantity="one">Você tem um pedido para responder</item>

@@ -36,6 +36,8 @@ public class MyGcmListenerService extends GcmListenerService {
     private static final String TAG = "MyGcmListenerService";
 
     private static final String TYPE_OFFER_INVITE_TO_ACCEPT = "OFFER_INVITE_TO_ACCEPT";
+    private static final String TYPE_OFFER_INVITE_ACCEPTED = "OFFER_INVITE_ACCEPTED";
+    private static final String TYPE_REQUEST_INVITE_TO_CONFIRM = "REQUEST_INVITE_TO_CONFIRM";
 
     /**
      * Called when message is received.
@@ -64,27 +66,10 @@ public class MyGcmListenerService extends GcmListenerService {
                 long id;
                 switch(data.getString("type")){
                     case TYPE_OFFER_INVITE_TO_ACCEPT:
-                        id = Long.parseLong(data.getString("id"));
-                        DingoApiService.getInstance().getRideOfferSlave(id,
-                                new Callback<RideOfferSlave>() {
-                                    @Override
-                                    public void onResponse(Response<RideOfferSlave> response) {
-                                        if(response.code() == Response.HTTP_200_OK){
-                                            RideOfferSlave offerSlave = response.body();
-                                            if(AppLifeCycle.getInstance().isActivityVisible(RidesActivity.class)){
-                                                Intent intent = new Intent(BroadcastExtras.NOTIFICATION_RIDE_OFFER_SLAVE);
-                                                intent.putExtra(BroadcastExtras.EXTRA_RIDE_OFFER_SLAVE, offerSlave);
-                                                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
-                                            }
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onFailure(Throwable t) {
-                                        Log.d(TAG, "err");
-                                    }
-                                });
+                        handleInvite(data, BroadcastExtras.NOTIFICATION_RIDE_OFFER_SLAVE);
                         break;
+                    case TYPE_REQUEST_INVITE_TO_CONFIRM:
+                        handleInvite(data, BroadcastExtras.NOTIFICATION_REQUEST_INVITE_TO_CONFIRM);
                     default:
                         break;
                 }
@@ -111,6 +96,29 @@ public class MyGcmListenerService extends GcmListenerService {
     }
     // [END receive_message]
 
+
+    private void handleInvite(Bundle data, final String notification){
+        long id = Long.parseLong(data.getString("id"));
+        DingoApiService.getInstance().getRideOfferSlave(id,
+                new Callback<RideOfferSlave>() {
+                    @Override
+                    public void onResponse(Response<RideOfferSlave> response) {
+                        if(response.code() == Response.HTTP_200_OK){
+                            RideOfferSlave offerSlave = response.body();
+                            if(AppLifeCycle.getInstance().isActivityVisible(RidesActivity.class)){
+                                Intent intent = new Intent(notification);
+                                intent.putExtra(BroadcastExtras.EXTRA_RIDE_INVITE, offerSlave);
+                                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                        Log.d(TAG, "err");
+                    }
+                });
+    }
     /**
      * Create and show a simple notification containing the received GCM message.
      *

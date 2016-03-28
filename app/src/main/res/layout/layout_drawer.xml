@@ -43,17 +43,23 @@
         <LinearLayout
             android:id="@+id/profile_item"
             android:onClick="onNavDrawerItemClick"
-            android:layout_width="wrap_content"
+            android:paddingLeft="@dimen/padding"
+            android:paddingRight="@dimen/padding"
+            android:paddingTop="@dimen/padding_half"
+            android:paddingBottom="@dimen/padding_half"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/profile_icon"
-                android:layout_width="40dp"
-                android:layout_height="40dp" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_face_turquoise_36px"/>
 
             <TextView
                 android:id="@+id/profile_text"
                 android:text="@string/menu_profile"
+                android:layout_marginLeft="@dimen/padding_half"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -65,17 +71,23 @@
         <LinearLayout
             android:id="@+id/payment_item"
             android:onClick="onNavDrawerItemClick"
-            android:layout_width="wrap_content"
+            android:paddingLeft="@dimen/padding"
+            android:paddingRight="@dimen/padding"
+            android:paddingTop="@dimen/padding_half"
+            android:paddingBottom="@dimen/padding_half"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/payment_icon"
-                android:layout_width="40dp"
-                android:layout_height="40dp" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_payment_turquoise_36px"/>
 
             <TextView
                 android:id="@+id/payment_text"
                 android:text="@string/menu_payment"
+                android:layout_marginLeft="@dimen/padding_half"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -87,19 +99,25 @@
         <LinearLayout
             android:id="@+id/receivables_item"
             android:onClick="onNavDrawerItemClick"
-            android:layout_width="wrap_content"
+            android:paddingLeft="@dimen/padding"
+            android:paddingRight="@dimen/padding"
+            android:paddingTop="@dimen/padding_half"
+            android:paddingBottom="@dimen/padding_half"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/receivables_icon"
-                android:layout_width="40dp"
-                android:layout_height="40dp" />
+                android:layout_width="wrap_content"
+                android:src="@drawable/ic_account_balance_wallet_turquoise_36px"
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/receivables_text"
                 android:text="@string/menu_receivables"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_half"
                 android:layout_gravity="center_vertical"
                 android:textColor="@color/turquoise_dark"
                 android:textSize="@dimen/drawer_item"/>
@@ -109,17 +127,23 @@
         <LinearLayout
             android:id="@+id/history_item"
             android:onClick="onNavDrawerItemClick"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:paddingLeft="@dimen/padding"
+            android:paddingRight="@dimen/padding"
+            android:paddingTop="@dimen/padding_half"
+            android:paddingBottom="@dimen/padding_half"
             android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/history_icon"
-                android:layout_width="40dp"
-                android:layout_height="40dp" />
+                android:layout_width="wrap_content"
+                android:src="@drawable/ic_history_turquoise_36px"
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/history_text"
                 android:text="@string/menu_history"
+                android:layout_marginLeft="@dimen/padding_half"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -132,17 +156,23 @@
         <LinearLayout
             android:id="@+id/ratings_item"
             android:onClick="onNavDrawerItemClick"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/padding"
+            android:paddingRight="@dimen/padding"
+            android:paddingTop="@dimen/padding_half"
+            android:paddingBottom="@dimen/padding_half">
 
             <ImageView
                 android:id="@+id/ratings_icon"
-                android:layout_width="40dp"
-                android:layout_height="40dp" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_star_turquoise_36px"/>
 
             <TextView
                 android:id="@+id/ratings_text"
                 android:text="@string/menu_ratings"
+                android:layout_marginLeft="@dimen/padding_half"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -155,17 +185,23 @@
         <LinearLayout
             android:id="@+id/_item"
             android:onClick="onNavDrawerItemClick"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/padding"
+            android:paddingRight="@dimen/padding"
+            android:paddingTop="@dimen/padding_half"
+            android:paddingBottom="@dimen/padding_half">
 
             <ImageView
                 android:id="@+id/customer_service_icon"
-                android:layout_width="40dp"
-                android:layout_height="40dp" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_live_help_turquoise_36px"/>
 
             <TextView
                 android:id="@+id/customer_service_text"
                 android:text="@string/menu_customer_service"
+                android:layout_marginLeft="@dimen/padding_half"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"

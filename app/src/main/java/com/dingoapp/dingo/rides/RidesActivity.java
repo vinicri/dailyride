@@ -28,8 +28,11 @@ import android.widget.TextView;
 import com.dingoapp.dingo.BaseActivity;
 import com.dingoapp.dingo.BroadcastExtras;
 import com.dingoapp.dingo.OfferActivity;
+import com.dingoapp.dingo.OfferDetailsActivity;
+import com.dingoapp.dingo.OfferInviteActivity;
 import com.dingoapp.dingo.R;
 import com.dingoapp.dingo.RequestActivity;
+import com.dingoapp.dingo.RequestDetailsActivity;
 import com.dingoapp.dingo.api.Callback;
 import com.dingoapp.dingo.api.DingoApiService;
 import com.dingoapp.dingo.api.Response;
@@ -39,6 +42,7 @@ import com.dingoapp.dingo.api.model.RideOffer;
 import com.dingoapp.dingo.api.model.RideOfferSlave;
 import com.dingoapp.dingo.api.model.User;
 import com.dingoapp.dingo.api.model.UserRides;
+import com.dingoapp.dingo.slaveofferreply.SlaveOfferReplyActivity;
 import com.dingoapp.dingo.util.CurrentUser;
 import com.dingoapp.dingo.view.QuickNoticeScrollListener;
 
@@ -57,8 +61,10 @@ import butterknife.ButterKnife;
  */
 public class RidesActivity extends BaseActivity {
 
-    private static final int REQUEST_CODE_OFFER = 1;
-    private static final int REQUEST_CODE_REQUEST = 2;
+    private static final int REQUEST_CODE_NEW_OFFER = 1;
+    private static final int REQUEST_CODE_NEW_REQUEST = 2;
+    private static final int REQUEST_CODE_EDIT_OFFER = 3;
+    private static final int REQUEST_CODE_EDIT_REQUEST = 4;
 
 
     @Bind(R.id.request) Button mRequestButton;
@@ -83,6 +89,7 @@ public class RidesActivity extends BaseActivity {
     private static final ScheduledExecutorService worker = Executors.newSingleThreadScheduledExecutor();
     private QuickNoticeScrollListener mNoticeScrollListener;
     private BroadcastReceiver mRideOfferSlaveReceiver;
+    private BroadcastReceiver mRequestInviteToConfirm;
 
 
     protected int getSelfNavDrawerItem() {
@@ -97,6 +104,37 @@ public class RidesActivity extends BaseActivity {
         getSupportActionBar().setTitle(R.string.activity_ride_title);
         ButterKnife.bind(this);
         mAdapter = new RidesAdapter(this, mRideEntities);
+        mAdapter.setOnRideClickListener(
+                new RidesAdapter.OnRideClickListener() {
+                    @Override
+                    public void onOfferClick(RideOffer offer) {
+                        if (offer.getInvitesToAccept().isEmpty()) {
+                            Intent intent = new Intent(RidesActivity.this, OfferDetailsActivity.class);
+                            intent.putExtra(OfferDetailsActivity.EXTRA_OFFER, offer);
+                            startActivityForResult(intent, REQUEST_CODE_EDIT_OFFER);
+                        } else {
+                            Intent intent = new Intent(RidesActivity.this, SlaveOfferReplyActivity.class);
+                            intent.putExtra(SlaveOfferReplyActivity.EXTRA_OFFER, offer);
+                            startActivityForResult(intent, REQUEST_CODE_EDIT_OFFER);
+                        }
+
+                    }
+
+                    @Override
+                    public void onRequestClick(RideMasterRequest request) {
+                        if(request.getInvitesToConfirm().isEmpty()){
+                            Intent intent = new Intent(RidesActivity.this, RequestDetailsActivity.class);
+                            intent.putExtra(RequestDetailsActivity.EXTRA_REQUEST, request);
+                            startActivityForResult(intent, REQUEST_CODE_EDIT_REQUEST);
+                        }
+                        else{
+                            Intent intent = new Intent(RidesActivity.this, OfferInviteActivity.class);
+                            intent.putExtra(OfferInviteActivity.EXTRA_REQUEST, request);
+                            startActivityForResult(intent, REQUEST_CODE_EDIT_REQUEST);
+                        }
+                    }
+                }
+        );
 
         DingoApiService.getInstance().getUserRides(
                 new Callback<UserRides>() {
@@ -106,6 +144,7 @@ public class RidesActivity extends BaseActivity {
                             UserRides userRides = response.body();
                             mRideEntities.addAll(userRides.getRequests());
                             mRideEntities.addAll(userRides.getOffers());
+                            orderRideEntities();
                             mAdapter.notifyDataSetChanged();
                         }
 
@@ -124,7 +163,7 @@ public class RidesActivity extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(RidesActivity.this, RequestActivity.class);
-                        startActivityForResult(intent, REQUEST_CODE_REQUEST);
+                        startActivityForResult(intent, REQUEST_CODE_NEW_REQUEST);
                     }
                 };
 
@@ -133,7 +172,7 @@ public class RidesActivity extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(RidesActivity.this, OfferActivity.class);
-                        startActivityForResult(intent, REQUEST_CODE_OFFER);
+                        startActivityForResult(intent, REQUEST_CODE_NEW_OFFER);
                     }
                 }
 
@@ -241,7 +280,7 @@ public class RidesActivity extends BaseActivity {
 
             @Override
             public void onReceive(Context context, Intent intent) {
-                RideOfferSlave offerSlave = (RideOfferSlave)intent.getSerializableExtra(BroadcastExtras.EXTRA_RIDE_OFFER_SLAVE);
+                RideOfferSlave offerSlave = (RideOfferSlave)intent.getSerializableExtra(BroadcastExtras.EXTRA_RIDE_INVITE);
 
                 long offerSlaveId = offerSlave.getMaster().getId();
                 for(RideEntity ride: mRideEntities){
@@ -260,14 +299,44 @@ public class RidesActivity extends BaseActivity {
             }
         };
 
+        mRequestInviteToConfirm = new BroadcastReceiver(){
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                RideOfferSlave invite = (RideOfferSlave)intent.getSerializableExtra(BroadcastExtras.EXTRA_RIDE_INVITE);
+                RideMasterRequest request = findRideForInvite(RideMasterRequest.class, invite);
+                if(request != null) {
+                    request.getInvitesToConfirm().add(invite);
+                    int index = mRideEntities.indexOf(request);
+                    mAdapter.notifyItemChanged(index);
+                    showNotification(getString(R.string.notification_driver_is_offering_a_ride, invite.getMaster().getUser().getFirstName()), null);
+                }
+                else{
+                    //todo not expected:report
+                }
+            }
+        };
 
 
+
+    }
+
+    private <T> T findRideForInvite(Class<T> rideClass, RideOfferSlave invite){
+        long rideId = rideClass.isAssignableFrom(RideOffer.class) ? invite.getMaster().getId() : invite.getToRideRequest().getId();
+        for(RideEntity ride: mRideEntities) {
+            if (rideClass.isInstance(ride)){
+                if(ride.getId() == rideId){
+                    return (T)ride;
+                }
+            }
+        }
+        return null;
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRequestInviteToConfirm, new IntentFilter(BroadcastExtras.NOTIFICATION_REQUEST_INVITE_TO_CONFIRM));
         LocalBroadcastManager.getInstance(this).registerReceiver(mRideOfferSlaveReceiver, new IntentFilter(BroadcastExtras.NOTIFICATION_RIDE_OFFER_SLAVE));
     }
 
@@ -275,6 +344,7 @@ public class RidesActivity extends BaseActivity {
     protected void onPause() {
         super.onPause();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mRideOfferSlaveReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRequestInviteToConfirm);
     }
 
     private void showNotification(CharSequence text, View.OnClickListener action){
@@ -394,7 +464,7 @@ public class RidesActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == Activity.RESULT_OK){
-            if(requestCode == REQUEST_CODE_OFFER){
+            if(requestCode == REQUEST_CODE_NEW_OFFER){
                 RideOffer offer = (RideOffer)data.getSerializableExtra("offer");
                 mRideEntities.add(offer);
                 orderRideEntities();
@@ -416,7 +486,7 @@ public class RidesActivity extends BaseActivity {
 
                //mRecyclerView.scrollToPosition();
             }
-            else if(requestCode == REQUEST_CODE_REQUEST){
+            else if(requestCode == REQUEST_CODE_NEW_REQUEST){
                 RideMasterRequest request = (RideMasterRequest)data.getSerializableExtra("request");
                 mRideEntities.add(request);
                 orderRideEntities();
@@ -432,10 +502,62 @@ public class RidesActivity extends BaseActivity {
                 mLayoutManager.scrollToPositionWithOffset(index, 0);
                 //mLayoutManager.scrollToPositionWithOffset(index, -(int)mHeaderHeight);
             }
+            else if(requestCode == REQUEST_CODE_EDIT_OFFER){
+                RideOffer editedOffer = (RideOffer)data.getSerializableExtra("offer");
+                replaceRide(editedOffer);
+            }
+            else if(requestCode == REQUEST_CODE_EDIT_REQUEST){
+                RideMasterRequest editedRequest = (RideMasterRequest)data.getSerializableExtra("request");
+                replaceRide(editedRequest);
+            }
         }
     }
 
 
+    private void replaceRide(RideEntity editedRide){
+        long editedRideId = editedRide.getId();
+        RideEntity existingRide = null;
+        for(RideEntity ride: mRideEntities){
+                if(ride.getId() == editedRideId){
+                    existingRide = ride;
+                    break;
+                }
+        }
+        if(existingRide != null) { //safeguard, never expected
+            int index = mRideEntities.indexOf(existingRide);
+            mRideEntities.remove(index);
+            mRideEntities.add(index, editedRide);
+            mAdapter.notifyItemChanged(index);
+        }
+        else{
+            //todo notify server?
+        }
+    }
+
+
+   /* private void replaceOffer(RideOffer editedOffer){
+        long editedOfferId = editedOffer.getId();
+        RideOffer existingOffer = null;
+        for(RideEntity ride: mRideEntities){
+            if(ride instanceof RideOffer){
+                RideOffer offer = (RideOffer)ride;
+                if(offer.getId() == editedOfferId){
+                    existingOffer = offer;
+                    break;
+                }
+            }
+        }
+        if(existingOffer != null) { //safeguard, never expected
+            int index = mRideEntities.indexOf(existingOffer);
+            mRideEntities.remove(index);
+            mRideEntities.add(index, editedOffer);
+            mAdapter.notifyItemChanged(index);
+
+        }
+        else{
+            //todo notify server?
+        }
+    }*/
 
     private class LeavingDateComparator implements Comparator<RideEntity> {
 

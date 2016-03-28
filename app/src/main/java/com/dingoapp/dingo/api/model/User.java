@@ -3,6 +3,7 @@ package com.dingoapp.dingo.api.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by guestguest on 13/01/16.
@@ -14,7 +15,15 @@ public class User implements Serializable{
         R //Rider
     }
 
+    public enum Gender{
+        M,
+        F,
+        O
+    }
     Long id;
+
+    @SerializedName("email")
+    String email;
 
     @SerializedName("first_name")
     String firstName;
@@ -22,14 +31,52 @@ public class User implements Serializable{
     @SerializedName("last_name")
     String lastName;
 
-    @SerializedName("email")
-    String email;
+    @SerializedName("accepted_terms")
+    boolean acceptedTerms;
+
+    @SerializedName("phone")
+    String phone;
+
+    @SerializedName("phone_confirmed")
+    boolean phoneConfirmed;
+
+    @SerializedName("company")
+    Company company;
+
+    @SerializedName("work_confimed")
+    boolean workConfirmed;
+
+    School school;
+
+    @SerializedName("school_specified_name")
+    String schoolSpecifiedName;
+
+    @SerializedName("school_confirmed")
+    boolean schoolConfirmed;
+
+    @SerializedName("profile_photo_original")
+    String profilePhotoOriginal;
 
     @SerializedName("photo_url")
     String photoUrl;
 
-    @SerializedName("profile_photo_original")
-    String profilePhotoOriginal;
+    @SerializedName("rides_completed")
+    int ridesCompleted;
+
+    @SerializedName("star_grade")
+    double starGrade;
+
+    @SerializedName("rider_mode")
+    RiderMode riderMode;
+
+    @SerializedName("vacation_mode")
+    boolean vacationMode;
+    //write only fields for registration
+
+    Gender gender;
+
+    @SerializedName("date_joined")
+    Date dateJoined;
 
     @SerializedName("fb_access_token")
     String fbAccessToken;
@@ -39,9 +86,6 @@ public class User implements Serializable{
 
     @SerializedName("auth_token")
     OAuthToken authToken;
-
-    @SerializedName("rider_mode")
-    RiderMode riderMode;
 
     public Long getId() {
         return id;
@@ -67,12 +111,124 @@ public class User implements Serializable{
         this.lastName = lastName;
     }
 
+    public String getFullName(){
+        String fullName = firstName;
+        if(lastName != null && lastName.length() > 0){
+            fullName += " " + lastName;
+        }
+        return fullName;
+    }
+
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean getAcceptedTerms() {
+        return acceptedTerms;
+    }
+
+    public void setAcceptedTerms(boolean acceptedTerms) {
+        this.acceptedTerms = acceptedTerms;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public boolean isPhoneConfirmed() {
+        return phoneConfirmed;
+    }
+
+    public void setPhoneConfirmed(boolean phoneConfirmed) {
+        this.phoneConfirmed = phoneConfirmed;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public boolean isWorkConfirmed() {
+        return workConfirmed;
+    }
+
+    public void setWorkConfirmed(boolean workConfirmed) {
+        this.workConfirmed = workConfirmed;
+    }
+
+    public School getSchool() {
+        return school;
+    }
+
+    public void setSchool(School school) {
+        this.school = school;
+    }
+
+    public String getSchoolSpecifiedName() {
+        return schoolSpecifiedName;
+    }
+
+    public void setSchoolSpecifiedName(String schoolSpecifiedName) {
+        this.schoolSpecifiedName = schoolSpecifiedName;
+    }
+
+    public boolean isSchoolConfirmed() {
+        return schoolConfirmed;
+    }
+
+    public void setSchoolConfirmed(boolean schoolConfirmed) {
+        this.schoolConfirmed = schoolConfirmed;
+    }
+
+    public int getRidesCompleted() {
+        return ridesCompleted;
+    }
+
+    public void setRidesCompleted(int ridesCompleted) {
+        this.ridesCompleted = ridesCompleted;
+    }
+
+    public double getStarGrade() {
+        return starGrade;
+    }
+
+    public void setStarGrade(double starGrade) {
+        this.starGrade = starGrade;
+    }
+
+    public boolean isVacationMode() {
+        return vacationMode;
+    }
+
+    public void setVacationMode(boolean vacationMode) {
+        this.vacationMode = vacationMode;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public Date getDateJoined() {
+        return dateJoined;
+    }
+
+    public void setDateJoined(Date dateJoined) {
+        this.dateJoined = dateJoined;
     }
 
     public String getFbAccessToken() {
@@ -184,4 +340,45 @@ public class User implements Serializable{
             this.tokenType = tokenType;
         }
     }
+
+
+    public static abstract class Institution implements Serializable{
+
+        long id;
+
+        @SerializedName("name")
+        String name;
+
+        @SerializedName("short_name")
+        String shortName;
+
+        public long getId() {
+            return id;
+        }
+
+        public void setId(long id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getShortName() {
+            return shortName;
+        }
+
+        public void setShortName(String shortName) {
+            this.shortName = shortName;
+        }
+    }
+
+    public static class Company extends Institution{}
+
+    public static class School extends Institution{}
+
 }

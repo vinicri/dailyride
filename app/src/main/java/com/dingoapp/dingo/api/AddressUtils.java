@@ -93,7 +93,7 @@ public class AddressUtils {
             }
             else{
                 SpannableString spannableString = new SpannableString(route);
-                spannableString.setSpan(new StyleSpan(Typeface.BOLD), address.getRouteLong().length() + 1, address.getNumber().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannableString.setSpan(new StyleSpan(Typeface.BOLD), address.getRouteLong().length() + 1, address.getRouteLong().length() + 1 + address.getNumber().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 return spannableString.toString();
             }
         }

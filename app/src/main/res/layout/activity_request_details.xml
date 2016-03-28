@@ -5,101 +5,158 @@
     android:background="@color/beige">
 
     <include layout="@layout/toolbar_actionbar" />
-    
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Marlon lhe dará carona"
-        android:padding="@dimen/padding"
-        android:textSize="18sp"
-        android:gravity="center_horizontal"/>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <ImageView
-            android:background="@drawable/shape_user_photo_border_oval"
-            android:padding="@dimen/user_photo_oval_padding"
-            android:layout_alignTop="@+id/profile_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/padding"
-            android:paddingTop="@dimen/padding"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/driver_picture"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            />
-
-        <RelativeLayout
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-           android:layout_toRightOf="@+id/driver_picture"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/padding">
-
-            <ImageView
-                android:id="@+id/chat_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/chat"
-                />
-
-            <TextView
-                android:text="1"
-                android:textColor="@color/orange"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_width="20dp"
-                android:layout_marginRight="2dp"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:background="@drawable/shape_chat_notification"
-                android:layout_height="20dp" />
-
-
-        </RelativeLayout>
-        
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        
-    </RelativeLayout>
-    
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/name"
+            android:layout_marginTop="@dimen/padding_quarter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_half"
-            android:layout_gravity="center_horizontal"
-            android:textSize="22sp"
-            android:text="Marlon Teixeira"/>
+            android:text="BUSCANDO PASSAGEIROS"
+            android:textSize="12sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:paddingLeft="@dimen/padding"
+            android:paddingRight="@dimen/padding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/offer_details_finding_riders"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/driver_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@id/presentation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Marlon lhe dará carona"
+            android:padding="@dimen/padding"
+            android:textSize="18sp"
+            android:gravity="center_horizontal"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:background="@drawable/shape_user_photo_border_oval"
+                android:padding="@dimen/user_photo_oval_padding"
+                android:layout_alignTop="@+id/profile_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/padding"
+                android:paddingTop="@dimen/padding"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/driver_picture"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                />
+
+            <RelativeLayout
+                android:id="@+id/chat_button_box"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_toRightOf="@+id/driver_picture"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/padding">
+
+                <ImageView
+                    android:id="@+id/chat_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/chat"
+                    />
+
+                <TextView
+                    android:text="1"
+                    android:textColor="@color/orange"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="20dp"
+                    android:layout_marginRight="2dp"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:background="@drawable/shape_chat_notification"
+                    android:layout_height="20dp" />
+
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_toLeftOf="@+id/driver_picture"
+                android:layout_centerInParent="true"
+                android:background="@drawable/shape_map_button"
+                android:layout_marginRight="@dimen/padding">
+
+                <ImageView
+                    android:id="@+id/map_button"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_map_white_36dp"
+                    />
+
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="bottom">
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
 
-            <ImageView
-                android:src="@drawable/star"
-                android:layout_width="24dp"
-                android:layout_height="24dp" />
             <TextView
-                android:layout_marginLeft="@dimen/padding_quarter"
+                android:id="@+id/driver_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:text="4,6 de 24 usuários"/>
+                android:layout_marginTop="@dimen/padding_half"
+                android:layout_gravity="center_horizontal"
+                android:textSize="22sp"
+                android:text="Marlon Teixeira"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="bottom">
+
+                <ImageView
+                    android:src="@drawable/star"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp" />
+                <TextView
+                    android:id="@+id/driver_rate"
+                    android:layout_marginLeft="@dimen/padding_quarter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:text="4,6 de 24 usuários"/>
+
+            </LinearLayout>
 
         </LinearLayout>
-        
+
+
     </LinearLayout>
-    
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -145,6 +202,7 @@
                 android:text="Quarta"/>
 
             <TextView
+                android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="26sp"
