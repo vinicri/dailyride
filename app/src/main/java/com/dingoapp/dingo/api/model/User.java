@@ -41,12 +41,15 @@ public class User implements Serializable{
     boolean phoneConfirmed;
 
     @SerializedName("company")
-    Company company;
+    Institution company;
 
     @SerializedName("work_confimed")
     boolean workConfirmed;
 
-    School school;
+    @SerializedName("work_specified_name")
+    String workSpecifiedName;
+
+    Institution school;
 
     @SerializedName("school_specified_name")
     String schoolSpecifiedName;
@@ -154,12 +157,20 @@ public class User implements Serializable{
         this.phoneConfirmed = phoneConfirmed;
     }
 
-    public Company getCompany() {
+    public Institution getCompany() {
         return company;
     }
 
-    public void setCompany(Company company) {
+    public void setCompany(Institution company) {
         this.company = company;
+    }
+
+    public String getWorkSpecifiedName() {
+        return workSpecifiedName;
+    }
+
+    public void setWorkSpecifiedName(String workSpecifiedName) {
+        this.workSpecifiedName = workSpecifiedName;
     }
 
     public boolean isWorkConfirmed() {
@@ -170,11 +181,11 @@ public class User implements Serializable{
         this.workConfirmed = workConfirmed;
     }
 
-    public School getSchool() {
+    public Institution getSchool() {
         return school;
     }
 
-    public void setSchool(School school) {
+    public void setSchool(Institution school) {
         this.school = school;
     }
 
@@ -352,44 +363,5 @@ public class User implements Serializable{
         }
     }
 
-
-    public static abstract class Institution implements Serializable{
-
-        long id;
-
-        @SerializedName("name")
-        String name;
-
-        @SerializedName("short_name")
-        String shortName;
-
-        public long getId() {
-            return id;
-        }
-
-        public void setId(long id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getShortName() {
-            return shortName;
-        }
-
-        public void setShortName(String shortName) {
-            this.shortName = shortName;
-        }
-    }
-
-    public static class Company extends Institution{}
-
-    public static class School extends Institution{}
 
 }

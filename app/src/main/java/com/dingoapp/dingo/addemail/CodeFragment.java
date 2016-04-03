@@ -53,7 +53,13 @@ public class CodeFragment extends Fragment {
                             return;
                         }
 
-                        mListener.onConfirm(code);
+                        mListener.onConfirm(code,
+                                new FragmentCallback() {
+                                    @Override
+                                    public void onFinished() {
+
+                                    }
+                                });
                     }
                 }
         );
@@ -91,6 +97,6 @@ public class CodeFragment extends Fragment {
 
     interface OnCodeFragmentListener{
         void onResend();
-        void onConfirm(String code);
+        void onConfirm(String code, FragmentCallback callback);
     }
 }

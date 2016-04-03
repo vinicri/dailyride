@@ -1,6 +1,7 @@
 package com.dingoapp.dingo.api;
 
 import com.dingoapp.dingo.api.model.CreditCardInfo;
+import com.dingoapp.dingo.api.model.Institution;
 import com.dingoapp.dingo.api.model.GcmToken;
 import com.dingoapp.dingo.api.model.RideMasterRequest;
 import com.dingoapp.dingo.api.model.RideOffer;
@@ -35,6 +36,12 @@ public interface DingoApi {
 
     @POST("/users/addphone/")
     Call<Void> userAddPhone(@Query("phone")String phone);
+
+    @POST("/users/addwork/")
+    Call<Institution> userAddWork(@Query("email") String email);
+
+    @POST("/users/confirmwork/")
+    Call<Institution> userConfirmWork(@Query("pin") String pin, @Query("name") String company);
 
     @POST("/ridemasterrequest/findoffers/")
     Call<List<RideOffer>> findOffersforRequest(@Body RideMasterRequest request);
@@ -80,4 +87,7 @@ public interface DingoApi {
 
     @POST("/rideofferslave/{id}/decline/")
     Call<RideOfferSlave> declineRideOfferSlave(@Path("id") long id, @Query("estimated_pickup_time") Integer estimatedPickupTime);
+
+
+
 }

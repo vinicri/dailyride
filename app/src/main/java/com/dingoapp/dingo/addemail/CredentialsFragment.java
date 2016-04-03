@@ -16,7 +16,7 @@ import com.dingoapp.dingo.R;
 /**
  * Created by guestguest on 01/04/16.
  */
-public class NoEmailFragment extends Fragment {
+public class CredentialsFragment extends Fragment {
 
     View mDocumentBox;
     ImageView mDocumentPreview;

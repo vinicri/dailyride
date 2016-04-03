@@ -87,7 +87,7 @@ public class OwnProfileActivity extends BaseActivity {
             mFbText.setText(getResources().getQuantityString(R.plurals.own_profile_fb_friends, mUser.getFbTotalFriends()));
         }
 
-        if(mUser.getCompany() == null){
+        if(mUser.getCompany() == null && mUser.getWorkSpecifiedName() == null){
             mWorkText.setText(R.string.own_profile_add_work);
             mWorkText.setTextColor(ContextCompat.getColor(this, R.color.gray));
             mWorkCheck.setVisibility(View.GONE);
@@ -104,7 +104,10 @@ public class OwnProfileActivity extends BaseActivity {
             );
         }
         else{
-            mWorkText.setText(mUser.getCompany().getShortName());
+            String name = mUser.getCompany() != null ? mUser.getCompany().getShortName() : mUser.getWorkSpecifiedName();
+            mWorkText.setText(name);
+            mWorkText.setTextColor(ContextCompat.getColor(this, R.color.gray_dark));
+            mWorkCheck.setVisibility(View.VISIBLE);
             if(mUser.isWorkConfirmed()){
                 mWorkCheck.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.check_24px));
                 mWorkAlert.setVisibility(View.GONE);
@@ -157,6 +160,17 @@ public class OwnProfileActivity extends BaseActivity {
             else{
                 mPhoneCheck.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.alert_orange_24px));
                 mPhoneAlert.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK){
+            if(requestCode == REQUEST_CODE_ADD_WORK){
+                mUser = (User)data.getSerializableExtra(AddWorkEmailActivity.EXTRA_USER);
+                displayData();
             }
         }
     }

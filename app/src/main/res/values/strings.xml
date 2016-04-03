@@ -92,6 +92,7 @@
     <string name="own_profile_add_school">adicione sua universidade</string>
     <string name="fragment_email_hint">%1$s@seutrabalho.com</string>
     <string name="activity_add_work_email">Adicionar trabalho</string>
+    <string name="email_confirmation_pin_wrong">O código não confere. Por favor verifique novamente.</string>
     <plurals name="request_new_got_new_matches">
         <item quantity="one">Uma carona disponível pra você.</item>
         <item quantity="two">Duas caronas disponíveis pra você.</item>

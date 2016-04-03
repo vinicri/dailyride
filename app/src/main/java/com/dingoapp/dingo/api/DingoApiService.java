@@ -1,6 +1,7 @@
 package com.dingoapp.dingo.api;
 
 import com.dingoapp.dingo.api.model.CreditCardInfo;
+import com.dingoapp.dingo.api.model.Institution;
 import com.dingoapp.dingo.api.model.GcmToken;
 import com.dingoapp.dingo.api.model.RideMasterRequest;
 import com.dingoapp.dingo.api.model.RideOffer;
@@ -83,6 +84,16 @@ public class DingoApiService extends DingoService{
 
     public void userAddPhone(String phone, Callback<Void> callback){
         Call<Void> call = apiService.userAddPhone(phone);
+        enqueueCall(call, callback);
+    }
+
+    public void userAddWork(String email, Callback<Institution> callback){
+        Call<Institution> call = apiService.userAddWork(email);
+        enqueueCall(call, callback);
+    }
+
+    public void userConfirmWork(String pin, String company, Callback<Institution> callback){
+        Call<Institution> call = apiService.userConfirmWork(pin, company);
         enqueueCall(call, callback);
     }
 

@@ -1,10 +1,12 @@
 package com.dingoapp.dingo.addemail;
 
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 
 import com.dingoapp.dingo.BaseActivity;
 import com.dingoapp.dingo.R;
 import com.dingoapp.dingo.api.Response;
+import com.dingoapp.dingo.api.model.Institution;
 import com.dingoapp.dingo.api.model.User;
 
 /**
@@ -12,21 +14,24 @@ import com.dingoapp.dingo.api.model.User;
  */
 public abstract class AddEmailActivity extends BaseActivity implements EmailFragment.OnEmailFragmentActionListener,
         NameFragment.OnNameFragmentActionListener,
-        NoEmailFragment.OnNoEmailFragmentListener,
+        CredentialsFragment.OnNoEmailFragmentListener,
         CodeFragment.OnCodeFragmentListener{
 
     public static final String EXTRA_USER = "EXTRA_USER";
     boolean mUserHasNoEmail = false;
+    private String mEmail;
+    private String mEntityName;
+    protected User mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_email);
 
-        User user = (User)getIntent().getSerializableExtra(EXTRA_USER);
+        mUser = (User)getIntent().getSerializableExtra(EXTRA_USER);
 
         Bundle bundle = new Bundle();
-        bundle.putString(EmailFragment.EXTRA_USER_FIRST_NAME, user.getFirstName());
+        bundle.putString(EmailFragment.EXTRA_USER_FIRST_NAME, mUser.getFirstName());
 
         EmailFragment emailFragment = new EmailFragment();
         emailFragment.setArguments(bundle);
@@ -41,19 +46,35 @@ public abstract class AddEmailActivity extends BaseActivity implements EmailFrag
      */
     @Override
     public void onSaveButtonClick(final String email, final FragmentCallback callback) {
+        mUserHasNoEmail = false;
         addEmail(email,
-                new Callback<Void>() {
+                new Callback<Institution>() {
                     @Override
-                    public void onResponse(Response<Void> response) {
+                    public void onResponse(Response<Institution> response) {
                         callback.onFinished();
-                        Bundle bundle = new Bundle();
-                        bundle.putString(CodeFragment.EXTRA_EMAIL, email);
-                        CodeFragment codeFragment = new CodeFragment();
-                        codeFragment.setArguments(bundle);
-                        getSupportFragmentManager().beginTransaction()
-                                .add(R.id.container, codeFragment)
-                                .addToBackStack("code_fragment")
-                                .commit();
+                        if (response.code() == Response.HTTP_200_OK) {
+                            mEmail = email;
+                            Institution institution = response.body();
+                            if (institution.getStatus().equals(Institution.STATUS_REGISTERED)) {
+                                mEntityName = null; // institution is already registered
+                                Bundle bundle = new Bundle();
+                                bundle.putString(CodeFragment.EXTRA_EMAIL, email);
+                                CodeFragment codeFragment = new CodeFragment();
+                                codeFragment.setArguments(bundle);
+                                getSupportFragmentManager().beginTransaction()
+                                        .add(R.id.container, codeFragment)
+                                        .addToBackStack("code_fragment")
+                                        .commit();
+                            } else if (institution.getStatus().equals(Institution.STATUS_NOT_REGISTERED)) {
+                                NameFragment nameFragment = new NameFragment();
+                                getSupportFragmentManager().beginTransaction()
+                                        .add(R.id.container, nameFragment)
+                                        .addToBackStack("name_fragment")
+                                        .commit();
+                            } else {
+                                //todo to server unexpected state
+                            }
+                        }
 
 
                     }
@@ -81,18 +102,22 @@ public abstract class AddEmailActivity extends BaseActivity implements EmailFrag
 
     @Override
     public void onNext(String name) {
+        mEntityName = name;
         if(mUserHasNoEmail){
-            NoEmailFragment noEmailFragment = new NoEmailFragment();
+            CredentialsFragment credentialsFragment = new CredentialsFragment();
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, noEmailFragment)
+                    .add(R.id.container, credentialsFragment)
                     .addToBackStack("no_email_fragment")
                     .commit();
         }
         else{
             CodeFragment codeFragment = new CodeFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString(CodeFragment.EXTRA_EMAIL, mEmail);
+            codeFragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, codeFragment)
-                    .addToBackStack("no_email_fragment")
+                    .addToBackStack("code_fragment")
                     .commit();
         }
     }
@@ -112,25 +137,41 @@ public abstract class AddEmailActivity extends BaseActivity implements EmailFrag
     }
 
     @Override
-    public void onConfirm(String code){
-        confirmCode(code,
-                new Callback<Void>() {
+    public void onConfirm(String code, final FragmentCallback callback){
+        confirmPin(code, mEntityName,
+                new Callback<Institution>() {
                     @Override
-                    public void onResponse(Response<Void> response) {
-
+                    public void onResponse(Response<Institution> response) {
+                        callback.onFinished();
+                        if (response.code() == Response.HTTP_200_OK) {
+                            Institution institution = response.body();
+                            if (institution.getStatus().equals(Institution.STATUS_DENIED)) {
+                                showWrongPinDialog();
+                            } else {
+                                onConfirmedPin(response.body(), mEntityName);
+                            }
+                        }
                     }
 
                     @Override
                     public void onFailure(Throwable t) {
-
+                        callback.onFinished();
                     }
                 });
     }
 
-    protected abstract void addEmail(String email, Callback<Void> callback);
+    private void showWrongPinDialog(){
+        new AlertDialog.Builder(this)
+                .setMessage(R.string.email_confirmation_pin_wrong)
+                .setPositiveButton(R.string.ok, null)
+                .show();
+    }
+
+    protected abstract void addEmail(String email, Callback<Institution> callback);
     protected abstract void sendDocument();
     protected abstract void resendEmail();
-    protected abstract void confirmCode(String code, Callback<Void> callback);
+    protected abstract void confirmPin(String pin, String institutionName, Callback<Institution> callback);
+    protected abstract void onConfirmedPin(Institution institution, String institutionName);
 
     public interface Callback<T> {
 
