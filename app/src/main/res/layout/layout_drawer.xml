@@ -211,6 +211,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:visibility="invisible"
             android:id="@+id/logout_item"
             android:onClick="onNavDrawerItemClick"
             android:layout_width="match_parent"

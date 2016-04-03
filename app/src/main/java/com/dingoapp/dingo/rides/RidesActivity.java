@@ -9,6 +9,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -93,6 +94,7 @@ public class RidesActivity extends BaseActivity {
     private BroadcastReceiver mOfferInviteAccepted;
     private BroadcastReceiver mOfferInviteDeclined;
 
+    Paint mNotificationTextPaint = new Paint();
 
     protected int getSelfNavDrawerItem() {
         return NAVDRAWER_ITEM_DEFAULT;
@@ -105,6 +107,9 @@ public class RidesActivity extends BaseActivity {
         setContentView(R.layout.activity_rides);
         getSupportActionBar().setTitle(R.string.activity_ride_title);
         ButterKnife.bind(this);
+
+        mNotificationTextPaint.setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 14 , getResources().getDisplayMetrics()));
+
         mAdapter = new RidesAdapter(this, mRideEntities);
         mAdapter.setOnRideClickListener(
                 new RidesAdapter.OnRideClickListener() {
@@ -327,7 +332,7 @@ public class RidesActivity extends BaseActivity {
                 RideOffer offer = findRideForInvite(RideOffer.class, invite);
                 if(offer != null) {
                     offer.getInvitesAccepted().add(invite);
-                    offer.getInvitesWaitingConfirmation().remove(invite);
+                    removeInvite(invite, offer.getInvitesWaitingConfirmation());
                     int index = mRideEntities.indexOf(offer);
                     mAdapter.notifyItemChanged(index);
                     showNotification(getString(R.string.notification_rider_accepted_invite, invite.getToRideRequest().getUser().getFirstName()), null);
@@ -370,6 +375,18 @@ public class RidesActivity extends BaseActivity {
         return null;
     }
 
+    //remove the invite with same id
+    private void removeInvite(RideOfferSlave target, List<RideOfferSlave> inviteList){
+        RideOfferSlave existingInvite = null;
+        for(RideOfferSlave invite: inviteList){
+            if(invite.getId() == target.getId()){
+                existingInvite = invite;
+            }
+        }
+        if(existingInvite != null){
+            inviteList.remove(existingInvite);
+        }
+    }
 
     @Override
     protected void onResume() {
@@ -391,8 +408,13 @@ public class RidesActivity extends BaseActivity {
 
     private void showNotification(CharSequence text, View.OnClickListener action){
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        final int initialWidth = Math.round(250 * getResources().getDisplayMetrics().density);
+        //float textWidth = mNotificationTextPaint.measureText(text.toString());
+        //textWidth += TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60, getResources().getDisplayMetrics());
+
+        final int initialWidth = Math.round(280 * getResources().getDisplayMetrics().density);
         final int finalWidth = Math.round(40 * getResources().getDisplayMetrics().density);
+
+        mNotificationText.setText(text);
         ValueAnimator alphaAnimationBox = ValueAnimator.ofFloat(0f, 1f);
         ValueAnimator alphaAnimationText = ValueAnimator.ofFloat(1f, 0f);
         ValueAnimator widthAnimation  = ValueAnimator.ofInt(initialWidth, finalWidth);

@@ -102,6 +102,15 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
 
+        <activity android:name=".OwnProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <activity android:name=".AddPhoneActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <activity android:name=".addworkemail.AddWorkEmailActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
         <activity android:name="com.facebook.FacebookActivity"
             android:configChanges=
                 "keyboard|keyboardHidden|screenLayout|screenSize|orientation"

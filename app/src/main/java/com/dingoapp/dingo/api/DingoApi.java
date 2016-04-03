@@ -33,6 +33,9 @@ public interface DingoApi {
     @POST("/users/accept_terms/")
     Call<Void> acceptTerms(@Query("rider_mode")User.RiderMode riderMode);
 
+    @POST("/users/addphone/")
+    Call<Void> userAddPhone(@Query("phone")String phone);
+
     @POST("/ridemasterrequest/findoffers/")
     Call<List<RideOffer>> findOffersforRequest(@Body RideMasterRequest request);
 

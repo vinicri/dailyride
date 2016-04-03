@@ -84,6 +84,9 @@ public class User implements Serializable{
     @SerializedName("fb_user_id")
     String fbUserId;
 
+    @SerializedName("fb_total_friends")
+    int fbTotalFriends;
+
     @SerializedName("auth_token")
     OAuthToken authToken;
 
@@ -247,6 +250,14 @@ public class User implements Serializable{
         this.fbUserId = fbUserId;
     }
 
+    public int getFbTotalFriends() {
+        return fbTotalFriends;
+    }
+
+    public void setFbTotalFriends(int fbTotalFriends) {
+        this.fbTotalFriends = fbTotalFriends;
+    }
+
     public OAuthToken getAuthToken() {
         return authToken;
     }
@@ -283,7 +294,7 @@ public class User implements Serializable{
         return profilePhotoOriginal != null;
     }
 
-    public class OAuthToken{
+    public class OAuthToken implements Serializable{
 
         @SerializedName("expires_in")
         int expiresIn;

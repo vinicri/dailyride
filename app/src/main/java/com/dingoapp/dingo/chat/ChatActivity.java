@@ -36,7 +36,7 @@ public class ChatActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         ChatMessage message0 = new ChatMessage();
-        message0.setMessage("Pedro entrou nesta carona");
+        message0.setMessage("Greice entrou nesta carona");
         message0.setType(ChatMessage.TYPE_SYSTEM);
 
         ChatMessage message1 = new ChatMessage();
@@ -51,7 +51,7 @@ public class ChatActivity extends BaseActivity {
 
         mMessages = new ArrayList<>();
         mMessages.add(message0);
-        mMessages.add(message1);
+        //mMessages.add(message1);
         //mMessages.add(message2);
 
         mAdapter = new ChatAdapter(this, mMessages);

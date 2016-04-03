@@ -188,6 +188,7 @@
 
                 <TextView
                     android:text="1"
+                    android:visibility="gone"
                     android:textColor="@color/orange"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"

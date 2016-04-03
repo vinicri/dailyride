@@ -15,6 +15,7 @@
     <color name="gray_dark">#50514f</color>
     <color name="gray_medium">#8a8c89</color>
     <color name="gray">#979996</color>
+    <color name="light_gray">#979996</color>
     <color name="ride_item_gray_light">#bdbfbb</color>
     <color name="orange">#e86249</color>
     <color name="white">#ffffff</color>

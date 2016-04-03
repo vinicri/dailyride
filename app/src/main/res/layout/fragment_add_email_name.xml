@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/beige">
+
+    <TextView
+        android:layout_marginTop="@dimen/padding"
+        android:layout_marginBottom="@dimen/padding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:text="Qual o nome da sua empresa?"/>
+
+    <EditText
+        android:id="@+id/name_edit"
+        android:layout_marginLeft="@dimen/padding_half"
+        android:layout_marginRight="@dimen/padding_half"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="24sp"
+        android:gravity="center"/>
+
+
+    <Button
+        android:id="@+id/next_button"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="@dimen/padding_half"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/shape_button_orange"
+        android:layout_gravity="center_horizontal"
+        android:text="Próximo"
+        android:textColor="@color/white"/>
+
+
+</LinearLayout>

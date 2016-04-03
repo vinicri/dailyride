@@ -80,6 +80,7 @@
 
                 <TextView
                     android:text="1"
+                    android:visibility="gone"
                     android:textColor="@color/orange"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
@@ -148,7 +149,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
-                    android:text="4,6 de 24 usuários"/>
+                    android:text="4,5 de 2 usuários"/>
 
             </LinearLayout>
 

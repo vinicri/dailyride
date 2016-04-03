@@ -11,6 +11,7 @@ import com.dingoapp.dingo.api.model.RideOffer;
 import com.dingoapp.dingo.google.maps.api.GoogleMapsApiService;
 import com.dingoapp.dingo.google.maps.api.directions.Utils;
 import com.dingoapp.dingo.google.maps.api.directions.model.DirectionsResponse;
+import com.dingoapp.dingo.util.CurrentUser;
 import com.dingoapp.dingo.util.PhotosDownloader;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -132,8 +133,8 @@ public abstract class BaseMapActivity extends BaseActivity implements OnMapReady
     public void onMapReady(GoogleMap googleMap) {
 
         //fixme remove
-        new PhotosDownloader(this, googleMap, mOrigin, "http://36.media.tumblr.com/0495e65a4f15696b4f3cc0dcff59a9e0/tumblr_mtqdx1uILV1r93kc1o1_r1_1280.jpg").execute();
-        new PhotosDownloader(this, googleMap, mDestination, "http://36.media.tumblr.com/0495e65a4f15696b4f3cc0dcff59a9e0/tumblr_mtqdx1uILV1r93kc1o1_r1_1280.jpg").execute();
+        new PhotosDownloader(this, googleMap, mOrigin, DingoApiService.getPhotoUrl(CurrentUser.getUser())).execute();
+        new PhotosDownloader(this, googleMap, mDestination, DingoApiService.getPhotoUrl(CurrentUser.getUser())).execute();
 
         // new PhotosDownloader(this, googleMap, mOrigin,   DingoApiService.getPhotoUrl(getOffer().getUser())).execute();
        // new PhotosDownloader(this, googleMap, mDestination, DingoApiService.getPhotoUrl(getOffer().getUser())).execute();

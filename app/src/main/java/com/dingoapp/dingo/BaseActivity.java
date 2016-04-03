@@ -148,6 +148,7 @@ public class BaseActivity extends AppCompatActivity {
         switch(item.getId()){
             case R.id.profile_item:
                 //openActivity()
+                openActivity(OwnProfileActivity.class);
                 break;
             case R.id.payment_item:
                 openActivity(PaymentInfoActivity.class);

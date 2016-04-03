@@ -4,7 +4,7 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:id="@+id/alert_box"
@@ -29,7 +29,7 @@
             android:layout_marginLeft="@dimen/padding_quarter"
             android:textColor="@color/white"
             android:padding="@dimen/padding_quarter"
-            android:text="Salvamos sua oferta. Logo que surgirem\npossíveis interessados avisaremos você!"/>
+            android:text="Salvamos seu pedido. Logo que surgir\n uma carona avisaremos você!"/>
 
     </LinearLayout>
 

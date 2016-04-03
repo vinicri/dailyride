@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/beige">
+
+    <TextView
+        android:layout_marginTop="@dimen/padding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/padding_half"
+        android:layout_marginRight="@dimen/padding_half"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:text="Precisaremos que você nos envie uma foto do seu crachá ou outro documento que comprove seu vínculo com esta empresa"/>
+
+    <RelativeLayout
+        android:id="@+id/document_box"
+        android:layout_width="100dp"
+        android:layout_height="120dp"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/photo_orange_48px" />
+
+        <ImageView
+            android:id="@+id/document_preview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/photo_orange_48px"
+            android:scaleType="centerInside"/>
+
+    </RelativeLayout>
+
+
+    <Button
+        android:id="@+id/send_button"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="@dimen/padding"
+        android:background="@drawable/shape_button_orange"
+        android:layout_gravity="center_horizontal"
+        android:text="Enviar"
+        android:textColor="@color/white"/>
+
+</LinearLayout>

@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/beige"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/turquoise"
+        android:paddingBottom="@dimen/padding"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_marginTop="@dimen/padding_quarter"
+            android:layout_marginLeft="@dimen/padding_quarter"
+            android:id="@+id/back_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_arrow_back_white_24dp"/>
+
+
+        <ImageView
+            android:background="@drawable/shape_user_photo_border_oval"
+            android:padding="@dimen/user_photo_oval_padding"
+            android:layout_marginTop="32dp"
+            android:paddingTop="@dimen/padding"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/picture"
+            android:layout_centerHorizontal="true"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            />
+
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_half"
+            android:layout_gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/picture"
+            android:textSize="22sp"
+            android:textColor="@color/white"
+            android:text="Marlon Teixeira"/>
+
+        <LinearLayout
+            android:visibility="invisible"
+            android:layout_below="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/padding"
+            android:gravity="bottom">
+
+            <ImageView
+                android:src="@drawable/star"
+                android:layout_width="24dp"
+                android:layout_height="24dp" />
+
+            <TextView
+                android:layout_marginLeft="@dimen/padding_quarter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:text="4,6"/>
+
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/fb_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/padding_half"
+        android:paddingLeft="@dimen/padding"
+        android:paddingRight="@dimen/padding"
+        android:paddingBottom="@dimen/padding_half">
+        <ImageView
+            android:id="@+id/fb_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/facebook_36px"/>
+
+        <TextView
+            android:id="@+id/fb_text"
+            android:layout_marginLeft="@dimen/padding_half"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_toRightOf="@+id/fb_icon"
+            android:layout_centerVertical="true"
+            android:text="765 amigos"/>
+
+        <ImageView
+            android:id="@+id/fb_check"
+            android:src="@drawable/check_24px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:visibility="gone"
+            />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/school_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/padding_half"
+        android:paddingLeft="@dimen/padding"
+        android:paddingRight="@dimen/padding"
+        android:paddingBottom="@dimen/padding_half">
+
+        <ImageView
+            android:id="@+id/school_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/university_36px"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_half"
+            android:layout_toRightOf="@+id/school_icon"
+            android:orientation="vertical"
+            android:layout_centerVertical="true">
+
+            <TextView
+                android:id="@+id/school_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="FEA - USP"/>
+
+            <TextView
+                android:id="@+id/school_alert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="ainda não foi confirmado"/>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/school_check"
+            android:src="@drawable/check_24px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/work_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/padding_half"
+        android:paddingLeft="@dimen/padding"
+        android:paddingRight="@dimen/padding"
+        android:paddingBottom="@dimen/padding_half">
+
+        <ImageView
+            android:id="@+id/work_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/work_36px"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_half"
+            android:layout_toRightOf="@+id/work_icon"
+            android:orientation="vertical"
+            android:layout_centerVertical="true">
+
+            <TextView
+                android:id="@+id/work_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="Goldman Sachs"/>
+
+            <TextView
+                android:id="@+id/work_alert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="ainda não foi confirmado"/>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/work_check"
+            android:src="@drawable/check_24px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/phone_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/padding"
+        android:paddingRight="@dimen/padding"
+        android:paddingTop="@dimen/padding_half"
+        android:paddingBottom="@dimen/padding_half">
+
+        <ImageView
+            android:id="@+id/phone_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/phone_36px"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_half"
+            android:layout_toRightOf="@+id/phone_icon"
+            android:orientation="vertical"
+            android:layout_centerVertical="true">
+
+            <TextView
+                android:id="@+id/phone_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="(11) 96431-1561"/>
+
+            <TextView
+                android:id="@+id/phone_alert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="ainda não foi confirmado"/>
+
+        </LinearLayout>
+
+
+
+        <ImageView
+            android:id="@+id/phone_check"
+            android:src="@drawable/check_24px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

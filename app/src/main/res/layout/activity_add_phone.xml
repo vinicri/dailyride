@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/beige">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/phone_box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_marginTop="@dimen/padding"
+                android:layout_marginBottom="@dimen/padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:text="Insira seu número de telefone"/>
+
+            <EditText
+                android:id="@+id/phone_edit"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="(11) 96431-1561"
+                android:textSize="32sp"
+                android:gravity="center"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Enviaremos um SMS com\ncódigo para confirmação"/>
+
+            <Button
+                android:id="@+id/send_button"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="@dimen/padding"
+                android:background="@drawable/shape_button_orange"
+                android:layout_gravity="center_horizontal"
+                android:text="ENVIAR"
+                android:textColor="@color/white"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/confirmation_box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:background="@color/beige">
+
+            <TextView
+                android:layout_marginTop="@dimen/padding"
+                android:layout_marginBottom="@dimen/padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:text="Insira o código recebido por SMS"/>
+
+            <EditText
+                android:id="@+id/confirmation_edit"
+                android:layout_marginLeft="80dp"
+                android:layout_marginRight="80dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="XXX XXX"
+                android:textSize="32sp"
+                android:gravity="center"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Aguarde alguns instantes para receber o código."/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/resend_sms_button"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/shape_button_grey"
+                    android:layout_gravity="center_horizontal"
+                    android:text="REENVIAR SMS"
+                    android:textColor="@color/white"/>
+
+                <Button
+                    android:id="@+id/confirm_code_button"
+                    android:layout_marginLeft="@dimen/padding"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/shape_button_orange"
+                    android:layout_gravity="center_horizontal"
+                    android:text="CONFIRMAR"
+                    android:textColor="@color/white"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+
+</LinearLayout>

@@ -81,6 +81,11 @@ public class DingoApiService extends DingoService{
 
     }
 
+    public void userAddPhone(String phone, Callback<Void> callback){
+        Call<Void> call = apiService.userAddPhone(phone);
+        enqueueCall(call, callback);
+    }
+
     public void findOffersforRequest(RideMasterRequest request, final Callback<List<RideOffer>> callback){
         Call<List<RideOffer>> call = apiService.findOffersforRequest(request);
         enqueueCall(call, callback);

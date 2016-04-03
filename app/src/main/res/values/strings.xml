@@ -86,6 +86,12 @@
     <string name="activity_request_details_looking_for_driver">Buscando caronas</string>
     <string name="request_details_will_give_you_a_ride">%1$s te dará carona</string>
     <string name="notification_rider_accepted_invite">%1$s aceitou sua carona</string>
+    <string name="own_profile_add_phone">adicione seu telefone</string>
+    <string name="own_profile_fb_no_friends">Nenhum amigo</string>
+    <string name="own_profile_add_work">adicione seu trabalho</string>
+    <string name="own_profile_add_school">adicione sua universidade</string>
+    <string name="fragment_email_hint">%1$s@seutrabalho.com</string>
+    <string name="activity_add_work_email">Adicionar trabalho</string>
     <plurals name="request_new_got_new_matches">
         <item quantity="one">Uma carona disponível pra você.</item>
         <item quantity="two">Duas caronas disponíveis pra você.</item>
@@ -139,6 +145,12 @@
     <plurals name="offer_details_needs_to_confirm">
         <item quantity="one">ainda precisa confirmar</item>
         <item quantity="other">ainda precisam confirmar</item>
+    </plurals>
+
+    <plurals name="own_profile_fb_friends">
+        <item quantity="zero">Nenhum amigo</item>
+        <item quantity="one">%1$d amigo</item>
+        <item quantity="other">%1$d amigos</item>
     </plurals>
 
 </resources>

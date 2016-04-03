@@ -32,7 +32,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         ChatUser user1 = new ChatUser();
         user1.setId(1l);
-        user1.setFirstName("Pedro");
+        user1.setFirstName("Greice");
 
         mUsersMap.put(user1.getId(), user1);
 

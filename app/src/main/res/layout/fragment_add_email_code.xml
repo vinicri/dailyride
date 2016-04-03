@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/beige">
+
+    <TextView
+        android:layout_marginTop="@dimen/padding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:text="Insira o código enviado para"/>
+
+    <TextView
+        android:id="@+id/email_text"
+        android:layout_marginBottom="@dimen/padding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="16sp"
+        tools:text="vinicri@gmail.com"/>
+
+    <EditText
+        android:id="@+id/code_edit"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="80dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="xxx xxx"
+        android:textColorHint="@color/light_gray"
+        android:inputType="number"
+        android:textSize="32sp"
+        android:gravity="center"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Aguarde alguns instantes para receber o código."/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/resend_code_button"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:background="@drawable/shape_button_grey"
+            android:layout_gravity="center_horizontal"
+            android:text="REENVIAR"
+            android:textColor="@color/white"/>
+
+        <Button
+            android:id="@+id/confirm_code_button"
+            android:layout_marginLeft="@dimen/padding"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:background="@drawable/shape_button_orange"
+            android:layout_gravity="center_horizontal"
+            android:text="CONFIRMAR"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+
+</LinearLayout>
