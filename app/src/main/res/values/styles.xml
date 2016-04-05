@@ -28,4 +28,14 @@
         <item name="android:textColorPrimary">#FFFFFF</item>
     </style>
 
+    <style name="WelcomePagerIndicator">
+        <item name="fillColor">@color/gray_dark</item>
+        <item name="strokeColor">@color/gray_dark</item>
+        <item name="strokeWidth">0dp</item>
+        <item name="pageColor">@color/gray</item>
+        <item name="centered">true</item>
+        <item name="radius">4dp</item>
+
+    </style>
+
 </resources>

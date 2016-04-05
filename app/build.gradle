@@ -37,6 +37,7 @@ dependencies {
     compile "com.google.android.gms:play-services-maps:8.4.0"
     //compile 'com.google.android.gms:play-services:8.1.0'
     compile 'com.android.support:recyclerview-v7:23.2.0'
+    compile 'fr.avianey.com.viewpagerindicator:library:2.4.1@aar'
     //debug
     compile 'com.squareup.okhttp:logging-interceptor:2.6.0'
     compile 'com.jakewharton:butterknife:7.0.1'

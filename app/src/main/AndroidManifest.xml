@@ -72,7 +72,8 @@
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
-        <activity android:name=".welcome.WelcomeActivity"></activity>
+        <activity android:name=".welcome.WelcomeActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".OfferActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".searchaddress.AddressSearchActivity"

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/register_your_route"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="cadastre seu trajeto diário"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/padding_half"
+        android:textSize="25sp"/>
+
+    <TextView
+        android:id="@+id/just_once"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="apenas uma vez"
+        android:layout_below="@+id/register_your_route"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-25dp"
+        android:textSize="25sp"/>
+
+    <ImageView
+        android:id="@+id/request_screen"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/just_once"
+        android:src="@drawable/request_screen"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:src="@drawable/arrow_1_0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/repeat_days"
+        android:layout_marginRight="-25dp"
+        android:layout_above="@+id/repeat_days"
+        android:layout_marginBottom="-20dp"/>
+
+
+    <TextView
+        android:id="@+id/repeat_days"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="marque os dias que você"
+        android:layout_below="@+id/request_screen"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-5dp"
+        android:textSize="25sp"/>
+
+
+    <TextView
+        android:id="@+id/repeat_route"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="repete este trajeto"
+        android:layout_below="@+id/repeat_days"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-25dp"
+        android:textSize="25sp"/>
+
+</RelativeLayout>

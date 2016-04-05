@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/beige_light">
+
+    <TextView
+        android:id="@+id/see_how_it_works"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="olha como é fácil!"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/padding_half"
+        android:textSize="30sp"/>
+
+    <TextView
+        android:id="@+id/to_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="pra começar, escolha"
+        android:layout_below="@+id/see_how_it_works"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-25dp"
+        android:textSize="25sp"/>
+
+    <ImageView
+        android:id="@+id/arrow_0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/arrow0_0"
+        android:layout_alignTop="@+id/to_start"
+        android:layout_toRightOf="@+id/to_start"
+        android:layout_marginLeft="-10dp"
+        android:layout_marginTop="30dp"/>
+
+    <TextView
+        android:id="@+id/if_driver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ou se for motorista,"
+        android:gravity="center"
+        android:layout_marginTop="24dp"
+        android:layout_below="@+id/arrow_0"
+        android:layout_centerHorizontal="true"
+        android:textSize="25sp"/>
+
+    <TextView
+        android:id="@+id/you_also_can"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="você também pode"
+        android:layout_marginTop="-25dp"
+        android:gravity="center"
+        android:layout_below="@+id/if_driver"
+        android:layout_centerHorizontal="true"
+        android:textSize="25sp"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/arrow0_1"
+        android:layout_toRightOf="@+id/you_also_can"
+        android:layout_below="@id/you_also_can"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="-15dp"
+        />
+
+</RelativeLayout>

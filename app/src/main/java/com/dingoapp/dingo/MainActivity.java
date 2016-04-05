@@ -222,6 +222,16 @@ public class MainActivity extends AppCompatActivity {
 
                 }
         );
+
+        mSignUpButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
+                        startActivity(intent);
+                    }
+                }
+        );
     }
 
     private void registerGCM(){

@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/beige_light">
 
-    <android.support.v4.view.ViewPager
+    <com.dingoapp.dingo.view.NonSwipebleViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
-    </android.support.v4.view.ViewPager>
+    </com.dingoapp.dingo.view.NonSwipebleViewPager>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -18,58 +19,81 @@
             android:id="@+id/accept_terms_box"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginBottom="@dimen/padding"
             android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="bottom">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <com.viewpagerindicator.CirclePageIndicator
+                android:id="@+id/pager_indicator"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Ao prosseguir você aceita os termos de uso"
+                style="@style/WelcomePagerIndicator"
                 />
 
             <Button
                 android:id="@+id/accepted"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Entendi. Entrar..." />
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="@dimen/padding_half"
+                android:text="PRÓXIMO"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textColor="@android:color/white"
+                android:background="@drawable/shape_button_grey"/>
 
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/rider_mode_box"
-            android:background="@android:color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="visible"
             android:orientation="vertical"
-            android:visibility="gone"
-            android:gravity="center">
+            android:gravity="bottom"
+            android:layout_marginBottom="@dimen/padding_half">
 
             <TextView
+                android:id="@+id/welcome_user_intends_to_offer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Você costuma sair de carro e pretende oferecer carona?"/>
+                android:layout_marginLeft="@dimen/padding_half"
+                android:layout_alignLeft="@+id/buttons_box"
+                android:text="Você pretende oferecer carona?"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/buttons_box"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/welcome_user_intends_to_offer"
+                android:layout_marginTop="@dimen/padding_half"
+                android:layout_marginBottom="@dimen/padding_half"
+                android:layout_centerHorizontal="true"
                 android:gravity="center">
 
                 <Button
                     android:id="@+id/yes"
                     android:text="@string/yes"
                     android:layout_width="150dp"
-                    android:layout_height="50dp" />
+                    android:layout_height="50dp"
+                    android:textColor="@color/white"
+                    android:background="@drawable/shape_button_orange"/>
+
 
                 <Button
                     android:id="@+id/no"
-                    android:layout_marginLeft="@dimen/padding"
                     android:text="@string/no"
+                    android:layout_marginLeft="@dimen/padding"
                     android:layout_width="150dp"
-                    android:layout_height="50dp" />
+                    android:layout_height="50dp"
+                    android:textColor="@color/white"
+                    android:background="@drawable/shape_button_orange"/>
 
             </LinearLayout>
 
-        </LinearLayout>
+        </RelativeLayout>
 
     </FrameLayout>
 

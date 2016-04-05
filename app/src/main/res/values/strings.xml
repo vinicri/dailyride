@@ -93,6 +93,9 @@
     <string name="fragment_email_hint">%1$s@seutrabalho.com</string>
     <string name="activity_add_work_email">Adicionar trabalho</string>
     <string name="email_confirmation_pin_wrong">O código não confere. Por favor verifique novamente.</string>
+    <string name="menu_recurrent_rides">Caronas Recorrentes</string>
+    <string name="welcome_enter">ENTRAR</string>
+    <string name="welcome_next">PRÓXIMO</string>
     <plurals name="request_new_got_new_matches">
         <item quantity="one">Uma carona disponível pra você.</item>
         <item quantity="two">Duas caronas disponíveis pra você.</item>

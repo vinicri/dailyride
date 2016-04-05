@@ -70,6 +70,7 @@
 
         <LinearLayout
             android:id="@+id/payment_item"
+            android:visibility="gone"
             android:onClick="onNavDrawerItemClick"
             android:paddingLeft="@dimen/padding"
             android:paddingRight="@dimen/padding"
@@ -97,6 +98,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/receivables_item"
             android:onClick="onNavDrawerItemClick"
             android:paddingLeft="@dimen/padding"
@@ -125,6 +127,35 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/recurrent_rides_item"
+            android:onClick="onNavDrawerItemClick"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/padding"
+            android:paddingRight="@dimen/padding"
+            android:paddingTop="@dimen/padding_half"
+            android:paddingBottom="@dimen/padding_half">
+
+            <ImageView
+                android:id="@+id/recurrent_rides_item_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/recurrent_rides_36px"/>
+
+            <TextView
+                android:id="@+id/recurrent_rides_item_text"
+                android:text="@string/menu_recurrent_rides"
+                android:layout_marginLeft="@dimen/padding_half"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/turquoise_dark"
+                android:textSize="@dimen/drawer_item"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="gone"
             android:id="@+id/history_item"
             android:onClick="onNavDrawerItemClick"
             android:layout_width="match_parent"
@@ -154,6 +185,7 @@
 
 
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/ratings_item"
             android:onClick="onNavDrawerItemClick"
             android:layout_width="match_parent"
@@ -211,7 +243,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:visibility="invisible"
             android:id="@+id/logout_item"
             android:onClick="onNavDrawerItemClick"
             android:layout_width="match_parent"
