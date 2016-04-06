@@ -9,9 +9,16 @@ import android.widget.ImageView;
 
 import com.dingoapp.dingo.BaseActivity;
 import com.dingoapp.dingo.R;
+import com.dingoapp.dingo.api.model.User;
+import com.dingoapp.dingo.chat.api.FirebaseApi;
+import com.dingoapp.dingo.util.CurrentUser;
+import com.firebase.client.Firebase;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -21,12 +28,16 @@ import butterknife.ButterKnife;
  */
 public class ChatActivity extends BaseActivity {
 
+    public static final String EXTRA_OFFER_ID = "extra_offer_id";
+    public static final String EXTRA_USERS = "extra_users";
+
     @Bind(R.id.messages_list)RecyclerView mRecyclerView;
     @Bind(R.id.message_edit) EditText mMessageEdit;
     @Bind(R.id.send) ImageView mSendButton;
     private ChatAdapter mAdapter;
 
     List<ChatMessage> mMessages;
+    private long mOfferId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,36 +46,30 @@ public class ChatActivity extends BaseActivity {
         getSupportActionBar().setTitle(R.string.activity_chat);
         ButterKnife.bind(this);
 
-        ChatMessage message0 = new ChatMessage();
-        message0.setMessage("Greice entrou nesta carona");
-        message0.setType(ChatMessage.TYPE_SYSTEM);
+        mOfferId = getIntent().getIntExtra(EXTRA_OFFER_ID, -1);
 
-        ChatMessage message1 = new ChatMessage();
-        message1.setUserId(1l);
-        message1.setMessage("Oi Vinícius! Estou na calçada, de camisa verde listrada");
-        message1.setType(ChatMessage.TYPE_USER);
+        if(mOfferId == -1){
+            //todo not expected error
+        }
 
-        ChatMessage message2 = new ChatMessage();
-        message2.setUserId(0l);
-        message2.setMessage("Ok Pedro. Obrigado.");
-        message2.setType(ChatMessage.TYPE_USER);
+        List<User> users = (ArrayList<User>)getIntent().getSerializableExtra(EXTRA_USERS);
 
-        mMessages = new ArrayList<>();
-        mMessages.add(message0);
-        //mMessages.add(message1);
-        //mMessages.add(message2);
+        Map<Long, User> usersMap = new HashMap<>();
+        for(User user: users){
+            usersMap.put(user.getId(), user);
+        }
 
-        mAdapter = new ChatAdapter(this, mMessages);
+        mAdapter = new ChatAdapter(this, mOfferId, usersMap);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
-        mSendButton.setOnClickListener(
+        /*mSendButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(mMessageEdit.getText().length() > 0) {
+                        if (mMessageEdit.getText().length() > 0) {
                             ChatMessage message = new ChatMessage();
                             message.setType(ChatMessage.TYPE_USER);
                             message.setUserId(0l);
@@ -76,6 +81,37 @@ public class ChatActivity extends BaseActivity {
 
                     }
                 }
-        );
+        );*/
+
+        FirebaseApi.getAuthenticatedSession(this, FirebaseApi.getChatUrl(mOfferId),
+                new FirebaseApi.AuthCallback() {
+                    @Override
+                    public void onAuthenticated(final Firebase ref) {
+                        mSendButton.setOnClickListener(
+                                new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        if (mMessageEdit.getText().length() > 0) {
+                                            ChatMessage message = new ChatMessage();
+                                            message.setType(ChatMessage.TYPE_USER);
+                                            message.setUserId(CurrentUser.getUser().getId());
+                                            message.setMessage(mMessageEdit.getText().toString());
+                                            message.setTimestamp(new Date());
+                                            ref.push().setValue(message);
+                                            mMessageEdit.setText("");
+                                        }
+                                    }
+                                }
+                        );
+                    }
+
+                    @Override
+                    public void onAuthenticationError() {
+
+                    }
+                },
+                true);
     }
+
+
 }

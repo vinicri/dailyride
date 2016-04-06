@@ -14,6 +14,7 @@ import com.dingoapp.dingo.api.DingoApiService;
 import com.dingoapp.dingo.api.model.RideMasterRequest;
 import com.dingoapp.dingo.api.model.RideOffer;
 import com.dingoapp.dingo.api.model.RideOfferSlave;
+import com.dingoapp.dingo.api.model.User;
 import com.dingoapp.dingo.chat.ChatActivity;
 import com.dingoapp.dingo.google.maps.api.directions.model.DirectionsResponse;
 import com.dingoapp.dingo.util.CircleTransform;
@@ -102,6 +103,12 @@ public class OfferDetailsActivity extends BaseMapActivity implements OnMapReadyC
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(OfferDetailsActivity.this, ChatActivity.class);
+                        intent.putExtra(ChatActivity.EXTRA_OFFER_ID, mOffer.getId());
+                        ArrayList<User> acceptedUsers = new ArrayList<User>();
+                        for(RideOfferSlave invite: mOffer.getInvitesAccepted()){
+                            acceptedUsers.add(invite.getToRideRequest().getUser());
+                        }
+                        intent.putExtra(ChatActivity.EXTRA_USERS, acceptedUsers);
                         startActivity(intent);
                     }
                 }

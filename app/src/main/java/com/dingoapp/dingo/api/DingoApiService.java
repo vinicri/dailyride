@@ -1,6 +1,7 @@
 package com.dingoapp.dingo.api;
 
 import com.dingoapp.dingo.api.model.CreditCardInfo;
+import com.dingoapp.dingo.api.model.Token;
 import com.dingoapp.dingo.api.model.Institution;
 import com.dingoapp.dingo.api.model.GcmToken;
 import com.dingoapp.dingo.api.model.RideMasterRequest;
@@ -97,6 +98,11 @@ public class DingoApiService extends DingoService{
         enqueueCall(call, callback);
     }
 
+    public void getFirebaseToken(Callback<Token> callback){
+        Call<Token> call = apiService.getFirebaseToken();
+        enqueueCall(call, callback);
+    }
+
     public void findOffersforRequest(RideMasterRequest request, final Callback<List<RideOffer>> callback){
         Call<List<RideOffer>> call = apiService.findOffersforRequest(request);
         enqueueCall(call, callback);
@@ -176,5 +182,6 @@ public class DingoApiService extends DingoService{
         retrofit2.Response<GcmToken> response = apiService.createGcmToken(token).execute();
         return new Response<>(response.code(), response.body());
     }
+
 
 }

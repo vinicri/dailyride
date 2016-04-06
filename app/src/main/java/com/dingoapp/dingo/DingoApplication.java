@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.dingoapp.dingo.util.AppLifeCycle;
+import com.firebase.client.Firebase;
 
 /**
  * Created by guestguest on 30/01/16.
@@ -19,6 +20,7 @@ public class DingoApplication extends Application {
         context = getApplicationContext();
         Application application = (Application) context.getApplicationContext();
         application.registerActivityLifecycleCallbacks(AppLifeCycle.getInstance());
+        Firebase.setAndroidContext(context);
     }
 
     public static Context getAppContext(){

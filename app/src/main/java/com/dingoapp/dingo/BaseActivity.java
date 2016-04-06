@@ -155,6 +155,7 @@ public class BaseActivity extends AppCompatActivity {
                 break;
             case R.id.logout_item:
                 SettingsUtil.setCurrentUser(this, null);
+                SettingsUtil.setFirebaseToken(this, null);
                 SettingsUtil.setSentTokenToServer(this, false);
                 openActivity(MainActivity.class);
                 finish();

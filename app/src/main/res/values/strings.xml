@@ -96,6 +96,7 @@
     <string name="menu_recurrent_rides">Caronas Recorrentes</string>
     <string name="welcome_enter">ENTRAR</string>
     <string name="welcome_next">PRÓXIMO</string>
+    <string name="chat_user_added">%1$s entrou nesta carona</string>
     <plurals name="request_new_got_new_matches">
         <item quantity="one">Uma carona disponível pra você.</item>
         <item quantity="two">Duas caronas disponíveis pra você.</item>

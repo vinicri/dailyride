@@ -19,6 +19,7 @@ public class SettingsUtil {
 
     private static final String PREF_USER = "pref_user";
     private static final String PREF_SENT_TOKEN_TO_SERVER = "pref_send_token_to_server";
+    private static final String PREF_FIREBASE_TOKEN = "pref_firebase_token";
 
     private static Gson gson;
 
@@ -38,6 +39,16 @@ public class SettingsUtil {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         sp.edit().putString(PREF_USER, gson.toJson(user)).commit();
         CurrentUser.getInstance().reload();
+    }
+
+    public static void setFirebaseToken(Context context, String token){
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        sp.edit().putString(PREF_FIREBASE_TOKEN, token).commit();
+    }
+
+    public static String getFirebaseToken(Context context){
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getString(PREF_FIREBASE_TOKEN, null);
     }
 
     public static void setSentTokenToServer(Context context, boolean sent){

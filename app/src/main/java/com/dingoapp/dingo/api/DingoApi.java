@@ -1,8 +1,9 @@
 package com.dingoapp.dingo.api;
 
 import com.dingoapp.dingo.api.model.CreditCardInfo;
-import com.dingoapp.dingo.api.model.Institution;
+import com.dingoapp.dingo.api.model.Token;
 import com.dingoapp.dingo.api.model.GcmToken;
+import com.dingoapp.dingo.api.model.Institution;
 import com.dingoapp.dingo.api.model.RideMasterRequest;
 import com.dingoapp.dingo.api.model.RideOffer;
 import com.dingoapp.dingo.api.model.RideOfferSlave;
@@ -42,6 +43,9 @@ public interface DingoApi {
 
     @POST("/users/confirmwork/")
     Call<Institution> userConfirmWork(@Query("pin") String pin, @Query("name") String company);
+
+    @POST("/users/firebasetoken/")
+    Call<Token> getFirebaseToken();
 
     @POST("/ridemasterrequest/findoffers/")
     Call<List<RideOffer>> findOffersforRequest(@Body RideMasterRequest request);
