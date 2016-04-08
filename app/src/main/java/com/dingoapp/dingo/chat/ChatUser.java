@@ -1,21 +1,21 @@
 package com.dingoapp.dingo.chat;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Created by guestguest on 10/03/16.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ChatUser {
 
-    Long id;
+    @JsonProperty("first_name")
     String firstName;
+
+    @JsonProperty("last_name")
     String lastName;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    //Date timestamp;
 
     public String getFirstName() {
         return firstName;
@@ -32,4 +32,13 @@ public class ChatUser {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
+    public String getFullName(){
+        String fullName = firstName;
+        if(lastName != null && lastName.length() > 0){
+            fullName += " " + lastName;
+        }
+        return fullName;
+    }
+
 }

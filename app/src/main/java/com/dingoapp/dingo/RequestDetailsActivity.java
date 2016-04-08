@@ -12,11 +12,14 @@ import com.dingoapp.dingo.api.AddressUtils;
 import com.dingoapp.dingo.api.DingoApiService;
 import com.dingoapp.dingo.api.model.RideMasterRequest;
 import com.dingoapp.dingo.api.model.RideOffer;
+import com.dingoapp.dingo.api.model.RideOfferSlave;
+import com.dingoapp.dingo.api.model.User;
 import com.dingoapp.dingo.chat.ChatActivity;
 import com.dingoapp.dingo.util.CircleTransform;
 import com.dingoapp.dingo.util.ViewUtils;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import butterknife.Bind;
@@ -114,8 +117,19 @@ public class RequestDetailsActivity extends BaseActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(RequestDetailsActivity.this, ChatActivity.class);
-                        startActivity(intent);
+                        if(!mRequest.getInvitesAccepted().isEmpty()) {
+                            RideOffer offer = mRequest.getInvitesAccepted().get(0).getMaster();
+                            Intent intent = new Intent(RequestDetailsActivity.this, ChatActivity.class);
+                            intent.putExtra(ChatActivity.EXTRA_OFFER_ID, offer.getId());
+                            ArrayList<User> acceptedUsers = new ArrayList<User>();
+                            for(RideOfferSlave invite: mRequest.getInvitesOthers()){
+                                acceptedUsers.add(invite.getToRideRequest().getUser());
+                            }
+                            //add driver
+                            acceptedUsers.add(mRequest.getInvitesAccepted().get(0).getMaster().getUser());
+                            intent.putExtra(ChatActivity.EXTRA_USERS, acceptedUsers);
+                            startActivity(intent);
+                        }
                     }
                 }
         );

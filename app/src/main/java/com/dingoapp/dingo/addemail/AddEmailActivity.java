@@ -1,5 +1,8 @@
 package com.dingoapp.dingo.addemail;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 
@@ -8,6 +11,13 @@ import com.dingoapp.dingo.R;
 import com.dingoapp.dingo.api.Response;
 import com.dingoapp.dingo.api.model.Institution;
 import com.dingoapp.dingo.api.model.User;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by guestguest on 01/04/16.
@@ -127,8 +137,62 @@ public abstract class AddEmailActivity extends BaseActivity implements EmailFrag
      */
 
     @Override
-    public void onSend() {
-        sendDocument();
+    public void onSend(String filePath, final FragmentCallback callback) {
+        // Get the dimensions of the View
+        int targetW = 800;
+        int targetH = 800;
+
+        //File file = new File(filePath);
+        String path = filePath.split(":")[1];
+        // Get the dimensions of the bitmap
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(path, bmOptions);
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+
+        // Determine how much to scale down the image
+        int scaleFactor = Math.max(photoW / targetW, photoH / targetH);
+
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        //bmOptions.inPurgeable = true; //deprecated
+
+        Bitmap bitmap = BitmapFactory.decodeFile(path, bmOptions);
+
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        try {
+            final File imageFile = File.createTempFile(
+                    imageFileName,  /* prefix */
+                    ".jpg",         /* suffix */
+                    getExternalFilesDir(null)    /* directory */
+            );
+
+            OutputStream outputStream = new FileOutputStream(imageFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, outputStream);
+
+            Uri fileUri = Uri.fromFile(imageFile);
+            sendDocument(mEntityName, fileUri,
+                    new Callback<Institution>() {
+                        @Override
+                        public void onResponse(Response<Institution> response) {
+                            imageFile.delete();
+                            callback.onFinished();
+
+                        }
+
+                        @Override
+                        public void onFailure(Throwable t) {
+                        }
+                    });
+
+        }
+        catch (IOException e){
+            //todo
+        }
+
     }
 
     @Override
@@ -168,7 +232,7 @@ public abstract class AddEmailActivity extends BaseActivity implements EmailFrag
     }
 
     protected abstract void addEmail(String email, Callback<Institution> callback);
-    protected abstract void sendDocument();
+    protected abstract void sendDocument(String institutionName, Uri fileUri, Callback<Institution> callback);
     protected abstract void resendEmail();
     protected abstract void confirmPin(String pin, String institutionName, Callback<Institution> callback);
     protected abstract void onConfirmedPin(Institution institution, String institutionName);

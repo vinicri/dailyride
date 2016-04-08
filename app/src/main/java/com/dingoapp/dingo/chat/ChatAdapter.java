@@ -24,10 +24,24 @@ public class ChatAdapter extends FirebaseAdapter<ChatMessage> {
     private final int TYPE_THIS_USER = 3;
 
     private final Context mContext;
+    //private final FirebaseSyncer<ChatUser> mUsersSyncer;
     private Map<Long, User> mUsersMap;
 
     public ChatAdapter(Context context, long offerId, Map<Long, User> users){
-        super(context, FirebaseApi.getChatUrl(offerId), ChatMessage.class, null);
+        super(context, FirebaseApi.getChatMessagesUrl(offerId), ChatMessage.class, null);
+
+        /*FirebaseSyncer.Listener mUsersSyncListener = new FirebaseSyncer.Listener() {
+            @Override
+            public void notifyDataSetChanged() {
+
+            }
+        };
+
+        mUsersSyncer = new FirebaseSyncer<ChatUser>(context,
+                FirebaseApi.getChatUsersUrl(offerId),
+                ChatUser.class, null,
+                mUsersSyncListener);*/
+
         mContext = context;
         mUsersMap = users;
     }

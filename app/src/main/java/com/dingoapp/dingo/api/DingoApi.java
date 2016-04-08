@@ -1,14 +1,15 @@
 package com.dingoapp.dingo.api;
 
 import com.dingoapp.dingo.api.model.CreditCardInfo;
-import com.dingoapp.dingo.api.model.Token;
 import com.dingoapp.dingo.api.model.GcmToken;
 import com.dingoapp.dingo.api.model.Institution;
 import com.dingoapp.dingo.api.model.RideMasterRequest;
 import com.dingoapp.dingo.api.model.RideOffer;
 import com.dingoapp.dingo.api.model.RideOfferSlave;
+import com.dingoapp.dingo.api.model.Token;
 import com.dingoapp.dingo.api.model.User;
 import com.dingoapp.dingo.api.model.UserRides;
+import com.squareup.okhttp.RequestBody;
 
 import java.util.List;
 
@@ -16,8 +17,10 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -46,6 +49,10 @@ public interface DingoApi {
 
     @POST("/users/firebasetoken/")
     Call<Token> getFirebaseToken();
+
+    @Multipart
+    @POST("users/credentialswork/")
+    Call<Institution> addWorkCredential(@Part("credential\"; filename=\"credential.png\"") RequestBody credential);
 
     @POST("/ridemasterrequest/findoffers/")
     Call<List<RideOffer>> findOffersforRequest(@Body RideMasterRequest request);

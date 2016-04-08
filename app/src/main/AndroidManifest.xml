@@ -11,6 +11,10 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
+    <!--Credentials photos-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="18" />
+
+
     <!--Google GCM-->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <permission android:name="com.dingoapp.dingo.permission.C2D_MESSAGE" android:protectionLevel="signature" />

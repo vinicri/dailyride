@@ -116,6 +116,17 @@ public class OwnProfileActivity extends BaseActivity {
                 mWorkCheck.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.alert_orange_24px));
                 mWorkAlert.setVisibility(View.VISIBLE);
             }
+            //todo review duplicated
+            mWorkBox.setOnClickListener(
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(OwnProfileActivity.this, AddWorkEmailActivity.class);
+                            intent.putExtra(AddPhoneActivity.EXTRA_USER, mUser);
+                            startActivityForResult(intent, REQUEST_CODE_ADD_WORK);
+                        }
+                    }
+            );
         }
 
         if(mUser.getSchool() == null){

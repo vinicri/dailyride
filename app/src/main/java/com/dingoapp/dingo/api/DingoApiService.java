@@ -1,12 +1,14 @@
 package com.dingoapp.dingo.api;
 
+import android.net.Uri;
+
 import com.dingoapp.dingo.api.model.CreditCardInfo;
-import com.dingoapp.dingo.api.model.Token;
-import com.dingoapp.dingo.api.model.Institution;
 import com.dingoapp.dingo.api.model.GcmToken;
+import com.dingoapp.dingo.api.model.Institution;
 import com.dingoapp.dingo.api.model.RideMasterRequest;
 import com.dingoapp.dingo.api.model.RideOffer;
 import com.dingoapp.dingo.api.model.RideOfferSlave;
+import com.dingoapp.dingo.api.model.Token;
 import com.dingoapp.dingo.api.model.User;
 import com.dingoapp.dingo.api.model.UserRides;
 import com.dingoapp.dingo.util.DingoService;
@@ -14,7 +16,10 @@ import com.dingoapp.dingo.util.OAuthInterceptor;
 import com.dingoapp.dingo.util.RetrofitLogInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.RequestBody;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -95,6 +100,13 @@ public class DingoApiService extends DingoService{
 
     public void userConfirmWork(String pin, String company, Callback<Institution> callback){
         Call<Institution> call = apiService.userConfirmWork(pin, company);
+        enqueueCall(call, callback);
+    }
+
+    public void uploadWorkCredential(String company, Uri imageUri, Callback<Institution> callback ){
+        File file = new File(imageUri.getPath());
+        RequestBody imageBody = RequestBody.create(MediaType.parse("image/*"), file);
+        Call<Institution> call = apiService.addWorkCredential(imageBody);
         enqueueCall(call, callback);
     }
 

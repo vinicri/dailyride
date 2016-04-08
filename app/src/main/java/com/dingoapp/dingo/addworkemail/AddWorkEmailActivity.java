@@ -1,6 +1,7 @@
 package com.dingoapp.dingo.addworkemail;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.dingoapp.dingo.R;
@@ -37,8 +38,19 @@ public class AddWorkEmailActivity extends AddEmailActivity {
     }
 
     @Override
-    protected void sendDocument() {
+    protected void sendDocument(String institutionName, Uri fileUri, final Callback<Institution> callback){
+        DingoApiService.getInstance().uploadWorkCredential(institutionName, fileUri,
+                new com.dingoapp.dingo.api.Callback<Institution>() {
+                    @Override
+                    public void onResponse(Response<Institution> response) {
+                        callback.onResponse(response);
+                    }
 
+                    @Override
+                    public void onFailure(Throwable t) {
+                        callback.onFailure(t);
+                    }
+                });
     }
 
     @Override

@@ -40,6 +40,9 @@ public class RideMasterRequest extends RideEntity implements Serializable {
     @SerializedName("invites_accepted")
     List<RideOfferSlave> invitesAccepted = new ArrayList<>();
 
+    @SerializedName("invites_others")
+    List<RideOfferSlave> invitesOthers = new ArrayList<>();
+
     //when a user is offering the ride
     @SerializedName("offering_user")
     User offeringUser;
@@ -102,6 +105,14 @@ public class RideMasterRequest extends RideEntity implements Serializable {
 
     public void setRejectedRequests(int rejectedRequests) {
         this.rejectedRequests = rejectedRequests;
+    }
+
+    public List<RideOfferSlave> getInvitesOthers() {
+        return invitesOthers;
+    }
+
+    public void setInvitesOthers(List<RideOfferSlave> invitesOthers) {
+        this.invitesOthers = invitesOthers;
     }
 
     public int getNewMatches() {

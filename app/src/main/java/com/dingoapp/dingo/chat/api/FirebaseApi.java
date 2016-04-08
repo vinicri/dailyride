@@ -23,13 +23,24 @@ public class FirebaseApi {
     public static final String CHATS_ENDPOINT =  "/dingo/chats/";
     public static final String MESSAGES_ENDPOINT =  "/messages/";
 
-    public static Uri getChatUrl(long offerId){
+    public static Uri getChatMessagesUrl(long offerId){
         Uri uri = Uri.parse(BASE_URL)
                 .buildUpon()
                 .appendPath("dingo")
                 .appendPath("chats")
                 .appendPath(String.valueOf(offerId))
                 .appendPath("messages")
+                .build();
+        return uri;
+    }
+
+    public static Uri getChatUsersUrl(long offerId){
+        Uri uri = Uri.parse(BASE_URL)
+                .buildUpon()
+                .appendPath("dingo")
+                .appendPath("chats")
+                .appendPath(String.valueOf(offerId))
+                .appendPath("users")
                 .build();
         return uri;
     }

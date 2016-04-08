@@ -83,7 +83,7 @@ public class ChatActivity extends BaseActivity {
                 }
         );*/
 
-        FirebaseApi.getAuthenticatedSession(this, FirebaseApi.getChatUrl(mOfferId),
+        FirebaseApi.getAuthenticatedSession(this, FirebaseApi.getChatMessagesUrl(mOfferId),
                 new FirebaseApi.AuthCallback() {
                     @Override
                     public void onAuthenticated(final Firebase ref) {
