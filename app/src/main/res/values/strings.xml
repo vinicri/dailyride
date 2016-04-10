@@ -97,12 +97,21 @@
     <string name="welcome_enter">ENTRAR</string>
     <string name="welcome_next">PRÓXIMO</string>
     <string name="chat_user_added">%1$s entrou nesta carona</string>
-    <string name="sign_up_first_name">nome</string>
-    <string name="sign_up_last_name">sobrenome</string>
-    <string name="sign_up_email">email</string>
-    <string name="sign_up_password">senha</string>
-    <string name="sign_up_phone">telefone</string>
+    <string name="sign_up_first_name">Nome</string>
+    <string name="sign_up_last_name">Sobrenome</string>
+    <string name="sign_up_email">Email</string>
+    <string name="sign_up_password">Senha</string>
+    <string name="sign_up_phone">Celular</string>
     <string name="sign_up_done">Cadastrar</string>
+    <string name="activity_sign_up">Cadastro</string>
+    <string name="sign_up_first_name_error">obrigatório</string>
+    <string name="sign_up_last_name_error">obrigatório</string>
+    <string name="sign_up_email_error_empty">obrigatório</string>
+    <string name="sign_up_email_error_invalid">email inválido</string>
+    <string name="sign_up_password_error">pelo menos 6 caracteres</string>
+    <string name="sign_up_phone_error_empty">obrigatório</string>
+    <string name="sign_up_number_error_invalid">número inválido</string>
+    <string name="no_internet_error">Sem accesso a internet. Verifique sua conexão e tente novamente.</string>
 
     <plurals name="request_new_got_new_matches">
         <item quantity="one">Uma carona disponível pra você.</item>

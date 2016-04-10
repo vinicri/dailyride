@@ -50,6 +50,9 @@ public interface DingoApi {
     @POST("/users/firebasetoken/")
     Call<Token> getFirebaseToken();
 
+    @POST("/users/register/")
+    Call<Void> userRegister(@Body User user);
+
     @Multipart
     @POST("/users/work/credentials/")
     Call<Institution> addWorkCredential(@Part("credential\"; filename=\"credential.png\"") RequestBody credential);

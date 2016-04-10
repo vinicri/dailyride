@@ -25,6 +25,8 @@ public class User implements Serializable{
     @SerializedName("email")
     String email;
 
+    String password;
+
     @SerializedName("first_name")
     String firstName;
 
@@ -303,6 +305,14 @@ public class User implements Serializable{
 
     public boolean hasPhoto(){
         return profilePhotoOriginal != null;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public class OAuthToken implements Serializable{

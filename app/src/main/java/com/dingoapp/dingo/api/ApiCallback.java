@@ -1,6 +1,9 @@
 package com.dingoapp.dingo.api;
 
+import android.app.AlertDialog;
 import android.content.Context;
+
+import com.dingoapp.dingo.R;
 
 import java.io.IOException;
 
@@ -35,7 +38,10 @@ public abstract class ApiCallback<T> implements Callback<T>{
 
     @Override
     public void networkError(IOException e) {
-
+        new AlertDialog.Builder(mContext)
+                .setMessage(R.string.no_internet_error)
+                .setPositiveButton(R.string.ok, null)
+                .show();
     }
 
     @Override

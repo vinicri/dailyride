@@ -73,6 +73,11 @@ public class DingoApiService extends DingoService{
         enqueueCall(call, callback);
     }
 
+    public void userRegister(User user, final Callback<Void> callback){
+        Call<Void> call = apiService.userRegister(user);
+        enqueueCall(call, callback);
+    }
+
     public void acceptTerms(User.RiderMode riderMode, final Callback<Void> callback){
         final Call<Void> call = apiService.acceptTerms(riderMode);
         enqueueCall(call, callback);
