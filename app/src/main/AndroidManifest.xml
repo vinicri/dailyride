@@ -1,26 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.dingoapp.dingo">
+    package="com.dingoapp.dingo" >
 
-    <!--Google cloud messaging
+    <!--
+    Google cloud messaging
     Server API Key help
     AIzaSyC8AzAMmID9uu7hWSNGVuwxScJ0zNW7Kxk
     Sender ID help
-    949318954268-->
-
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-
-    <!--Credentials photos-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="18" />
+    949318954268
+    -->
 
 
-    <!--Google GCM-->
+    <!--
+    Google analytics
+    UA-67391910-3
+    -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- Credentials photos -->
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+
+    <!-- Google GCM -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <permission android:name="com.dingoapp.dingo.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+
+    <permission
+        android:name="com.dingoapp.dingo.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
     <uses-permission android:name="com.dingoapp.dingo.permission.C2D_MESSAGE" />
-
-
 
     <application
         android:name=".DingoApplication"
@@ -28,18 +38,20 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
 
-        <!--Google GCM-->
+        <!-- Google GCM -->
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
             android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
                 <category android:name="com.dingoapp.dingo" />
             </intent-filter>
         </receiver>
+
         <service
             android:name=".gcm.MyGcmListenerService"
             android:exported="false" >
@@ -49,84 +61,100 @@
         </service>
         <service
             android:name=".gcm.MyInstanceIDListenerService"
-            android:exported="false">
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
         </service>
-
         <service
             android:name=".gcm.RegistrationIntentService"
-            android:exported="false">
+            android:exported="false" >
         </service>
 
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBMuK91NXU0-1-eOU3KcBZ4alEDIjrJ_xw" />
 
-        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyBMuK91NXU0-1-eOU3KcBZ4alEDIjrJ_xw"/>
-
-        <activity android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".rides.RidesActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-
+        <activity
+            android:name=".rides.RidesActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
         </activity>
-        <activity android:name=".welcome.WelcomeActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".OfferActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".searchaddress.AddressSearchActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".TimeActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".paymentinfo.PaymentInfoActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".RequestActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".slaveofferreply.SlaveOfferReplyActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".welcome.WelcomeActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".OfferActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".searchaddress.AddressSearchActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".TimeActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".paymentinfo.PaymentInfoActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".RequestActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".slaveofferreply.SlaveOfferReplyActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".OfferDetailsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".chat.ChatActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".OfferInviteActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".RequestDetailsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".profile.ProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".OwnProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AddPhoneActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".addworkemail.AddWorkEmailActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SignUpActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-        <activity android:name=".OfferDetailsActivity"
-        android:theme="@style/AppTheme.NoActionBar"></activity>
-
-        <activity android:name=".chat.ChatActivity"
-        android:theme="@style/AppTheme.NoActionBar"></activity>
-
-        <activity android:name=".OfferInviteActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
-        <activity android:name=".RequestDetailsActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
-        <activity android:name=".profile.ProfileActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
-
-        <activity android:name=".OwnProfileActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
-        <activity android:name=".AddPhoneActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
-        <activity android:name=".addworkemail.AddWorkEmailActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
-        <activity android:name="com.facebook.FacebookActivity"
-            android:configChanges=
-                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:label="@string/app_name" />
-
-        <!--Gooogle Maps Api key-->
-        <!--<meta-data
+        <!-- Gooogle Maps Api key -->
+        <!--
+            <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCKAPacYqKD59fCuYwFFADb-zzPgDM98cM"/>-->
+            android:value="AIzaSyCKAPacYqKD59fCuYwFFADb-zzPgDM98cM"/>
+        -->
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="9a181c32a895b2fcd44337232b4ec8f8ba6d9e0b" />
     </application>
 
 </manifest>

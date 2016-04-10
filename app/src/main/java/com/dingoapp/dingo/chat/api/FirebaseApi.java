@@ -4,7 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 
 import com.dingoapp.dingo.DingoApplication;
-import com.dingoapp.dingo.api.Callback;
+import com.dingoapp.dingo.api.ApiCallback;
 import com.dingoapp.dingo.api.DingoApiService;
 import com.dingoapp.dingo.api.Response;
 import com.dingoapp.dingo.api.model.Token;
@@ -73,20 +73,16 @@ public class FirebaseApi {
 
         if (token == null){
             DingoApiService.getInstance().getFirebaseToken(
-                    new Callback<Token>() {
+                    new ApiCallback<Token>(context) {
                         @Override
-                        public void onResponse(Response<Token> response) {
+                        public void success(Response<Token> response) {
                             String token = response.body().getToken();
                             SettingsUtil.setFirebaseToken(context, token);
                             ref.authWithCustomToken(token, authResultHandler);
                         }
 
-                        @Override
-                        public void onFailure(Throwable t) {
-
-                        }
-                    }
-            );
+                        //todo error
+                    });
         }
         else{
             ref.authWithCustomToken(token, authResultHandler);

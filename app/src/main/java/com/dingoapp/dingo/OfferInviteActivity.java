@@ -2,7 +2,6 @@ package com.dingoapp.dingo;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -10,7 +9,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.dingoapp.dingo.api.AddressUtils;
-import com.dingoapp.dingo.api.Callback;
+import com.dingoapp.dingo.api.ApiCallback;
 import com.dingoapp.dingo.api.DingoApiService;
 import com.dingoapp.dingo.api.Response;
 import com.dingoapp.dingo.api.model.RideMasterRequest;
@@ -100,23 +99,16 @@ public class OfferInviteActivity extends BaseActivity{
                     @Override
                     public void onClick(View v) {
                         DingoApiService.getInstance().acceptRideOfferSlave(invite.getId(), null,
-                                new Callback<RideOfferSlave>() {
+                                new ApiCallback<RideOfferSlave>(OfferInviteActivity.this) {
                                     @Override
-                                    public void onResponse(Response<RideOfferSlave> response) {
+                                    public void success(Response<RideOfferSlave> response) {
                                         if (response.code() == Response.HTTP_200_OK) {
                                             mRequest.getInvitesToConfirm().clear();
                                             mRequest.getInvitesAccepted().add(response.body());
                                             showDetails();
                                         }
-
-                                    }
-
-                                    @Override
-                                    public void onFailure(Throwable t) {
-                                        Log.d("e", "e");
                                     }
                                 });
-
                     }
                 }
         );
@@ -126,18 +118,13 @@ public class OfferInviteActivity extends BaseActivity{
                     @Override
                     public void onClick(View v) {
                         DingoApiService.getInstance().declineRideOfferSlave(invite.getId(), null,
-                                new Callback<RideOfferSlave>() {
+                                new ApiCallback<RideOfferSlave>(OfferInviteActivity.this) {
                                     @Override
-                                    public void onResponse(Response<RideOfferSlave> response) {
+                                    public void success(Response<RideOfferSlave> response) {
                                         if(response.code() == Response.HTTP_200_OK){
                                             mRequest.getInvitesToConfirm().clear();
                                             showDetails();
                                         }
-                                    }
-
-                                    @Override
-                                    public void onFailure(Throwable t) {
-
                                     }
                                 });
                     }

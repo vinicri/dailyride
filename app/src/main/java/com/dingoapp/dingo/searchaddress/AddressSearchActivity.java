@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.dingoapp.dingo.BaseActivity;
 import com.dingoapp.dingo.R;
-import com.dingoapp.dingo.api.Callback;
+import com.dingoapp.dingo.api.ApiCallback;
 import com.dingoapp.dingo.api.Response;
 import com.dingoapp.dingo.api.model.Address;
 import com.dingoapp.dingo.google.maps.api.GoogleMapsApiService;
@@ -210,9 +210,9 @@ public class AddressSearchActivity extends BaseActivity implements GoogleApiClie
                         //TODO end of exception list
 
                         GoogleMapsApiService.getInstance().getGeocodedAddresses(address,
-                                new Callback<GeocodingResponse>() {
+                                new ApiCallback<GeocodingResponse>(AddressSearchActivity.this) {
                                     @Override
-                                    public void onResponse(Response<GeocodingResponse> response) {
+                                    public void success(Response<GeocodingResponse> response) {
                                         if(response.code() == Response.HTTP_200_OK){
                                             List<Result> results = response.body().getResults();
                                             if(results != null && results.size() > 0){
@@ -229,11 +229,6 @@ public class AddressSearchActivity extends BaseActivity implements GoogleApiClie
                                             }//nao encontrado
 
                                         }//erro servidor
-                                    }
-
-                                    @Override
-                                    public void onFailure(Throwable t) {
-
                                     }
                                 });
 

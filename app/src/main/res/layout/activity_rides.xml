@@ -90,6 +90,7 @@
                 android:background="@drawable/shape_button_orange"
                 android:textColor="@color/white"
                 android:text="@string/button_create_offer"/>
+
         </LinearLayout>
         
         <RelativeLayout

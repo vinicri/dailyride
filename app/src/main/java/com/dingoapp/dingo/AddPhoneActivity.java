@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.dingoapp.dingo.api.Callback;
+import com.dingoapp.dingo.api.ApiCallback;
 import com.dingoapp.dingo.api.DingoApiService;
 import com.dingoapp.dingo.api.Response;
 import com.dingoapp.dingo.api.model.User;
@@ -43,18 +43,13 @@ public class AddPhoneActivity extends BaseActivity {
                         //todo validation
                         String phone = mPhoneEdit.getText().toString();
                         DingoApiService.getInstance().userAddPhone(phone,
-                                new Callback<Void>() {
+                                new ApiCallback<Void>(AddPhoneActivity.this) {
                                     @Override
-                                    public void onResponse(Response<Void> response) {
+                                    public void success(Response<Void> response) {
                                         if(response.code() == Response.HTTP_200_OK){
                                             mPhoneBox.setVisibility(View.GONE);
                                             mConfirmationBox.setVisibility(View.VISIBLE);
                                         }
-                                    }
-
-                                    @Override
-                                    public void onFailure(Throwable t) {
-
                                     }
                                 });
                     }

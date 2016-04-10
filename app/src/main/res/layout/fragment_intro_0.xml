@@ -24,6 +24,14 @@
         android:textSize="25sp"/>
 
     <ImageView
+        android:id="@+id/request_ride"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/request_ride"
+        android:layout_below="@id/to_start"
+        android:layout_centerInParent="true"/>
+
+    <ImageView
         android:id="@+id/arrow_0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,9 +46,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="ou se for motorista,"
+
         android:gravity="center"
         android:layout_marginTop="24dp"
-        android:layout_below="@+id/arrow_0"
+        android:layout_below="@+id/request_ride"
         android:layout_centerHorizontal="true"
         android:textSize="25sp"/>
 
@@ -54,6 +63,13 @@
         android:layout_below="@+id/if_driver"
         android:layout_centerHorizontal="true"
         android:textSize="25sp"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/request_and_offer"
+        android:layout_below="@+id/you_also_can"
+        android:layout_centerInParent="true"/>
 
     <ImageView
         android:layout_width="wrap_content"

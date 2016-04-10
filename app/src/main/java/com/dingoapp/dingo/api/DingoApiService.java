@@ -12,6 +12,8 @@ import com.dingoapp.dingo.api.model.Token;
 import com.dingoapp.dingo.api.model.User;
 import com.dingoapp.dingo.api.model.UserRides;
 import com.dingoapp.dingo.util.DingoService;
+import com.dingoapp.dingo.util.ErrorHandlingCallAdapter.Call;
+import com.dingoapp.dingo.util.ErrorHandlingCallAdapter.ErrorHandlingCallAdapterFactory;
 import com.dingoapp.dingo.util.OAuthInterceptor;
 import com.dingoapp.dingo.util.RetrofitLogInterceptor;
 import com.google.gson.Gson;
@@ -25,7 +27,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
-import retrofit2.Call;
 import retrofit2.GsonConverterFactory;
 import retrofit2.Retrofit;
 
@@ -52,6 +53,7 @@ public class DingoApiService extends DingoService{
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(DingoApi.BASE_URL)
+                .addCallAdapterFactory(new ErrorHandlingCallAdapterFactory())
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
@@ -71,9 +73,10 @@ public class DingoApiService extends DingoService{
         enqueueCall(call, callback);
     }
 
-    public void acceptTerms(User.RiderMode riderMode, final Callback callback){
+    public void acceptTerms(User.RiderMode riderMode, final Callback<Void> callback){
         final Call<Void> call = apiService.acceptTerms(riderMode);
-        call.enqueue(new retrofit2.Callback<Void>() {
+        enqueueCall(call, callback);
+        /*call.enqueue(new retrofit2.Callback<Void>() {
             @Override
             public void onResponse(retrofit2.Response<Void> response) {
                 Response dResponse = new Response(response.code(), response.body());
@@ -84,7 +87,7 @@ public class DingoApiService extends DingoService{
             public void onFailure(Throwable t) {
 
             }
-        });
+        });*/
 
     }
 

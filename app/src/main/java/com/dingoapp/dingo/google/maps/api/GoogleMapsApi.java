@@ -4,7 +4,8 @@ import com.dingoapp.dingo.google.maps.api.directions.model.DirectionsResponse;
 import com.dingoapp.dingo.google.maps.api.geocoding.model.GeocodingResponse;
 import com.dingoapp.dingo.google.maps.api.places.model.PlaceResponse;
 
-import retrofit2.Call;
+import com.dingoapp.dingo.util.ErrorHandlingCallAdapter.Call;
+
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 

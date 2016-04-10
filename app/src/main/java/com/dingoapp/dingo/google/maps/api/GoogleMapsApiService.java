@@ -9,14 +9,16 @@ import com.dingoapp.dingo.google.maps.api.geocoding.model.GeocodingResponse;
 import com.dingoapp.dingo.google.maps.api.places.model.AddressComponent;
 import com.dingoapp.dingo.google.maps.api.places.model.PlaceResponse;
 import com.dingoapp.dingo.util.DingoService;
+import com.dingoapp.dingo.util.ErrorHandlingCallAdapter;
+import com.dingoapp.dingo.util.ErrorHandlingCallAdapter.Call;
 import com.dingoapp.dingo.util.RetrofitLogInterceptor;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
-import retrofit2.Call;
 import retrofit2.GsonConverterFactory;
 import retrofit2.Retrofit;
 
@@ -38,6 +40,7 @@ public class GoogleMapsApiService extends DingoService{
                 .baseUrl(GoogleMapsApi.BASE_URL)
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create(new Gson()))
+                .addCallAdapterFactory(new ErrorHandlingCallAdapter.ErrorHandlingCallAdapterFactory())
                 .build();
 
         apiService = retrofit.create(GoogleMapsApi.class);
@@ -70,21 +73,43 @@ public class GoogleMapsApiService extends DingoService{
         }
 
         Call<DirectionsResponse> call = apiService.getDirections(latLgnText(origin), latLgnText(destination), waypointsString);
+
         enqueueCall(call, callback);
     }
 
     public void getPlaceById(String placeId, final Callback<Address> callback){
         final Call<PlaceResponse> call = apiService.getPlaceById(placeId, GoogleMapsApi.LANGUAGE_PT_BR, false);
-        call.enqueue(new retrofit2.Callback<PlaceResponse>() {
+       // call.enqueue();
+        call.enqueue(new ErrorHandlingCallAdapter.Callback<PlaceResponse>() {
             @Override
-            public void onResponse(retrofit2.Response<PlaceResponse> response) {
+            public void success(retrofit2.Response<PlaceResponse> response) {
                 Response<Address> dResponse = new Response<>(response.code(),
                         convertPlaceToAddress(response.body()));
-                callback.onResponse(dResponse);
+                callback.success(dResponse);
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void unauthenticated(retrofit2.Response<?> response) {
+
+            }
+
+            @Override
+            public void clientError(retrofit2.Response<?> response) {
+
+            }
+
+            @Override
+            public void serverError(retrofit2.Response<?> response) {
+
+            }
+
+            @Override
+            public void networkError(IOException e) {
+
+            }
+
+            @Override
+            public void unexpectedError(Throwable t) {
 
             }
         });

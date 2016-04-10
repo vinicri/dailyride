@@ -3,6 +3,8 @@ package com.dingoapp.dingo;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.dingoapp.dingo.analytics.Analytics;
+import com.dingoapp.dingo.api.ApiCallback;
 import com.dingoapp.dingo.api.Callback;
 import com.dingoapp.dingo.api.DingoApiService;
 import com.dingoapp.dingo.api.Response;
@@ -17,12 +19,20 @@ import java.util.Date;
  */
 public class OfferActivity extends RideCreateActivity{
 
+    private static final String name = Analytics.SCREEN_CREATE_OFFER;
+
     private RideOffer mRideOffer = RideOffer.getWeekdaysCheckedInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setTitle(R.string.activity_title_offer);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Analytics.getInstance().screenViewed(name);
     }
 
     @Override
@@ -58,9 +68,9 @@ public class OfferActivity extends RideCreateActivity{
     @Override
     void create() {
 
-        Callback<RideOffer> callback = new Callback<RideOffer>() {
+        Callback<RideOffer> callback = new ApiCallback<RideOffer>(this) {
             @Override
-            public void onResponse(Response<RideOffer> response) {
+            public void success(Response<RideOffer> response) {
                 if(response.code() == Response.HTTP_201_CREATED){
                     RideOffer offer = response.body();
                     if(offer.getRequests() == null || offer.getRequests().isEmpty()){
@@ -68,16 +78,24 @@ public class OfferActivity extends RideCreateActivity{
                         intent.putExtra("offer", offer);
                         setResult(RESULT_OK, intent);
                         finish();
+
+                        String label;
+                        if (mRecurrenceGroup.getCheckedRadioButtonId() == R.id.recurrence_yes) {
+                            label = Analytics.LABEL_RECURRENT;
+                        }
+                        else{
+                            label = Analytics.LABEL_ONCE;
+                        }
+
+                        Analytics.getInstance().event(Analytics.CATEGORY_CREATE_OFFER,
+                                Analytics.ACTION_DID_CREATE,
+                                label,
+                                (long)offer.getId());
                     }
                     else{
                         //todo
                     }
                 }
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-
             }
         };
 

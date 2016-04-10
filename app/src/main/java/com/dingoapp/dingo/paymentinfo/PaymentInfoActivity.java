@@ -7,7 +7,7 @@ import android.widget.EditText;
 
 import com.dingoapp.dingo.BaseActivity;
 import com.dingoapp.dingo.R;
-import com.dingoapp.dingo.api.Callback;
+import com.dingoapp.dingo.api.ApiCallback;
 import com.dingoapp.dingo.api.DingoApiService;
 import com.dingoapp.dingo.api.Response;
 import com.dingoapp.dingo.api.model.CreditCardInfo;
@@ -42,9 +42,9 @@ public class PaymentInfoActivity extends BaseActivity{
 
 
         DingoApiService.getInstance().getCreditCardInfo(
-                new Callback<CreditCardInfo>() {
+                new ApiCallback<CreditCardInfo>(PaymentInfoActivity.this) {
                     @Override
-                    public void onResponse(Response<CreditCardInfo> response) {
+                    public void success(Response<CreditCardInfo> response) {
                         if (response.code() == Response.HTTP_204_NO_CONTENT) {
                             mEditMode = true;
 
@@ -55,13 +55,7 @@ public class PaymentInfoActivity extends BaseActivity{
                             mSaveButton.setText(getString(R.string.credit_card_edit));
                         }
                     }
-
-                    @Override
-                    public void onFailure(Throwable t) {
-
-                    }
-                }
-        );
+                });
 
         mSaveButton.setOnClickListener(
                 new View.OnClickListener() {
@@ -146,9 +140,9 @@ public class PaymentInfoActivity extends BaseActivity{
     public void save(CreditCardInfo info){
         if(mCreditCardInfo == null){
             DingoApiService.getInstance().createCreditCardInfo(info,
-                    new Callback<CreditCardInfo>() {
+                    new ApiCallback<CreditCardInfo>(PaymentInfoActivity.this) {
                         @Override
-                        public void onResponse(Response<CreditCardInfo> response) {
+                        public void success(Response<CreditCardInfo> response) {
                             if(response.code() == Response.HTTP_201_CREATED){
                                 mCreditCardInfo = response.body();
                                 populateFields(mCreditCardInfo);
@@ -156,19 +150,13 @@ public class PaymentInfoActivity extends BaseActivity{
                                 mSaveButton.setText(getString(R.string.credit_card_edit));
                             }
                         }
-
-                        @Override
-                        public void onFailure(Throwable t) {
-
-                        }
-                    }
-            );
+                    });
         }
         else{
             DingoApiService.getInstance().updateCreditCardInfo(info,
-                    new Callback<CreditCardInfo>() {
+                    new ApiCallback<CreditCardInfo>(PaymentInfoActivity.this) {
                         @Override
-                        public void onResponse(Response<CreditCardInfo> response) {
+                        public void success(Response<CreditCardInfo> response) {
                             if(response.code() == Response.HTTP_200_OK){
                                 mCreditCardInfo = response.body();
                                 populateFields(mCreditCardInfo);
@@ -176,13 +164,7 @@ public class PaymentInfoActivity extends BaseActivity{
                                 mSaveButton.setText(getString(R.string.credit_card_edit));
                             }
                         }
-
-                        @Override
-                        public void onFailure(Throwable t) {
-
-                        }
-                    }
-            );
+                    });
         }
     }
 }

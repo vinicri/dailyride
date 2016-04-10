@@ -3,6 +3,8 @@ package com.dingoapp.dingo;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.dingoapp.dingo.analytics.Analytics;
+import com.dingoapp.dingo.api.ApiCallback;
 import com.dingoapp.dingo.api.Callback;
 import com.dingoapp.dingo.api.DingoApiService;
 import com.dingoapp.dingo.api.Response;
@@ -17,6 +19,7 @@ import java.util.Date;
  */
 public class RequestActivity extends RideCreateActivity {
 
+    private static final String name = Analytics.SCREEN_CREATE_REQUEST;
     RideMasterRequest mRequest = RideMasterRequest.getWeekdaysCheckedInstance();
 
     @Override
@@ -24,6 +27,12 @@ public class RequestActivity extends RideCreateActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setTitle(R.string.activity_title_request);
         getCreateButton().setText(R.string.activity_ride_create_request);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Analytics.getInstance().screenViewed(name);
     }
 
     @Override
@@ -55,15 +64,28 @@ public class RequestActivity extends RideCreateActivity {
     @Override
     void create() {
 
-            Callback<RideMasterRequest> callback = new Callback<RideMasterRequest>() {
+            Callback<RideMasterRequest> callback = new ApiCallback<RideMasterRequest>(this){
+
                 @Override
-                public void onResponse(Response<RideMasterRequest> response) {
+                public void success(Response<RideMasterRequest> response) {
                     if (response.code() == Response.HTTP_201_CREATED) {
                         RideMasterRequest request = response.body();
                         Intent intent = new Intent();
                         intent.putExtra("request", request);
                         setResult(RESULT_OK, intent);
                         finish();
+
+                        String label;
+                        if (mRecurrenceGroup.getCheckedRadioButtonId() == R.id.recurrence_yes) {
+                            label = Analytics.LABEL_RECURRENT;
+                        }
+                        else{
+                            label = Analytics.LABEL_ONCE;
+                        }
+                        Analytics.getInstance().event(Analytics.CATEGORY_CREATE_REQUEST,
+                                Analytics.ACTION_DID_CREATE,
+                                label,
+                                (long) request.getId());
 //                        if (response.body() == null || response.body().size() == 0) {
 //                            finish();
 //                        } else {
@@ -73,11 +95,6 @@ public class RequestActivity extends RideCreateActivity {
 //                            //startActivity(intent);
 //                        }
                     }
-                }
-
-                @Override
-                public void onFailure(Throwable t) {
-
                 }
             };
 

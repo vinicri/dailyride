@@ -11,7 +11,7 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.dingoapp.dingo.R;
-import com.dingoapp.dingo.api.Callback;
+import com.dingoapp.dingo.api.CallbackAdapter;
 import com.dingoapp.dingo.api.Response;
 import com.dingoapp.dingo.api.model.Address;
 import com.dingoapp.dingo.google.maps.api.GoogleMapsApiService;
@@ -67,18 +67,13 @@ public class AddressSearchAdapter  extends RecyclerView.Adapter<AddressSearchAda
                     @Override
                     public void onClick(View v) {
                         GoogleMapsApiService.getInstance().getPlaceById(result.placeId.toString(),
-                                new Callback<Address>() {
+                                new CallbackAdapter<Address>(){
                                     @Override
-                                    public void onResponse(Response<Address> response) {
+                                    public void success(Response<Address> response) {
                                         if(response.code() == Response.HTTP_200_OK) {
                                             mOnAddressSelectedListener.onAddressFetched(response.body());
                                         }
                                         //TODO else
-                                    }
-
-                                    @Override
-                                    public void onFailure(Throwable t) {
-
                                     }
                                 });
                     }

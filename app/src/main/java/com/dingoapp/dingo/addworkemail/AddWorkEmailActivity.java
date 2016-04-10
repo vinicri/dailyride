@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.dingoapp.dingo.R;
 import com.dingoapp.dingo.addemail.AddEmailActivity;
+import com.dingoapp.dingo.api.ApiCallback;
 import com.dingoapp.dingo.api.DingoApiService;
 import com.dingoapp.dingo.api.Response;
 import com.dingoapp.dingo.api.model.Institution;
@@ -24,33 +25,27 @@ public class AddWorkEmailActivity extends AddEmailActivity {
     @Override
     protected void addEmail(String email, final Callback<Institution> callback) {
         DingoApiService.getInstance().userAddWork(email,
-                new com.dingoapp.dingo.api.Callback<Institution>() {
+                new ApiCallback<Institution>(AddWorkEmailActivity.this) {
                     @Override
-                    public void onResponse(Response<Institution> response) {
+                    public void success(Response<Institution> response) {
                         callback.onResponse(response);
                     }
 
-                    @Override
-                    public void onFailure(Throwable t) {
-                        callback.onFailure(t);
-                    }
+                    //todo other cases
+
                 });
     }
 
     @Override
     protected void sendDocument(String institutionName, Uri fileUri, final Callback<Institution> callback){
         DingoApiService.getInstance().uploadWorkCredential(institutionName, fileUri,
-                new com.dingoapp.dingo.api.Callback<Institution>() {
+                new ApiCallback<Institution>(AddWorkEmailActivity.this) {
                     @Override
-                    public void onResponse(Response<Institution> response) {
+                    public void success(Response<Institution> response) {
                         callback.onResponse(response);
                     }
-
-                    @Override
-                    public void onFailure(Throwable t) {
-                        callback.onFailure(t);
-                    }
                 });
+        //todo on failure
     }
 
     @Override
@@ -61,15 +56,10 @@ public class AddWorkEmailActivity extends AddEmailActivity {
     @Override
     protected void confirmPin(String pin, String entityName, final Callback<Institution> callback) {
         DingoApiService.getInstance().userConfirmWork(pin, entityName,
-                new com.dingoapp.dingo.api.Callback<Institution>() {
+                new ApiCallback<Institution>(AddWorkEmailActivity.this) {
                     @Override
-                    public void onResponse(Response<Institution> response) {
+                    public void success(Response<Institution> response) {
                         callback.onResponse(response);
-                    }
-
-                    @Override
-                    public void onFailure(Throwable t) {
-                        callback.onFailure(t);
                     }
                 });
     }

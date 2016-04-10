@@ -2,7 +2,6 @@ package com.dingoapp.dingo.slaveofferreply;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -12,7 +11,7 @@ import com.bumptech.glide.Glide;
 import com.dingoapp.dingo.BaseMapActivity;
 import com.dingoapp.dingo.OfferDetailsActivity;
 import com.dingoapp.dingo.R;
-import com.dingoapp.dingo.api.Callback;
+import com.dingoapp.dingo.api.ApiCallback;
 import com.dingoapp.dingo.api.DingoApiService;
 import com.dingoapp.dingo.api.Response;
 import com.dingoapp.dingo.api.model.RideMasterRequest;
@@ -107,9 +106,9 @@ public class SlaveOfferReplyActivity extends BaseMapActivity{
                     @Override
                     public void onClick(View v) {
                         DingoApiService.getInstance().acceptRideOfferSlave(mSlaveOffer.getId(), mDuration,
-                                new Callback<RideOfferSlave>() {
+                                new ApiCallback<RideOfferSlave>(SlaveOfferReplyActivity.this) {
                                     @Override
-                                    public void onResponse(Response<RideOfferSlave> response) {
+                                    public void success(Response<RideOfferSlave> response) {
                                         if(response.code() == Response.HTTP_200_OK){
                                             mOffer.getInvitesToAccept().clear();
                                             mOffer.getInvitesWaitingConfirmation().add(response.body());
@@ -121,12 +120,6 @@ public class SlaveOfferReplyActivity extends BaseMapActivity{
                                             setResult(RESULT_OK, resultData);
                                             finish();
                                         }
-
-                                    }
-
-                                    @Override
-                                    public void onFailure(Throwable t) {
-                                            Log.d("e", "e");
                                     }
                                 });
                     }
@@ -139,18 +132,13 @@ public class SlaveOfferReplyActivity extends BaseMapActivity{
                     @Override
                     public void onClick(View v) {
                         DingoApiService.getInstance().declineRideOfferSlave(mSlaveOffer.getId(), mDuration,
-                                new Callback<RideOfferSlave>() {
+                                new ApiCallback<RideOfferSlave>(SlaveOfferReplyActivity.this) {
                                     @Override
-                                    public void onResponse(Response<RideOfferSlave> response) {
+                                    public void success(Response<RideOfferSlave> response) {
                                         mOffer.getInvitesToAccept().clear();
                                         Intent intent = new Intent(SlaveOfferReplyActivity.this, OfferDetailsActivity.class);
                                         intent.putExtra(SlaveOfferReplyActivity.EXTRA_OFFER, mOffer);
                                         startActivity(intent);
-                                    }
-
-                                    @Override
-                                    public void onFailure(Throwable t) {
-
                                     }
                                 });
                     }

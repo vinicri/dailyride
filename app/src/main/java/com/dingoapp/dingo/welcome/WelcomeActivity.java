@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.dingoapp.dingo.R;
-import com.dingoapp.dingo.api.Callback;
+import com.dingoapp.dingo.api.ApiCallback;
 import com.dingoapp.dingo.api.DingoApiService;
 import com.dingoapp.dingo.api.Response;
 import com.dingoapp.dingo.api.model.User;
@@ -212,9 +212,9 @@ public class WelcomeActivity extends AppCompatActivity{
 
     private void sendToServer() {
         DingoApiService.getInstance().acceptTerms(mSelectedRiderMode,
-                new Callback() {
+                new ApiCallback<Void>(this) {
                     @Override
-                    public void onResponse(Response response) {
+                    public void success(Response<Void> response) {
                         if(response.code() == Response.HTTP_200_OK){
                             CurrentUser.getInstance().setRiderMode(mSelectedRiderMode);
                             Intent intent = new Intent(WelcomeActivity.this, RidesActivity.class);
@@ -222,12 +222,6 @@ public class WelcomeActivity extends AppCompatActivity{
                             finish();
                         }
                     }
-
-                    @Override
-                    public void onFailure(Throwable t) {
-
-                    }
                 });
-
     }
 }

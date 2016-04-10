@@ -12,7 +12,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.dingoapp.dingo.api.Callback;
+import com.dingoapp.dingo.api.ApiCallback;
 import com.dingoapp.dingo.api.DingoApiService;
 import com.dingoapp.dingo.api.Response;
 import com.dingoapp.dingo.api.model.User;
@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getSize(size);
         int initialY = size.y;
         final int loginBoxHeight = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 215, getResources().getDisplayMetrics());
+        mLoginBox.setTranslationY(loginBoxHeight);
         final int finalY  = initialY - loginBoxHeight;
 
 
@@ -96,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                       //  ObjectAnimator.ofInt(mButtonsBox, "translationY", 0, -loginBoxHeight).setDuration(250).start();
-                        //mButtonsBox.animate().translationYBy(-loginBoxHeight).setDuration(250).start();
+                        mButtonsBox.animate().translationYBy(-loginBoxHeight).alpha(0).setDuration(250).start();
                         mLoginBox.animate().translationYBy(-loginBoxHeight).setDuration(250).start();
                         mLoginBox.setVisibility(View.VISIBLE);
 
@@ -169,9 +170,9 @@ public class MainActivity extends AppCompatActivity {
                                                // user.setEmail("vinicri@gmail.com");
                                                 DingoApiService.getInstance().registerWithFacebook(
                                                         user,
-                                                        new Callback<User>() {
+                                                        new ApiCallback<User>(MainActivity.this) {
                                                             @Override
-                                                            public void onResponse(Response<User> response) {
+                                                            public void success(Response<User> response) {
                                                                 Log.d(TAG, response.toString());
 
 
@@ -199,13 +200,7 @@ public class MainActivity extends AppCompatActivity {
                                                                     startActivity(intent);
                                                                 }
                                                             }
-
-                                                            @Override
-                                                            public void onFailure(Throwable t) {
-                                                                Log.d(TAG, t.toString());
-                                                            }
-                                                        }
-                                                );
+                                                        });
                                             }
 
                                             @Override
@@ -227,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
+                        Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
                         startActivity(intent);
                     }
                 }

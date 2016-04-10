@@ -17,7 +17,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -34,7 +33,8 @@ import com.dingoapp.dingo.OfferInviteActivity;
 import com.dingoapp.dingo.R;
 import com.dingoapp.dingo.RequestActivity;
 import com.dingoapp.dingo.RequestDetailsActivity;
-import com.dingoapp.dingo.api.Callback;
+import com.dingoapp.dingo.analytics.Analytics;
+import com.dingoapp.dingo.api.ApiCallback;
 import com.dingoapp.dingo.api.DingoApiService;
 import com.dingoapp.dingo.api.Response;
 import com.dingoapp.dingo.api.model.RideEntity;
@@ -62,11 +62,12 @@ import butterknife.ButterKnife;
  */
 public class RidesActivity extends BaseActivity {
 
+    private static final String name = Analytics.SCREEN_RIDES;
+
     private static final int REQUEST_CODE_NEW_OFFER = 1;
     private static final int REQUEST_CODE_NEW_REQUEST = 2;
     private static final int REQUEST_CODE_EDIT_OFFER = 3;
     private static final int REQUEST_CODE_EDIT_REQUEST = 4;
-
 
     @Bind(R.id.request) Button mRequestButton;
     @Bind(R.id.request2) Button mRequestButton2;
@@ -144,9 +145,9 @@ public class RidesActivity extends BaseActivity {
         );
 
         DingoApiService.getInstance().getUserRides(
-                new Callback<UserRides>() {
+                new ApiCallback<UserRides>(this) {
                     @Override
-                    public void onResponse(Response<UserRides> response) {
+                    public void success(Response<UserRides> response) {
                         if (response.code() == Response.HTTP_200_OK) {
                             UserRides userRides = response.body();
                             mRideEntities.addAll(userRides.getRequests());
@@ -154,16 +155,8 @@ public class RidesActivity extends BaseActivity {
                             orderRideEntities();
                             mAdapter.notifyDataSetChanged();
                         }
-
                     }
-
-                    @Override
-                    public void onFailure(Throwable t) {
-                        Log.d("text", "text");
-                    }
-                }
-        );
-
+                });
 
         View.OnClickListener requestListener =
                 new View.OnClickListener() {
@@ -171,6 +164,10 @@ public class RidesActivity extends BaseActivity {
                     public void onClick(View v) {
                         Intent intent = new Intent(RidesActivity.this, RequestActivity.class);
                         startActivityForResult(intent, REQUEST_CODE_NEW_REQUEST);
+                        Analytics.getInstance().event(Analytics.CATEGORY_CREATE_OFFER,
+                                                        Analytics.ACTION_ENTER_SCREEN,
+                                                        null,
+                                                        null);
                     }
                 };
 
@@ -180,6 +177,10 @@ public class RidesActivity extends BaseActivity {
                     public void onClick(View v) {
                         Intent intent = new Intent(RidesActivity.this, OfferActivity.class);
                         startActivityForResult(intent, REQUEST_CODE_NEW_OFFER);
+                        Analytics.getInstance().event(Analytics.CATEGORY_CREATE_REQUEST,
+                                Analytics.ACTION_ENTER_SCREEN,
+                                null,
+                                null);
                     }
                 }
 
@@ -395,6 +396,7 @@ public class RidesActivity extends BaseActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(mRideOfferSlaveReceiver, new IntentFilter(BroadcastExtras.NOTIFICATION_RIDE_OFFER_SLAVE));
         LocalBroadcastManager.getInstance(this).registerReceiver(mOfferInviteAccepted, new IntentFilter(BroadcastExtras.NOTIFICATION_OFFER_INVITE_ACCEPTED));
         LocalBroadcastManager.getInstance(this).registerReceiver(mOfferInviteDeclined, new IntentFilter(BroadcastExtras.NOTIFICATION_OFFER_INVITE_DECLINED));
+        Analytics.getInstance().screenViewed(name);
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.dingoapp.dingo;
 
 import android.os.Bundle;
 
-import com.dingoapp.dingo.api.Callback;
+import com.dingoapp.dingo.api.ApiCallback;
 import com.dingoapp.dingo.api.DingoApiService;
 import com.dingoapp.dingo.api.Response;
 import com.dingoapp.dingo.api.RideUtils;
@@ -76,9 +76,9 @@ public abstract class BaseMapActivity extends BaseActivity implements OnMapReady
         }
 
         GoogleMapsApiService.getInstance().getDirections(mOrigin, mDestination, waypoints,
-                new Callback<DirectionsResponse>() {
+                new ApiCallback<DirectionsResponse>(this) {
                     @Override
-                    public void onResponse(Response<DirectionsResponse> response) {
+                    public void success(Response<DirectionsResponse> response) {
                         if(response.code() == Response.HTTP_200_OK) {
                             String encodedPoly = response.body().getRoutes().get(0).getOverviewPolyline().getPoints();
                             List<LatLng> polyLatLgn = Utils.decodePoly(encodedPoly);
@@ -94,12 +94,6 @@ public abstract class BaseMapActivity extends BaseActivity implements OnMapReady
                         else{
                             directionsFailed(mOrderedRequests);
                         }
-
-                    }
-
-                    @Override
-                    public void onFailure(Throwable t) {
-                        directionsFailed(mOrderedRequests);
                     }
                 });
 

@@ -9,11 +9,11 @@ import com.dingoapp.dingo.api.model.RideOfferSlave;
 import com.dingoapp.dingo.api.model.Token;
 import com.dingoapp.dingo.api.model.User;
 import com.dingoapp.dingo.api.model.UserRides;
+import com.dingoapp.dingo.util.ErrorHandlingCallAdapter.Call;
 import com.squareup.okhttp.RequestBody;
 
 import java.util.List;
 
-import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -51,7 +51,7 @@ public interface DingoApi {
     Call<Token> getFirebaseToken();
 
     @Multipart
-    @POST("users/credentialswork/")
+    @POST("/users/work/credentials/")
     Call<Institution> addWorkCredential(@Part("credential\"; filename=\"credential.png\"") RequestBody credential);
 
     @POST("/ridemasterrequest/findoffers/")

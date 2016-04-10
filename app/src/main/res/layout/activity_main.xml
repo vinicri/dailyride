@@ -37,7 +37,7 @@
             android:layout_marginBottom="@dimen/padding_half"
             android:layout_height="50dp"
             android:textColor="@color/white"
-            android:text="Login com Facebook"/>
+            android:text="Entrar com Facebook"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -71,8 +71,8 @@
     <LinearLayout
         android:id="@+id/login_box"
         android:layout_width="match_parent"
-        android:layout_below="@id/buttons_box"
         android:orientation="vertical"
+        android:layout_alignParentBottom="true"
         android:layout_marginTop="-1dp"
         android:background="@color/beige"
         android:paddingTop="@dimen/padding"

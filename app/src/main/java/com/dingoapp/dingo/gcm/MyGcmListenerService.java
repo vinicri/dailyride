@@ -23,7 +23,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.dingoapp.dingo.BroadcastExtras;
-import com.dingoapp.dingo.api.Callback;
+import com.dingoapp.dingo.api.CallbackAdapter;
 import com.dingoapp.dingo.api.DingoApiService;
 import com.dingoapp.dingo.api.Response;
 import com.dingoapp.dingo.api.model.RideOfferSlave;
@@ -107,9 +107,9 @@ public class MyGcmListenerService extends GcmListenerService {
     private void handleInvite(Bundle data, final String notification){
         long id = Long.parseLong(data.getString("id"));
         DingoApiService.getInstance().getRideOfferSlave(id,
-                new Callback<RideOfferSlave>() {
+                new CallbackAdapter<RideOfferSlave>(){
                     @Override
-                    public void onResponse(Response<RideOfferSlave> response) {
+                    public void success(Response<RideOfferSlave> response) {
                         if(response.code() == Response.HTTP_200_OK){
                             RideOfferSlave offerSlave = response.body();
                             if(AppLifeCycle.getInstance().isActivityVisible(RidesActivity.class)){
@@ -120,10 +120,7 @@ public class MyGcmListenerService extends GcmListenerService {
                         }
                     }
 
-                    @Override
-                    public void onFailure(Throwable t) {
-                        Log.d(TAG, "err");
-                    }
+                    //todo error
                 });
     }
     /**

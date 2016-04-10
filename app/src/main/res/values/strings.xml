@@ -97,6 +97,13 @@
     <string name="welcome_enter">ENTRAR</string>
     <string name="welcome_next">PRÓXIMO</string>
     <string name="chat_user_added">%1$s entrou nesta carona</string>
+    <string name="sign_up_first_name">nome</string>
+    <string name="sign_up_last_name">sobrenome</string>
+    <string name="sign_up_email">email</string>
+    <string name="sign_up_password">senha</string>
+    <string name="sign_up_phone">telefone</string>
+    <string name="sign_up_done">Cadastrar</string>
+
     <plurals name="request_new_got_new_matches">
         <item quantity="one">Uma carona disponível pra você.</item>
         <item quantity="two">Duas caronas disponíveis pra você.</item>
