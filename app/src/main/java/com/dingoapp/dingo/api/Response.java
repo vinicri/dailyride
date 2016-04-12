@@ -11,11 +11,19 @@ public class Response<T> {
 
     int statusCode;
     T body;
+    String error;
 
     public Response(int statusCode, T body){
         this.statusCode = statusCode;
         this.body = body;
     }
+
+    public Response(int statusCode, T body, String error){
+        this.statusCode = statusCode;
+        this.body = body;
+        this.error = error;
+    }
+
 
     public int code(){
         return statusCode;
@@ -23,6 +31,10 @@ public class Response<T> {
 
     public T body(){
         return body;
+    }
+
+    public String error(){
+        return error;
     }
 
 

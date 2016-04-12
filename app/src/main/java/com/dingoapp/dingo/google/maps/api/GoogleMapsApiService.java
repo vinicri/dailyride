@@ -8,7 +8,7 @@ import com.dingoapp.dingo.google.maps.api.directions.model.DirectionsResponse;
 import com.dingoapp.dingo.google.maps.api.geocoding.model.GeocodingResponse;
 import com.dingoapp.dingo.google.maps.api.places.model.AddressComponent;
 import com.dingoapp.dingo.google.maps.api.places.model.PlaceResponse;
-import com.dingoapp.dingo.util.DingoService;
+import com.dingoapp.dingo.api.DingoService;
 import com.dingoapp.dingo.util.ErrorHandlingCallAdapter;
 import com.dingoapp.dingo.util.ErrorHandlingCallAdapter.Call;
 import com.dingoapp.dingo.util.RetrofitLogInterceptor;

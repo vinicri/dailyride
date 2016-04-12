@@ -11,9 +11,8 @@ import com.dingoapp.dingo.api.model.RideOfferSlave;
 import com.dingoapp.dingo.api.model.Token;
 import com.dingoapp.dingo.api.model.User;
 import com.dingoapp.dingo.api.model.UserRides;
-import com.dingoapp.dingo.util.DingoService;
+import com.dingoapp.dingo.util.ErrorHandlingCallAdapter;
 import com.dingoapp.dingo.util.ErrorHandlingCallAdapter.Call;
-import com.dingoapp.dingo.util.ErrorHandlingCallAdapter.ErrorHandlingCallAdapterFactory;
 import com.dingoapp.dingo.util.OAuthInterceptor;
 import com.dingoapp.dingo.util.RetrofitLogInterceptor;
 import com.google.gson.Gson;
@@ -53,7 +52,7 @@ public class DingoApiService extends DingoService{
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(DingoApi.BASE_URL)
-                .addCallAdapterFactory(new ErrorHandlingCallAdapterFactory())
+                .addCallAdapterFactory(new ErrorHandlingCallAdapter.ErrorHandlingCallAdapterFactory())
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
@@ -202,6 +201,7 @@ public class DingoApiService extends DingoService{
         retrofit2.Response<GcmToken> response = apiService.createGcmToken(token).execute();
         return new Response<>(response.code(), response.body());
     }
+
 
 
 }

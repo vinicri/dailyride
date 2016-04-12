@@ -69,6 +69,7 @@ dependencies {
         transitive = true;
     }
     compile 'com.google.android.gms:play-services-analytics:8.4.0'
+    compile files('libs/rollbar-android-0.1.2-dev.jar')
 }
 
 /*for google gcm service*/

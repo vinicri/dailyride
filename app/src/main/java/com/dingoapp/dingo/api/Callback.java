@@ -1,5 +1,7 @@
 package com.dingoapp.dingo.api;
 
+import com.dingoapp.dingo.api.model.DingoError;
+
 import java.io.IOException;
 
 /**
@@ -14,7 +16,7 @@ public interface Callback<T> {
     /** Called for 401 responses. */
     void unauthenticated(Response<?> response);
     /** Called for [400, 500) responses, except 401. */
-    void clientError(Response<?> response);
+    void clientError(Response<?> response, DingoError error);
     /** Called for [500, 600) response. */
     void serverError(Response<?> response);
     /** Called for network errors while making the call. */

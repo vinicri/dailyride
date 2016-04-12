@@ -2,6 +2,8 @@ package com.dingoapp.dingo.util;
 
 import android.content.Context;
 
+import com.dingoapp.dingo.DingoApplication;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,6 +13,21 @@ import java.util.UUID;
 public class Installation {
     private static String sID = null;
     private static final String INSTALLATION = "INSTALLATION";
+
+    //todo without context?? is there any issues?
+    public synchronized static String id() {
+        if (sID == null) {
+            File installation = new File(DingoApplication.getAppContext().getFilesDir(), INSTALLATION);
+            try {
+                if (!installation.exists())
+                    writeInstallationFile(installation);
+                sID = readInstallationFile(installation);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return sID;
+    }
 
     public synchronized static String id(Context context) {
         if (sID == null) {

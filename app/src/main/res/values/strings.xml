@@ -112,6 +112,10 @@
     <string name="sign_up_phone_error_empty">obrigatório</string>
     <string name="sign_up_number_error_invalid">número inválido</string>
     <string name="no_internet_error">Sem accesso a internet. Verifique sua conexão e tente novamente.</string>
+    <string name="request_unexpected_error">Aconteceu um erro inesperado. Tente novamente mais tarde ou entre em contato com a gente pelo support@dailyrideapp.com.</string>
+    <string name="request_server_error">Não foi possível processar sua solicitação no momento. Por favor tente novamente mais tarde.</string>
+    <string name="dingo_err_10">Este email já está cadastrado. Volte e faça o login.</string>
+    <string name="dingo_err_11">Este email já foi cadastrado utilizando o Facebook. Volte e entre com o Facebook.</string>
 
     <plurals name="request_new_got_new_matches">
         <item quantity="one">Uma carona disponível pra você.</item>

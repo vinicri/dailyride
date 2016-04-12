@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.crashlytics.android.Crashlytics;
 import com.dingoapp.dingo.api.ApiCallback;
 import com.dingoapp.dingo.api.DingoApiService;
 import com.dingoapp.dingo.api.Response;
@@ -19,6 +20,7 @@ import com.dingoapp.dingo.api.model.User;
 import com.dingoapp.dingo.gcm.RegistrationIntentService;
 import com.dingoapp.dingo.rides.RidesActivity;
 import com.dingoapp.dingo.util.CurrentUser;
+import com.dingoapp.dingo.util.Installation;
 import com.dingoapp.dingo.util.SettingsUtil;
 import com.dingoapp.dingo.welcome.WelcomeActivity;
 import com.facebook.AccessToken;
@@ -62,11 +64,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if(CurrentUser.getInstance().isLoggedIn()){
+            Crashlytics.setUserIdentifier(String.valueOf(CurrentUser.getUser().getId()));
+            Crashlytics.setUserEmail(CurrentUser.getUser().getEmail());
             Intent intent = new Intent(this, RidesActivity.class);
             startActivity(intent);
             finish();
             return;
         }
+
+        //user not logged, set installation id as identifier for Crashlytics
+        Crashlytics.setUserIdentifier(Installation.id(this));
+
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 

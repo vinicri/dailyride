@@ -1,5 +1,7 @@
 package com.dingoapp.dingo.api;
 
+import com.dingoapp.dingo.api.model.DingoError;
+
 import java.io.IOException;
 
 /**
@@ -17,7 +19,7 @@ public class CallbackAdapter<T> implements Callback<T> {
     }
 
     @Override
-    public void clientError(Response<?> response) {
+    public void clientError(Response<?> response, DingoError error) {
 
     }
 

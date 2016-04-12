@@ -2,7 +2,6 @@ package com.dingoapp.dingo;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -12,11 +11,14 @@ import android.widget.RadioGroup;
 import com.dingoapp.dingo.api.ApiCallback;
 import com.dingoapp.dingo.api.DingoApiService;
 import com.dingoapp.dingo.api.Response;
+import com.dingoapp.dingo.api.model.DingoError;
 import com.dingoapp.dingo.api.model.User;
 import com.dingoapp.dingo.util.TextWatcherPhoneBR;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+import static com.dingoapp.dingo.util.ViewUtils.showOkDialog;
 
 /**
  * Created by guestguest on 10/04/16.
@@ -74,8 +76,18 @@ public class SignUpActivity extends BaseActivity{
                                         }
 
                                         @Override
-                                        public void clientError(Response<?> response) {
-                                            Log.d("test", "teste");
+                                        public void clientError(Response<?> response, DingoError error) {
+
+                                            switch (error.code()){
+                                                case DingoError.ERR_SIGN_UP_EXISTING_USER:
+                                                    showOkDialog(SignUpActivity.this, R.string.dingo_err_10);
+                                                    break;
+                                                case DingoError.ERR_SIGN_UP_EXISTING_FACEBOOK_USER:
+                                                    showOkDialog(SignUpActivity.this, R.string.dingo_err_11);
+                                                    break;
+                                                default:
+                                                    super.clientError(response, error);
+                                            }
                                         }
                                     }
                             );
