@@ -27,6 +27,9 @@ public class User implements Serializable{
 
     String password;
 
+    @SerializedName("registration_confirmed")
+    boolean registrationConfirmed;
+
     @SerializedName("first_name")
     String firstName;
 
@@ -95,6 +98,8 @@ public class User implements Serializable{
     @SerializedName("auth_token")
     OAuthToken authToken;
 
+
+
     public Long getId() {
         return id;
     }
@@ -133,6 +138,14 @@ public class User implements Serializable{
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean isRegistrationConfirmed() {
+        return registrationConfirmed;
+    }
+
+    public void setRegistrationConfirmed(boolean registrationConfirmed) {
+        this.registrationConfirmed = registrationConfirmed;
     }
 
     public boolean getAcceptedTerms() {

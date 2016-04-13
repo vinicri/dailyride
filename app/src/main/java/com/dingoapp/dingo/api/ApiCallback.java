@@ -30,7 +30,6 @@ public abstract class ApiCallback<T> implements Callback<T>{
 
     @Override
     public void unauthenticated(Response<?> response) {
-
     }
 
     @Override
@@ -94,5 +93,9 @@ public abstract class ApiCallback<T> implements Callback<T>{
         else{
             data.put("installation", Installation.id());
         }
+    }
+
+    public void onFinish(){
+
     }
 }

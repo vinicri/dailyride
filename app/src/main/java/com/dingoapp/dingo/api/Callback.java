@@ -23,4 +23,7 @@ public interface Callback<T> {
     void networkError(IOException e);
     /** Called for unexpected errors while making the call. */
     void unexpectedError(Throwable t);
+
+    /**Called when request completes**/
+    void onFinish();
 }

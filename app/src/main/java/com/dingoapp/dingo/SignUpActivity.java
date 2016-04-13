@@ -1,18 +1,22 @@
 package com.dingoapp.dingo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.dingoapp.dingo.api.ApiCallback;
 import com.dingoapp.dingo.api.DingoApiService;
 import com.dingoapp.dingo.api.Response;
 import com.dingoapp.dingo.api.model.DingoError;
 import com.dingoapp.dingo.api.model.User;
+import com.dingoapp.dingo.gcm.RegistrationIntentService;
+import com.dingoapp.dingo.util.SettingsUtil;
 import com.dingoapp.dingo.util.TextWatcherPhoneBR;
 
 import butterknife.Bind;
@@ -32,7 +36,9 @@ public class SignUpActivity extends BaseActivity{
     @Bind(R.id.password)EditText mPasswordEdit;
     @Bind(R.id.phone)EditText mPhoneEdit;
 
-    @Bind(R.id.sign_up)Button mSignUp;
+    @Bind(R.id.sign_up_button)View mSignUp;
+    @Bind(R.id.sign_up_text)TextView mSignUpText;
+    @Bind(R.id.sign_up_spin)ProgressBar mSignUpSpin;
 
 
     @Override
@@ -63,15 +69,24 @@ public class SignUpActivity extends BaseActivity{
                             user.setPassword(mPasswordEdit.getText().toString());
                             user.setPhone(mPhoneEdit.getText().toString().replaceAll("[^0-9]*", ""));
 
+                            mSignUpText.setVisibility(View.GONE);
+                            mSignUpSpin.setVisibility(View.VISIBLE);
                             DingoApiService.getInstance().userRegister(user,
-                                    new ApiCallback<Void>(SignUpActivity.this){
+                                    new ApiCallback<User>(SignUpActivity.this){
                                         @Override
-                                        public void success(Response<Void> response) {
+                                        public void success(Response<User> response) {
                                             if(response.code() == Response.HTTP_201_CREATED){
+                                                SettingsUtil.setCurrentUser(SignUpActivity.this, response.body());
+                                                //register gcm
+                                                Intent gcmIntent = new Intent(SignUpActivity.this, RegistrationIntentService.class);
+                                                startService(gcmIntent);
 
+                                                Intent intent = new Intent(SignUpActivity.this, ConfirmRegistrationActivity.class);
+                                                startActivity(intent);
                                             }
                                             else{
                                                 //todo
+                                                //Rollbar.
                                             }
                                         }
 
@@ -85,9 +100,18 @@ public class SignUpActivity extends BaseActivity{
                                                 case DingoError.ERR_SIGN_UP_EXISTING_FACEBOOK_USER:
                                                     showOkDialog(SignUpActivity.this, R.string.dingo_err_11);
                                                     break;
+                                                case DingoError.ERR_SIGN_UP_EXISTING_PHONE:
+                                                    showOkDialog(SignUpActivity.this, R.string.dingo_err_12);
+                                                    break;
                                                 default:
                                                     super.clientError(response, error);
                                             }
+                                        }
+
+                                        @Override
+                                        public void onFinish() {
+                                            mSignUpText.setVisibility(View.VISIBLE);
+                                            mSignUpSpin.setVisibility(View.GONE);
                                         }
                                     }
                             );

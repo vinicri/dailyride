@@ -166,18 +166,39 @@
             android:layout_height="0dp"
             android:layout_weight="1"/>
 
-        <Button
-            android:id="@+id/sign_up"
+
+        <RelativeLayout
+            android:id="@+id/sign_up_button"
             android:layout_width="200dp"
             android:layout_height="50dp"
-            android:textColor="@color/white"
-            android:text="@string/sign_up_done"
             android:background="@drawable/shape_button_orange"
-            android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/padding"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="@dimen/padding_half">
+
+            <TextView
+                android:id="@+id/sign_up_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sign_up_done"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:layout_centerInParent="true"
+                android:textColor="@color/white"/>
+
+            <ProgressBar
+                android:visibility="gone"
+                android:id="@+id/sign_up_spin"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerInParent="true"/>
+
+        </RelativeLayout>
 
         </LinearLayout>
+
+
 
     </ScrollView>
 

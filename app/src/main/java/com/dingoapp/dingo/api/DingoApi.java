@@ -29,8 +29,8 @@ import retrofit2.http.Query;
  */
 public interface DingoApi {
 
-    String BASE_URL = "http://192.168.0.102:8000/api/";
-    String STATIC_URL = "http://192.168.0.102:8000/static/";
+    String BASE_URL = "http://192.168.0.107:8000/api/";
+    String STATIC_URL = "http://192.168.0.107:8000/static/";
 
     @POST("/users/login_fb/")
     Call<User> registerWithFacebook(@Body User user);
@@ -50,8 +50,11 @@ public interface DingoApi {
     @POST("/users/firebasetoken/")
     Call<Token> getFirebaseToken();
 
-    @POST("/users/register/")
-    Call<Void> userRegister(@Body User user);
+    @POST("/users/signup/")
+    Call<User> userRegister(@Body User user);
+
+    @POST("/signup/confirm/")
+    Call<Void> userSignupConfirm(@Query("pin")String pin);
 
     @Multipart
     @POST("/users/work/credentials/")

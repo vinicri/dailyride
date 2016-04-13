@@ -45,6 +45,7 @@ public class DingoApiService extends DingoService{
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(new RetrofitLogInterceptor())
                 .addInterceptor(new OAuthInterceptor())
+
                 //todo review timeouts
                 .readTimeout(60, TimeUnit.SECONDS)
                 .connectTimeout(60, TimeUnit.SECONDS)
@@ -72,8 +73,13 @@ public class DingoApiService extends DingoService{
         enqueueCall(call, callback);
     }
 
-    public void userRegister(User user, final Callback<Void> callback){
-        Call<Void> call = apiService.userRegister(user);
+    public void userRegister(User user, final Callback<User> callback){
+        Call<User> call = apiService.userRegister(user);
+        enqueueCall(call, callback);
+    }
+
+    public void userSignUpConfirm(String pin, Callback<Void> callback){
+        Call<Void> call = apiService.userSignupConfirm(pin);
         enqueueCall(call, callback);
     }
 

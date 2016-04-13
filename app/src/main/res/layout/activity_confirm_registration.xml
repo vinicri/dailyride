@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/beige">
+
+    <TextView
+        android:layout_marginTop="@dimen/padding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:text="Insira o código enviado para"/>
+
+    <TextView
+        android:id="@+id/phone_text"
+        android:layout_marginBottom="@dimen/padding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="16sp"
+        tools:text="(11) 96431-1561"/>
+
+    <EditText
+        android:id="@+id/code_edit"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="80dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="xxx xxx"
+        android:textColorHint="@color/light_gray"
+        android:inputType="number"
+        android:textSize="32sp"
+        android:gravity="center"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Aguarde alguns instantes para receber o código."/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/resend_code_button"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:background="@drawable/shape_button_grey"
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone"
+            android:text="REENVIAR"
+            android:textColor="@color/white"/>
+
+
+        <RelativeLayout
+            android:id="@+id/confirm_code_button"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:background="@drawable/shape_button_orange"
+            android:layout_marginTop="@dimen/padding"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="@dimen/padding_half">
+
+            <TextView
+                android:id="@+id/confirm_code_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CONFIRMAR"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:layout_centerInParent="true"
+                android:textColor="@color/white"/>
+
+            <ProgressBar
+                android:visibility="gone"
+                android:id="@+id/confirm_code_spin"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerInParent="true"/>
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

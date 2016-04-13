@@ -116,6 +116,9 @@
     <string name="request_server_error">Não foi possível processar sua solicitação no momento. Por favor tente novamente mais tarde.</string>
     <string name="dingo_err_10">Este email já está cadastrado. Volte e faça o login.</string>
     <string name="dingo_err_11">Este email já foi cadastrado utilizando o Facebook. Volte e entre com o Facebook.</string>
+    <string name="dingo_err_12">Este celular já está associado à outra conta.</string>
+    <string name="activity_confirm_registration">Verificação de Cadastro</string>
+    <string name="dingo_err_20">Código incorreto. Por favor verifique e tente novamente.</string>
 
     <plurals name="request_new_got_new_matches">
         <item quantity="one">Uma carona disponível pra você.</item>

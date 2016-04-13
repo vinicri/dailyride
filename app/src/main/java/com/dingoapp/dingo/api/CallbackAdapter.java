@@ -37,4 +37,9 @@ public class CallbackAdapter<T> implements Callback<T> {
     public void unexpectedError(Throwable t) {
 
     }
+
+    @Override
+    public void onFinish() {
+
+    }
 }

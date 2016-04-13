@@ -34,12 +34,14 @@ public abstract class DingoService {
                     @Override
                     public void success(retrofit2.Response<T> response) {
                         Response<T> dResponse = new Response<T>(response.code(), response.body());
+                        callback.onFinish();
                         callback.success(dResponse);
                     }
 
                     @Override
                     public void unauthenticated(retrofit2.Response<?> response) {
                         Response dResponse = new Response(response.code(), response.body());
+                        callback.onFinish();
                         callback.unauthenticated(dResponse);
                     }
 
@@ -59,7 +61,7 @@ public abstract class DingoService {
                         } catch (IOException e) {
                             Crashlytics.logException(e);
                         }
-
+                        callback.onFinish();
                         callback.clientError(dResponse, dingoError);
                     }
 
@@ -72,16 +74,19 @@ public abstract class DingoService {
                             Crashlytics.logException(e);
                         }
                         Response dResponse = new Response(response.code(), response.body(), errorBody);
+                        callback.onFinish();
                         callback.serverError(dResponse);
                     }
 
                     @Override
                     public void networkError(IOException e) {
+                        callback.onFinish();
                         callback.networkError(e);
                     }
 
                     @Override
                     public void unexpectedError(Throwable t) {
+                        callback.onFinish();
                         callback.unexpectedError(t);
                     }
                 }
