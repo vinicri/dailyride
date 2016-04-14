@@ -1,6 +1,13 @@
 package com.dingoapp.dingo;
 
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.AlertDialog;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -12,6 +19,8 @@ import com.dingoapp.dingo.api.DingoApiService;
 import com.dingoapp.dingo.api.Response;
 import com.dingoapp.dingo.api.model.DingoError;
 import com.dingoapp.dingo.util.CurrentUser;
+import com.dingoapp.dingo.util.SettingsUtil;
+import com.dingoapp.dingo.welcome.WelcomeActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -21,7 +30,7 @@ import static com.dingoapp.dingo.util.ViewUtils.showOkDialog;
 /**
  * Created by guestguest on 12/04/16.
  */
-public class ConfirmRegistrationActivity extends BaseActivity {
+public class SignUpConfirmActivity extends BaseActivity {
 
     @Bind(R.id.phone_text)TextView mPhoneText;
     @Bind(R.id.code_edit)EditText mCodeEdit;
@@ -32,7 +41,7 @@ public class ConfirmRegistrationActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_confirm_registration);
+        setContentView(R.layout.activity_signup_confirm);
         getSupportActionBar().setTitle(R.string.activity_confirm_registration);
 
         ButterKnife.bind(this);
@@ -42,21 +51,23 @@ public class ConfirmRegistrationActivity extends BaseActivity {
         mCodeEdit.requestFocus();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
+        mConfirmSpin.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+
         mConfirmButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         mConfirmText.setVisibility(View.GONE);
                         mConfirmSpin.setVisibility(View.VISIBLE);
-                        DingoApiService.getInstance().userSignUpConfirm(mConfirmText.getText().toString(),
-                                new ApiCallback<Void>(ConfirmRegistrationActivity.this) {
+                        DingoApiService.getInstance().userSignUpConfirm(mCodeEdit.getText().toString(),
+                                new ApiCallback<Void>(SignUpConfirmActivity.this) {
                                     @Override
                                     public void success(Response<Void> response) {
                                         if(response.code() == Response.HTTP_200_OK){
-                                            //
-
-                                            //Intent intent = new Intent(ConfirmRegistrationActivity.this, WelcomeActivity.class);
-                                            //startActivity(intent);
+                                            CurrentUser.getInstance().setPhoneConfirmed(true);
+                                            CurrentUser.getInstance().setRegistrationConfirmed(true);
+                                            Intent intent = new Intent(SignUpConfirmActivity.this, WelcomeActivity.class);
+                                            startActivity(intent);
                                         }
                                         else{
                                             //todo
@@ -67,7 +78,7 @@ public class ConfirmRegistrationActivity extends BaseActivity {
                                     public void clientError(Response<?> response, DingoError error) {
                                         switch (error.code()) {
                                             case DingoError.ERR_PHONE_CONFIRMATION_CODE_WRONG:
-                                                showOkDialog(ConfirmRegistrationActivity.this, R.string.dingo_err_20);
+                                                showOkDialog(SignUpConfirmActivity.this, R.string.dingo_err_20);
                                                 break;
                                             default:
                                                 super.clientError(response, error);
@@ -86,5 +97,34 @@ public class ConfirmRegistrationActivity extends BaseActivity {
         );
 
 
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                new AlertDialog.Builder(this)
+                        .setMessage(R.string.sign_up_confirm_back)
+                        .setPositiveButton(R.string.yes,
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        SettingsUtil.setCurrentUser(SignUpConfirmActivity.this, null);
+                                        SettingsUtil.setSentTokenToServer(SignUpConfirmActivity.this, false);
+                                        NavUtils.navigateUpFromSameTask(SignUpConfirmActivity.this);
+                                    }
+                                })
+                        .setNegativeButton(R.string.no, null)
+                        .show();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

@@ -119,6 +119,11 @@
     <string name="dingo_err_12">Este celular já está associado à outra conta.</string>
     <string name="activity_confirm_registration">Verificação de Cadastro</string>
     <string name="dingo_err_20">Código incorreto. Por favor verifique e tente novamente.</string>
+    <string name="sign_up_confirm_back">Deseja abandonar este cadastro e voltar à tela inicial?</string>
+    <string name="main_login_email_enter">Insira seu email para prosseguir.</string>
+    <string name="main_login_email_invalid">O formato do email é ínvalido. Corrija e tente novamente.</string>
+    <string name="main_login_password_enter">Insira sua senha para prosseguir.</string>
+    <string name="main_login_wrong_credentials">Dados não conferem. Verique seu email e senha e tente novamente.</string>
 
     <plurals name="request_new_got_new_matches">
         <item quantity="one">Uma carona disponível pra você.</item>

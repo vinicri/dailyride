@@ -12,6 +12,8 @@ public class DingoError {
 
     public static final int ERR_PHONE_CONFIRMATION_CODE_WRONG = 20;
 
+    public static final int ERR_LOGIN_WRONG_CREDENTIALS = 30;
+
     int code = ERR_EMPTY;
     String message = "__empty__";
 

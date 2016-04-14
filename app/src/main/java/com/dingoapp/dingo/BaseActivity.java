@@ -6,6 +6,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -79,12 +80,12 @@ public class BaseActivity extends AppCompatActivity {
         if (mDrawerLayout == null) {
             if (mActionBarToolbar != null) {
                 mActionBarToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
-                mActionBarToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                /*mActionBarToolbar.setNavigationOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                        finish();
                     }
-                });
+                });*/
             }
             return;
         }
@@ -174,6 +175,17 @@ public class BaseActivity extends AppCompatActivity {
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

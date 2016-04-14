@@ -6,13 +6,15 @@
     android:layout_height="match_parent"
     android:background="@color/beige">
 
+    <include layout="@layout/toolbar_actionbar" />
+
     <TextView
         android:layout_marginTop="@dimen/padding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textSize="16sp"
-        android:text="Insira o código enviado para"/>
+        android:text="Para finalizar seu cadastro,\ninsira o código enviado para"/>
 
     <TextView
         android:id="@+id/phone_text"

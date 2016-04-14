@@ -3,10 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/black"
     tools:context="com.dingoapp.dingo.MainActivity">
 
     <ImageView
         android:id="@+id/background"
+        android:background="@android:color/black"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
@@ -71,33 +73,62 @@
     <LinearLayout
         android:id="@+id/login_box"
         android:layout_width="match_parent"
+        android:layout_height="280dp"
         android:orientation="vertical"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="-1dp"
         android:background="@color/beige"
-        android:paddingTop="@dimen/padding"
-        android:layout_height="215dp">
+        android:paddingTop="@dimen/padding_half">
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/padding"
-            android:paddingRight="@dimen/padding"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/login_back"
+                android:padding="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/back_grey_24dp"
+                android:layout_marginLeft="@dimen/padding_half"
+                android:scaleType="centerInside"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray_dark"
+                android:textSize="18sp"
+                android:padding="@dimen/padding_half"
+                android:text="Entrar"
+                android:textStyle="bold"
+                android:layout_gravity="center_vertical"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_half"
                 android:text="Email"
                 android:textColor="@color/gray_dark"
                 />
 
             <EditText
+                android:id="@+id/email_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/padding_half"
-                android:paddingLeft="@dimen/padding_half"
+                android:paddingBottom="@dimen/padding_half"
+                android:paddingTop="@dimen/padding_half"
+                android:inputType="textEmailAddress"
                 android:background="@android:color/transparent"
                 android:hint="insira seu email"/>
 
@@ -111,10 +142,12 @@
                 />
 
             <EditText
+                android:id="@+id/password_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/padding_half"
-                android:layout_marginTop="@dimen/padding_half"
+                android:paddingBottom="@dimen/padding_half"
+                android:paddingTop="@dimen/padding_half"
+                android:inputType="textWebPassword"
                 android:background="@android:color/transparent"
                 android:hint="insira sua senha"/>
 
@@ -127,25 +160,64 @@
             android:layout_margin="@dimen/padding"
             android:gravity="center">
 
-            <Button
+
+            <RelativeLayout
                 android:id="@+id/forgot_password"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="50dp"
                 android:background="@drawable/shape_button_grey"
-                android:textColor="@color/white"
-                android:text="Esqueci a senha"
-                android:layout_marginRight="10dp"/>
+                android:layout_marginTop="@dimen/padding"
+                android:layout_marginBottom="20dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="@dimen/padding_half">
 
-            <Button
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Esqueci a senha"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    android:layout_centerInParent="true"
+                    android:textColor="@color/white"/>
+
+                <ProgressBar
+                    android:visibility="gone"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/login"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="50dp"
                 android:background="@drawable/shape_button_orange"
-                android:textColor="@color/white"
-                android:text="ENTRAR"/>
+                android:layout_marginTop="@dimen/padding"
+                android:layout_marginBottom="20dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="@dimen/padding_half">
 
+                <TextView
+                    android:id="@+id/login_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ENTRAR"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    android:layout_centerInParent="true"
+                    android:textColor="@color/white"/>
+
+                <ProgressBar
+                    android:visibility="gone"
+                    android:id="@+id/login_spin"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"/>
+
+            </RelativeLayout>
 
         </LinearLayout>
 

@@ -73,6 +73,11 @@ public class DingoApiService extends DingoService{
         enqueueCall(call, callback);
     }
 
+    public void userLogin(String email, String password, Callback<User> callback){
+        final Call<User> call = apiService.userLogin(email, password);
+        enqueueCall(call, callback);
+    }
+
     public void userRegister(User user, final Callback<User> callback){
         Call<User> call = apiService.userRegister(user);
         enqueueCall(call, callback);

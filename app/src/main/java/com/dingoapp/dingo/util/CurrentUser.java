@@ -31,6 +31,17 @@ public class CurrentUser {
         save();
     }
 
+    public void setPhoneConfirmed(boolean confirmed){
+        user.setPhoneConfirmed(confirmed);
+        save();
+    }
+
+    public void setRegistrationConfirmed(boolean confirmed){
+        user.setRegistrationConfirmed(confirmed);
+        save();
+    }
+
+
     public static User getUser(){
         return getInstance().user;
     }

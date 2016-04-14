@@ -16,6 +16,8 @@ import java.util.List;
 
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -29,11 +31,15 @@ import retrofit2.http.Query;
  */
 public interface DingoApi {
 
-    String BASE_URL = "http://192.168.0.107:8000/api/";
-    String STATIC_URL = "http://192.168.0.107:8000/static/";
+    String BASE_URL = "http://192.168.0.100:8000/api/";
+    String STATIC_URL = "http://192.168.0.100:8000/static/";
 
     @POST("/users/login_fb/")
     Call<User> registerWithFacebook(@Body User user);
+
+    @FormUrlEncoded
+    @POST("/users/login/")
+    Call<User> userLogin(@Field("email") String email, @Field("password") String password);
 
     @POST("/users/accept_terms/")
     Call<Void> acceptTerms(@Query("rider_mode")User.RiderMode riderMode);
@@ -53,7 +59,7 @@ public interface DingoApi {
     @POST("/users/signup/")
     Call<User> userRegister(@Body User user);
 
-    @POST("/signup/confirm/")
+    @POST("/users/signup/confirm/")
     Call<Void> userSignupConfirm(@Query("pin")String pin);
 
     @Multipart

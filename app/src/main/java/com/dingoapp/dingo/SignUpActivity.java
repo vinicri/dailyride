@@ -1,6 +1,8 @@
 package com.dingoapp.dingo;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
@@ -12,10 +14,10 @@ import android.widget.TextView;
 
 import com.dingoapp.dingo.api.ApiCallback;
 import com.dingoapp.dingo.api.DingoApiService;
+import com.dingoapp.dingo.api.GCMUtils;
 import com.dingoapp.dingo.api.Response;
 import com.dingoapp.dingo.api.model.DingoError;
 import com.dingoapp.dingo.api.model.User;
-import com.dingoapp.dingo.gcm.RegistrationIntentService;
 import com.dingoapp.dingo.util.SettingsUtil;
 import com.dingoapp.dingo.util.TextWatcherPhoneBR;
 
@@ -51,6 +53,8 @@ public class SignUpActivity extends BaseActivity{
 
         mPhoneEdit.addTextChangedListener(new TextWatcherPhoneBR());
 
+        mSignUpSpin.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+
         mSignUp.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -77,11 +81,10 @@ public class SignUpActivity extends BaseActivity{
                                         public void success(Response<User> response) {
                                             if(response.code() == Response.HTTP_201_CREATED){
                                                 SettingsUtil.setCurrentUser(SignUpActivity.this, response.body());
-                                                //register gcm
-                                                Intent gcmIntent = new Intent(SignUpActivity.this, RegistrationIntentService.class);
-                                                startService(gcmIntent);
 
-                                                Intent intent = new Intent(SignUpActivity.this, ConfirmRegistrationActivity.class);
+                                                GCMUtils.registerGCM(SignUpActivity.this);
+
+                                                Intent intent = new Intent(SignUpActivity.this, SignUpConfirmActivity.class);
                                                 startActivity(intent);
                                             }
                                             else{
