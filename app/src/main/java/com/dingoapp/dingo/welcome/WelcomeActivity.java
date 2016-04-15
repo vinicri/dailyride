@@ -5,6 +5,8 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +14,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.dingoapp.dingo.R;
 import com.dingoapp.dingo.api.ApiCallback;
@@ -31,7 +35,7 @@ public class WelcomeActivity extends AppCompatActivity{
 
     private static final String TAG = "WelcomeActivity";
     private LinearLayout mAcceptTermsBox;
-    private Button mAcceptedButton;
+    private TextView mAcceptedButton;
 
     private View mRiderModeBox;
     private Button mYesButton;
@@ -41,10 +45,12 @@ public class WelcomeActivity extends AppCompatActivity{
     private User.RiderMode mSelectedRiderMode;
     private NonSwipebleViewPager mViewPager;
     private CirclePageIndicator mPagerIndicator;
+    private ProgressBar mAcceptedSpin;
 
     private int previousIdlePagerPosition = 0;
     private IntroPagerAdapter mPagerAdapter;
     private boolean mEnterEnabled = false;
+    private boolean isProcessing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +66,10 @@ public class WelcomeActivity extends AppCompatActivity{
 */
 
         mAcceptTermsBox = (LinearLayout)findViewById(R.id.accept_terms_box);
-        mAcceptedButton = (Button)findViewById(R.id.accepted);
+        mAcceptedButton = (TextView)findViewById(R.id.accepted);
+        mAcceptedSpin = (ProgressBar)findViewById(R.id.accepted_spin);
+
+        mAcceptedSpin.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
 
         mRiderModeBox = findViewById(R.id.rider_mode_box);
         mYesButton = (Button)findViewById(R.id.yes);
@@ -118,7 +127,7 @@ public class WelcomeActivity extends AppCompatActivity{
                     public void onClick(View v) {
                         if(mEnterEnabled){
                             mDidAcceptTerms = true;
-                            //sendToServer();
+                            sendToServer();
                         }
                         else{
                             mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
@@ -211,16 +220,32 @@ public class WelcomeActivity extends AppCompatActivity{
     }
 
     private void sendToServer() {
+        if(isProcessing){
+            return;
+        }
+
+        isProcessing = true;
+        mAcceptedSpin.setVisibility(View.VISIBLE);
+        mAcceptedButton.setText("");
         DingoApiService.getInstance().acceptTerms(mSelectedRiderMode,
                 new ApiCallback<Void>(this) {
                     @Override
                     public void success(Response<Void> response) {
                         if(response.code() == Response.HTTP_200_OK){
                             CurrentUser.getInstance().setRiderMode(mSelectedRiderMode);
+                            CurrentUser.getInstance().setAcceptedTerms(true);
                             Intent intent = new Intent(WelcomeActivity.this, RidesActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
                             finish();
                         }
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        isProcessing = false;
+                        mAcceptedSpin.setVisibility(View.GONE);
+                        mAcceptedButton.setText(getString(R.string.welcome_enter));
                     }
                 });
     }

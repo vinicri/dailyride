@@ -78,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //PreferenceManager.getDefaultSharedPreferences(this).edit().clear().commit();
         //todo remove - for cleanup
-        //SettingsUtil.setCurrentUser(this, null);
         //SettingsUtil.setSentTokenToServer(this, false);
         if (!SettingsUtil.getSentTokenToServer(this) && checkPlayServices()) {
 
@@ -90,13 +89,19 @@ public class MainActivity extends AppCompatActivity {
             Crashlytics.setUserIdentifier(String.valueOf(CurrentUser.getUser().getId()));
             Crashlytics.setUserEmail(CurrentUser.getUser().getEmail());
 
-            if(CurrentUser.getUser().isRegistrationConfirmed()) {
-                Intent intent = new Intent(this, RidesActivity.class);
+            if(!CurrentUser.getUser().isRegistrationConfirmed()){
+                Intent intent = new Intent(this, SignUpConfirmActivity.class);
+                intent.putExtra(SignUpConfirmActivity.EXTRA_SHOULD_GO_BACK_TO_PARENT, true);
+                startActivity(intent);
+                finish();
+            }
+            else if(!CurrentUser.getUser().getAcceptedTerms()){
+                Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
                 startActivity(intent);
                 finish();
             }
             else{
-                Intent intent = new Intent(this, SignUpConfirmActivity.class);
+                Intent intent = new Intent(this, RidesActivity.class);
                 startActivity(intent);
                 finish();
             }

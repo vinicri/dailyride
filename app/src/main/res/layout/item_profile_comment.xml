@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:paddingLeft="@dimen/padding"
+    android:paddingRight="@dimen/padding"
+    android:paddingTop="@dimen/padding_half"
+    android:paddingBottom="@dimen/padding_half"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/section_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="COMENTÁRIOS DE AVALIAÇÕES"
+        android:layout_marginBottom="@dimen/padding"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
+
+    <LinearLayout
+        android:id="@+id/comment_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:background="@drawable/shape_user_photo_border_oval"
+            android:padding="@dimen/user_photo_oval_padding"
+            android:id="@+id/picture"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/padding_half"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Vinicius Silva"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/comment"
+                android:layout_marginTop="@dimen/padding_quarter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Lorem ipsum dolor sit amet, ut cum, proin sed elit consectetuer, convallis mauris egestas tempus. Porttitor lorem urna tellus porttitor amet suscipit, mollis dapibus ultrices ullamcorper commodo, quisque ut aliquet, aliquam purus elit sed sit ornare."/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/no_comments_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/padding">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:text="Este usuário não recebeu\nnenhum comentário ainda."/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:visibility="visible"
+        android:id="@+id/progress_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/padding">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

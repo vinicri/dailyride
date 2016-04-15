@@ -140,6 +140,9 @@
             android:name=".SignUpActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".profile.NewProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
             android:name=".SignUpConfirmActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".MainActivity" >

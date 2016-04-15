@@ -28,6 +28,12 @@
         <item name="android:textColorPrimary">#FFFFFF</item>
     </style>
 
+    <style name="ProfileToolbarTextStyle" parent="@android:style/TextAppearance">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="WelcomePagerIndicator">
         <item name="fillColor">@color/gray_dark</item>
         <item name="strokeColor">@color/gray_dark</item>

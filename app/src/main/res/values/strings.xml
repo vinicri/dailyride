@@ -124,6 +124,8 @@
     <string name="main_login_email_invalid">O formato do email é ínvalido. Corrija e tente novamente.</string>
     <string name="main_login_password_enter">Insira sua senha para prosseguir.</string>
     <string name="main_login_wrong_credentials">Dados não conferem. Verique seu email e senha e tente novamente.</string>
+    <string name="sign_up_confirmation_code_enter">Insira o código recebido por SMS para prosseguir.</string>
+    <string name="profile_phone_confirmed">Telefone verificado</string>
 
     <plurals name="request_new_got_new_matches">
         <item quantity="one">Uma carona disponível pra você.</item>
@@ -180,7 +182,7 @@
         <item quantity="other">ainda precisam confirmar</item>
     </plurals>
 
-    <plurals name="own_profile_fb_friends">
+    <plurals name="profile_fb_friends">
         <item quantity="zero">Nenhum amigo</item>
         <item quantity="one">%1$d amigo</item>
         <item quantity="other">%1$d amigos</item>

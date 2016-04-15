@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.dingoapp.dingo.api.DingoApiService;
 import com.dingoapp.dingo.paymentinfo.PaymentInfoActivity;
+import com.dingoapp.dingo.profile.NewProfileActivity;
 import com.dingoapp.dingo.util.CircleTransform;
 import com.dingoapp.dingo.util.CurrentUser;
 import com.dingoapp.dingo.util.SettingsUtil;
@@ -149,7 +150,8 @@ public class BaseActivity extends AppCompatActivity {
         switch(item.getId()){
             case R.id.profile_item:
                 //openActivity()
-                openActivity(OwnProfileActivity.class);
+                //openActivity(OwnProfileActivity.class);
+                openActivity(NewProfileActivity.class);
                 break;
             case R.id.payment_item:
                 openActivity(PaymentInfoActivity.class);

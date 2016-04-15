@@ -84,7 +84,7 @@ public class OwnProfileActivity extends BaseActivity {
         }
         else{
             mFbBox.setVisibility(View.VISIBLE);
-            mFbText.setText(getResources().getQuantityString(R.plurals.own_profile_fb_friends, mUser.getFbTotalFriends()));
+            mFbText.setText(getResources().getQuantityString(R.plurals.profile_fb_friends, mUser.getFbTotalFriends()));
         }
 
         if(mUser.getCompany() == null && mUser.getWorkSpecifiedName() == null){

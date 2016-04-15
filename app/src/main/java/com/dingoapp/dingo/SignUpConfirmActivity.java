@@ -32,11 +32,15 @@ import static com.dingoapp.dingo.util.ViewUtils.showOkDialog;
  */
 public class SignUpConfirmActivity extends BaseActivity {
 
+    public static final String EXTRA_SHOULD_GO_BACK_TO_PARENT = "EXTRA_SHOULD_GO_BACK_TO_PARENT";
+
     @Bind(R.id.phone_text)TextView mPhoneText;
     @Bind(R.id.code_edit)EditText mCodeEdit;
     @Bind(R.id.confirm_code_button)View mConfirmButton;
     @Bind(R.id.confirm_code_text)TextView mConfirmText;
     @Bind(R.id.confirm_code_spin)ProgressBar mConfirmSpin;
+
+    private boolean mShouldGoBackToParent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +49,8 @@ public class SignUpConfirmActivity extends BaseActivity {
         getSupportActionBar().setTitle(R.string.activity_confirm_registration);
 
         ButterKnife.bind(this);
+
+        mShouldGoBackToParent = getIntent().getBooleanExtra(EXTRA_SHOULD_GO_BACK_TO_PARENT, false);
 
         mPhoneText.setText(CurrentUser.getUser().getPhone());
 
@@ -59,6 +65,11 @@ public class SignUpConfirmActivity extends BaseActivity {
                     public void onClick(View v) {
                         mConfirmText.setVisibility(View.GONE);
                         mConfirmSpin.setVisibility(View.VISIBLE);
+                        if(mCodeEdit.getText() == null || mCodeEdit.getText().length() == 0){
+                            showOkDialog(SignUpConfirmActivity.this, R.string.sign_up_confirmation_code_enter);
+                            return;
+                        }
+
                         DingoApiService.getInstance().userSignUpConfirm(mCodeEdit.getText().toString(),
                                 new ApiCallback<Void>(SignUpConfirmActivity.this) {
                                     @Override
@@ -105,19 +116,26 @@ public class SignUpConfirmActivity extends BaseActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                new AlertDialog.Builder(this)
-                        .setMessage(R.string.sign_up_confirm_back)
-                        .setPositiveButton(R.string.yes,
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        SettingsUtil.setCurrentUser(SignUpConfirmActivity.this, null);
-                                        SettingsUtil.setSentTokenToServer(SignUpConfirmActivity.this, false);
-                                        NavUtils.navigateUpFromSameTask(SignUpConfirmActivity.this);
-                                    }
-                                })
-                        .setNegativeButton(R.string.no, null)
-                        .show();
+                if(mShouldGoBackToParent) {
+                    new AlertDialog.Builder(this)
+                            .setMessage(R.string.sign_up_confirm_back)
+                            .setPositiveButton(R.string.yes,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            SettingsUtil.setCurrentUser(SignUpConfirmActivity.this, null);
+                                            SettingsUtil.setSentTokenToServer(SignUpConfirmActivity.this, false);
+                                            NavUtils.navigateUpFromSameTask(SignUpConfirmActivity.this);
+                                        }
+                                    })
+                            .setNegativeButton(R.string.no, null)
+                            .show();
+                }
+                else{
+                    SettingsUtil.setCurrentUser(SignUpConfirmActivity.this, null);
+                    SettingsUtil.setSentTokenToServer(SignUpConfirmActivity.this, false);
+                    finish();
+                }
                 return true;
         }
         return super.onOptionsItemSelected(item);

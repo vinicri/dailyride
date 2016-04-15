@@ -39,7 +39,7 @@ android {
     productFlavors {
         dev {
             minSdkVersion 22
-            multiDexEnabled false//The important bit.
+            multiDexEnabled true//The important bit.
         }
         prod {
             minSdkVersion 15 //Example. Set to your real requirement.

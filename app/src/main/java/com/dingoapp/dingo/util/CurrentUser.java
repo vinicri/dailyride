@@ -31,6 +31,11 @@ public class CurrentUser {
         save();
     }
 
+    public void setAcceptedTerms(boolean accepted){
+        user.setAcceptedTerms(accepted);
+        save();
+    }
+
     public void setPhoneConfirmed(boolean confirmed){
         user.setPhoneConfirmed(confirmed);
         save();
@@ -57,4 +62,5 @@ public class CurrentUser {
     private void save(){
         SettingsUtil.setCurrentUser(DingoApplication.getAppContext(), user);
     }
+
 }

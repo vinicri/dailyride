@@ -31,16 +31,33 @@
                 style="@style/WelcomePagerIndicator"
                 />
 
-            <Button
-                android:id="@+id/accepted"
+
+            <RelativeLayout
                 android:layout_width="150dp"
                 android:layout_height="50dp"
-                android:layout_marginTop="@dimen/padding_half"
-                android:text="PRÓXIMO"
-                android:gravity="center"
                 android:layout_gravity="center"
-                android:textColor="@android:color/white"
-                android:background="@drawable/shape_button_grey"/>
+                android:background="@drawable/shape_button_grey"
+                android:layout_marginTop="@dimen/padding_half">
+
+                <TextView
+                    android:id="@+id/accepted"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="PRÓXIMO"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white" />
+
+                <ProgressBar
+                    android:visibility="gone"
+                    android:id="@+id/accepted_spin"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"/>
+
+            </RelativeLayout>
+
+
 
         </LinearLayout>
 
