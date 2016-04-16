@@ -6,6 +6,7 @@ import com.dingoapp.dingo.api.model.Institution;
 import com.dingoapp.dingo.api.model.RideMasterRequest;
 import com.dingoapp.dingo.api.model.RideOffer;
 import com.dingoapp.dingo.api.model.RideOfferSlave;
+import com.dingoapp.dingo.api.model.RideRating;
 import com.dingoapp.dingo.api.model.Token;
 import com.dingoapp.dingo.api.model.User;
 import com.dingoapp.dingo.api.model.UserRides;
@@ -47,11 +48,17 @@ public interface DingoApi {
     @POST("/users/addphone/")
     Call<Void> userAddPhone(@Query("phone")String phone);
 
-    @POST("/users/addwork/")
+    @POST("/users/work/")
     Call<Institution> userAddWork(@Query("email") String email);
 
-    @POST("/users/confirmwork/")
+    @POST("/users/school/")
+    Call<Institution> userAddSchool(@Query("email") String email);
+
+    @POST("/users/work/confirm/")
     Call<Institution> userConfirmWork(@Query("pin") String pin, @Query("name") String company);
+
+    @POST("/users/school/confirm/")
+    Call<Institution> userConfirmSchool(@Query("pin") String pin, @Query("name") String school);
 
     @POST("/users/firebasetoken/")
     Call<Token> getFirebaseToken();
@@ -65,6 +72,9 @@ public interface DingoApi {
     @Multipart
     @POST("/users/work/credentials/")
     Call<Institution> addWorkCredential(@Part("credential\"; filename=\"credential.png\"") RequestBody credential);
+
+    @GET("/users/{id}/comments/")
+    Call<List<RideRating>> userGetComments(@Path("id") long id);
 
     @POST("/ridemasterrequest/findoffers/")
     Call<List<RideOffer>> findOffersforRequest(@Body RideMasterRequest request);

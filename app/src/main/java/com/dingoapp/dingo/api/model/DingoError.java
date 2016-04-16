@@ -14,6 +14,10 @@ public class DingoError {
 
     public static final int ERR_LOGIN_WRONG_CREDENTIALS = 30;
 
+    public static final int ERR_ENTITY_EMAIL_ALREADY_BEING_USED = 40;
+    public static final int ERR_ENTITY_EMAIL_CODE_WRONG = 41;
+    public static final int ERR_ENTITY_NOT_REGISTERED = 42;
+
     int code = ERR_EMPTY;
     String message = "__empty__";
 

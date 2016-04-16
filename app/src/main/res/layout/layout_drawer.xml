@@ -2,9 +2,10 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_drawer"
-    android:layout_width="fill_parent"
+    android:layout_width="260dp"
     android:layout_height="match_parent"
     android:background="@android:color/white"
+    android:fitsSystemWindows="true"
     android:fillViewport="true">
 
     <LinearLayout
@@ -215,7 +216,7 @@
 
 
         <LinearLayout
-            android:id="@+id/_item"
+            android:id="@+id/support_item"
             android:onClick="onNavDrawerItemClick"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -242,31 +243,7 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/logout_item"
-            android:onClick="onNavDrawerItemClick"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/padding"
-            android:paddingRight="@dimen/padding"
-            android:paddingTop="@dimen/padding_half"
-            android:paddingBottom="@dimen/padding_half">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_live_help_turquoise_36px"/>
-
-            <TextView
-                android:text="Logout"
-                android:layout_marginLeft="@dimen/padding_half"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:textColor="@color/turquoise_dark"
-                android:textSize="@dimen/drawer_item"/>
-
-        </LinearLayout>
 
     </LinearLayout>
 

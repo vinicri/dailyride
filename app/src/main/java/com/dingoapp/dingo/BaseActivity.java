@@ -19,7 +19,8 @@ import com.dingoapp.dingo.paymentinfo.PaymentInfoActivity;
 import com.dingoapp.dingo.profile.NewProfileActivity;
 import com.dingoapp.dingo.util.CircleTransform;
 import com.dingoapp.dingo.util.CurrentUser;
-import com.dingoapp.dingo.util.SettingsUtil;
+
+import static com.dingoapp.dingo.util.ViewUtils.showOkDialog;
 
 /**
  * Created by guestguest on 15/02/16.
@@ -151,19 +152,33 @@ public class BaseActivity extends AppCompatActivity {
             case R.id.profile_item:
                 //openActivity()
                 //openActivity(OwnProfileActivity.class);
-                openActivity(NewProfileActivity.class);
+                Intent intent = new Intent(this, NewProfileActivity.class);
+                intent.putExtra(NewProfileActivity.EXTRA_CURRENT_USER_MODE, true);
+                startActivity(intent);
                 break;
             case R.id.payment_item:
                 openActivity(PaymentInfoActivity.class);
                 break;
-            case R.id.logout_item:
-                SettingsUtil.setCurrentUser(this, null);
-                SettingsUtil.setFirebaseToken(this, null);
-                SettingsUtil.setSentTokenToServer(this, false);
-                openActivity(MainActivity.class);
-                finish();
+            case R.id.support_item:
+                sendEmaiToSupport();
+                break;
+
         }
     }
+
+    private void sendEmaiToSupport() {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("message/rfc822");
+        intent.putExtra(Intent.EXTRA_EMAIL  , new String[]{"support@dailyrideapp.com"});
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Ajuda com o Aplicativo");
+        try {
+            startActivity(Intent.createChooser(intent, "Enviar email para o Daily Ride"));
+        } catch (android.content.ActivityNotFoundException ex) {
+           showOkDialog(this, R.string.support_send_email);
+        }
+    }
+
+
 
     protected void openActivity(Class<?> cls){
         Intent intent = new Intent(this, cls);

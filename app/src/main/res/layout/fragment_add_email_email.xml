@@ -6,76 +6,86 @@
     android:layout_height="match_parent"
     android:background="@color/beige">
 
-        <TextView
-            android:layout_marginTop="@dimen/padding"
-            android:layout_marginBottom="@dimen/padding"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="16sp"
-            android:text="Insira o email do seu trabalho"/>
+    <TextView
+        android:id="@+id/header"
+        android:layout_marginTop="@dimen/padding"
+        android:layout_marginBottom="@dimen/padding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:text="Insira o email do seu trabalho"/>
 
-        <EditText
-            android:id="@+id/email_edit"
-            android:layout_marginLeft="@dimen/padding_half"
-            android:layout_marginRight="@dimen/padding_half"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:hint="vinicius@seutrabalho.com.br"
-            android:inputType="textEmailAddress"
-            android:textColorHint="@color/light_gray"
-            android:textSize="24sp"
-            android:gravity="center"/>
+    <EditText
+        android:id="@+id/email_edit"
+        android:layout_marginLeft="@dimen/padding_half"
+        android:layout_marginRight="@dimen/padding_half"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:hint="vinicius@seutrabalho.com.br"
+        android:inputType="textEmailAddress"
+        android:textColorHint="@color/light_gray"
+        android:textSize="24sp"
+        android:gravity="center"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Enviaremos um \ncódigo para confirmação"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:text="Enviaremos um código para confirmação"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding"
-            android:gravity="center">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_half"
+        android:gravity="center"
+        android:textSize="12sp"
+        android:text="Seu email será utilizado apenas para verificação.\nNão será publicado e nem estará visivel para outros usuários."/>
 
-            <Button
-                android:id="@+id/no_email_button"
-                android:layout_width="180dp"
-                android:layout_height="50dp"
-                android:background="@drawable/shape_button_grey"
-                android:layout_gravity="center_horizontal"
-                android:text="Não possuo email"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/no_email_button"
+            android:layout_width="180dp"
+            android:layout_height="50dp"
+            android:background="@drawable/shape_button_grey"
+            android:layout_gravity="center_horizontal"
+            android:text="Não possuo email"
+            android:textColor="@color/white"/>
+
+        <RelativeLayout
+            android:id="@+id/save_button"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:background="@drawable/shape_button_orange"
+            android:layout_marginLeft="@dimen/padding_half">
+
+            <TextView
+                android:id="@+id/save_button_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SALVAR"
+                android:textStyle="bold"
+                android:layout_centerInParent="true"
                 android:textColor="@color/white"/>
 
-            <RelativeLayout
-                android:id="@+id/save_button"
-                android:layout_width="150dp"
-                android:layout_height="50dp"
-                android:background="@drawable/shape_button_orange"
-                android:layout_marginLeft="@dimen/padding_half">
+            <ProgressBar
+                android:visibility="gone"
+                android:id="@+id/save_button_spin"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerInParent="true"/>
 
-                <TextView
-                    android:id="@+id/save_button_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="SALVAR"
-                    android:textStyle="bold"
-                    android:layout_centerInParent="true"
-                    android:textColor="@color/white"/>
-
-                <ProgressBar
-                    android:visibility="gone"
-                    android:id="@+id/save_button_spin"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_centerInParent="true"/>
-
-            </RelativeLayout>
+        </RelativeLayout>
 
 
 
-        </LinearLayout>
+    </LinearLayout>
 
 
 </LinearLayout>

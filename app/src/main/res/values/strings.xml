@@ -91,6 +91,8 @@
     <string name="own_profile_add_work">adicione seu trabalho</string>
     <string name="own_profile_add_school">adicione sua universidade</string>
     <string name="fragment_email_hint">%1$s@seutrabalho.com</string>
+    <string name="add_work_fragment_email_hint">%1$s@seutrabalho.com.br</string>
+    <string name="add_school_fragment_email_hint">%1$s@universidade.com.br</string>
     <string name="activity_add_work_email">Adicionar trabalho</string>
     <string name="email_confirmation_pin_wrong">O código não confere. Por favor verifique novamente.</string>
     <string name="menu_recurrent_rides">Caronas Recorrentes</string>
@@ -126,6 +128,25 @@
     <string name="main_login_wrong_credentials">Dados não conferem. Verique seu email e senha e tente novamente.</string>
     <string name="sign_up_confirmation_code_enter">Insira o código recebido por SMS para prosseguir.</string>
     <string name="profile_phone_confirmed">Telefone verificado</string>
+    <string name="profile_school_add">insira sua universidade</string>
+    <string name="profile_entity_pending">enviado para aprovação</string>
+    <string name="profile_entity_denied">não foi possível aprovar seus documentos,\nenvie-os novamente por gentileza</string>
+    <string name="profile_entity_approved">foi verificado e está visível para outros usuários</string>
+    <string name="profile_work_add">insira seu local de trabalho</string>
+    <string name="profile_phone_confirmed_subtitle">não aparece para os outros usuários</string>
+    <string name="profile_phone_add">insira seu celular</string>
+    <string name="add_email_already_being_used">Este email já está sendo utilizado por outra conta.</string>
+    <string name="code_fragment_pin_too_short">O código tem pelo menos 6 dígitos.</string>
+    <string name="add_email_entity_name_too_short">Por gentileza, use um nome mais descritivo para que possamos identificar sua empresa</string>
+    <string name="support_send_email">Envie-nos um email em support@dailyrideapp.com.</string>
+    <string name="activity_add_school_email">Adicionar universidade</string>
+    <string name="menu_logoff">Sair desta conta</string>
+    <string name="add_school_fragment_email_header">Insira seu email institucional vinculado à sua universidade</string>
+    <string name="add_school_fragment_name_header">Qual o nome da sua universidade?</string>
+    <string name="add_school_fragment_credentials_header">Precisamos que você nos envie uma foto da sua cateirinha de estudante ou outro documento que comprove seu vínculo com esta universidade</string>
+    <string name="add_work_fragment_email_header">Insira o email do seu trabalho</string>
+    <string name="add_work_fragment_name_header">Qual o nome da sua empresa?</string>
+    <string name="add_work_fragment_credentials_header">Precisamos que você nos envie uma foto do seu crachá ou outro documento que comprove seu vínculo com esta empresa</string>
 
     <plurals name="request_new_got_new_matches">
         <item quantity="one">Uma carona disponível pra você.</item>

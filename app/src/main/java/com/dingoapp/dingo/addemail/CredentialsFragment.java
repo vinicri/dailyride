@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.dingoapp.dingo.R;
@@ -28,6 +29,7 @@ import java.util.Date;
  */
 public class CredentialsFragment extends Fragment {
 
+    public final static String EXTRA_HEADER = "EXTRA_HEADER";
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
 
@@ -37,6 +39,7 @@ public class CredentialsFragment extends Fragment {
 
     OnNoEmailFragmentListener mListener;
     private String mCurrentPhotoPath;
+    private TextView mHeader;
 
     @Nullable
     @Override
@@ -46,6 +49,11 @@ public class CredentialsFragment extends Fragment {
         mDocumentBox = v.findViewById(R.id.document_box);
         mDocumentPreview = (ImageView)v.findViewById(R.id.document_preview);
         mSendButton = (Button)v.findViewById(R.id.send_button);
+        mHeader = (TextView)v.findViewById(R.id.header);
+
+        String header = getArguments().getString(EXTRA_HEADER);
+
+        mHeader.setText(header);
 
         View view = getActivity().getCurrentFocus();
         if (view != null) {
@@ -90,7 +98,7 @@ public class CredentialsFragment extends Fragment {
             //mDocumentPreview.setImageBitmap(imageBitmap);
             mListener.onSend(mCurrentPhotoPath, new FragmentCallback() {
                 @Override
-                public void onFinished() {
+                public void onFinish() {
                     File file = new File(mCurrentPhotoPath);
                     file.delete();
                 }

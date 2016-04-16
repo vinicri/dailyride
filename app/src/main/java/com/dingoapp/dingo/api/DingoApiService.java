@@ -8,6 +8,7 @@ import com.dingoapp.dingo.api.model.Institution;
 import com.dingoapp.dingo.api.model.RideMasterRequest;
 import com.dingoapp.dingo.api.model.RideOffer;
 import com.dingoapp.dingo.api.model.RideOfferSlave;
+import com.dingoapp.dingo.api.model.RideRating;
 import com.dingoapp.dingo.api.model.Token;
 import com.dingoapp.dingo.api.model.User;
 import com.dingoapp.dingo.api.model.UserRides;
@@ -116,8 +117,19 @@ public class DingoApiService extends DingoService{
         enqueueCall(call, callback);
     }
 
+
+    public void userAddSchool(String email, Callback<Institution> callback){
+        Call<Institution> call = apiService.userAddSchool(email);
+        enqueueCall(call, callback);
+    }
+
     public void userConfirmWork(String pin, String company, Callback<Institution> callback){
         Call<Institution> call = apiService.userConfirmWork(pin, company);
+        enqueueCall(call, callback);
+    }
+
+    public void userConfirmSchool(String pin, String school, Callback<Institution> callback){
+        Call<Institution> call = apiService.userConfirmSchool(pin, school);
         enqueueCall(call, callback);
     }
 
@@ -130,6 +142,11 @@ public class DingoApiService extends DingoService{
 
     public void getFirebaseToken(Callback<Token> callback){
         Call<Token> call = apiService.getFirebaseToken();
+        enqueueCall(call, callback);
+    }
+
+    public void userGetComments(long id, Callback<List<RideRating>> callback){
+        Call<List<RideRating>> call = apiService.userGetComments(id);
         enqueueCall(call, callback);
     }
 

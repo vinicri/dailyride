@@ -137,6 +137,9 @@
             android:name=".addworkemail.AddWorkEmailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".addworkemail.AddSchoolEmailActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".SignUpActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

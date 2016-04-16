@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
         //PreferenceManager.getDefaultSharedPreferences(this).edit().clear().commit();
         //todo remove - for cleanup
         //SettingsUtil.setSentTokenToServer(this, false);
+        //CurrentUser.getInstance().save();
         if (!SettingsUtil.getSentTokenToServer(this) && checkPlayServices()) {
 
             // Start IntentService to register this application with GCM.

@@ -59,8 +59,16 @@ public class CurrentUser {
         user = SettingsUtil.getCurrentUser(DingoApplication.getAppContext());
     }
 
-    private void save(){
+    public void save(){
         SettingsUtil.setCurrentUser(DingoApplication.getAppContext(), user);
+    }
+
+    //never replace oauth_token as it might have been refreshed
+    // by http interceptors
+    public void setUser(User user){
+        user.setAuthToken(this.user.getAuthToken());
+        this.user = user;
+        save();
     }
 
 }

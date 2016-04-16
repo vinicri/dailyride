@@ -49,6 +49,7 @@
         android:gravity="center">
 
         <Button
+            android:visibility="gone"
             android:id="@+id/resend_code_button"
             android:layout_width="150dp"
             android:layout_height="50dp"
@@ -57,15 +58,31 @@
             android:text="REENVIAR"
             android:textColor="@color/white"/>
 
-        <Button
+        <RelativeLayout
             android:id="@+id/confirm_code_button"
-            android:layout_marginLeft="@dimen/padding"
             android:layout_width="150dp"
             android:layout_height="50dp"
-            android:background="@drawable/shape_button_orange"
-            android:layout_gravity="center_horizontal"
-            android:text="CONFIRMAR"
-            android:textColor="@color/white"/>
+            android:background="@drawable/shape_button_orange">
+
+            <TextView
+                android:id="@+id/confirm_code_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CONFIRMAR"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:layout_centerInParent="true"/>
+
+            <ProgressBar
+                android:visibility="gone"
+                android:id="@+id/confirm_code_spin"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerInParent="true"/>
+
+        </RelativeLayout>
+
+
 
     </LinearLayout>
 

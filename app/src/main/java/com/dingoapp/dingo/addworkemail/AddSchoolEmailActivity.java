@@ -12,24 +12,24 @@ import com.dingoapp.dingo.api.model.Institution;
 import com.dingoapp.dingo.api.model.User;
 
 /**
- * Created by guestguest on 01/04/16.
+ * Created by guestguest on 16/04/16.
  */
-public class AddWorkEmailActivity extends AddEmailActivity {
+public class AddSchoolEmailActivity extends AddEmailActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setTitle(R.string.activity_add_work_email);
+        getSupportActionBar().setTitle(R.string.activity_add_school_email);
     }
 
     @Override
     protected void addEmail(String email, final Callback<Institution> callback) {
-        DingoApiService.getInstance().userAddWork(email, callback);
+        DingoApiService.getInstance().userAddSchool(email, callback);
     }
 
     @Override
     protected void sendDocument(String institutionName, Uri fileUri, final Callback<Institution> callback){
-        DingoApiService.getInstance().uploadWorkCredential(institutionName, fileUri, callback);
+        //DingoApiService.getInstance().uploadWorkCredential(institutionName, fileUri, callback);
         //todo on failure
     }
 
@@ -40,22 +40,22 @@ public class AddWorkEmailActivity extends AddEmailActivity {
 
     @Override
     protected void confirmPin(String pin, String entityName, final Callback<Institution> callback) {
-        DingoApiService.getInstance().userConfirmWork(pin, entityName, callback);
+        DingoApiService.getInstance().userConfirmSchool(pin, entityName, callback);
     }
 
     @Override
     protected void onConfirmedPin(Institution institution, String institutionName) {
         if (institution.getStatus() == User.EntityStatus.C) {
-            mUser.setCompany(institution);
-            mUser.setWorkSpecifiedName(null);
-            mUser.setWorkConfirmed(true);
-            mUser.setWorkStatus(User.EntityStatus.C);
+            mUser.setSchool(institution);
+            mUser.setSchoolSpecifiedName(null);
+            mUser.setSchoolConfirmed(true);
+            mUser.setSchoolStatus(User.EntityStatus.C);
 
         } else if (institution.getStatus() == User.EntityStatus.P) {
-            mUser.setCompany(null);
-            mUser.setWorkSpecifiedName(institutionName);
-            mUser.setWorkConfirmed(false);
-            mUser.setWorkStatus(User.EntityStatus.P);
+            mUser.setSchool(null);
+            mUser.setSchoolSpecifiedName(institutionName);
+            mUser.setSchoolConfirmed(false);
+            mUser.setSchoolStatus(User.EntityStatus.P);
         }
         else{
             return;
@@ -69,22 +69,21 @@ public class AddWorkEmailActivity extends AddEmailActivity {
 
     @Override
     protected String getEmailFragmentEmailHint() {
-        return getString(R.string.add_work_fragment_email_hint, getUser().getFirstName().toLowerCase());
+        return getString(R.string.add_school_fragment_email_hint, getUser().getFirstName().toLowerCase());
     }
 
     @Override
     protected String getEmailFragmentHeader() {
-        return getString(R.string.add_work_fragment_email_header);
+        return getString(R.string.add_school_fragment_email_header);
     }
 
     @Override
     protected String getNameFragmentHeader() {
-        return getString(R.string.add_work_fragment_name_header);
+        return getString(R.string.add_school_fragment_name_header);
     }
 
     @Override
     protected String getCredentialsFragmentHeader() {
-        return getString(R.string.add_work_fragment_credentials_header);
+        return getString(R.string.add_school_fragment_credentials_header);
     }
-
 }

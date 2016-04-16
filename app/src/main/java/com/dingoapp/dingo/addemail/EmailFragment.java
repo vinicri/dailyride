@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.dingoapp.dingo.R;
 
@@ -23,13 +24,16 @@ import com.dingoapp.dingo.R;
  */
 public class EmailFragment extends Fragment {
 
-    public final static String EXTRA_USER_FIRST_NAME = "EXTRA_USER_FIRST_NAME";
+    //public final static String EXTRA_USER_FIRST_NAME = "EXTRA_USER_FIRST_NAME";
+    public final static String EXTRA_EMAIL_HINT = "EXTRA_EMAIL_HINT";
+    public final static String EXTRA_HEADER = "EXTRA_HEADER";
 
     EditText mEmailEdit;
     Button mNoEmailButton;
     View mSaveButton;
     View mSaveButtonText;
     ProgressBar mSaveButtonSpin;
+    TextView mHeader;
 
     boolean mProcessing;
 
@@ -40,17 +44,23 @@ public class EmailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_add_email_email, container, false);
 
+        mHeader = (TextView)v.findViewById(R.id.header);
         mEmailEdit = (EditText)v.findViewById(R.id.email_edit);
         mNoEmailButton = (Button)v.findViewById(R.id.no_email_button);
         mSaveButton = v.findViewById(R.id.save_button);
         mSaveButtonText = v.findViewById(R.id.save_button_text);
         mSaveButtonSpin = (ProgressBar)v.findViewById(R.id.save_button_spin);
 
-        String userFirstName = getArguments().getString(EXTRA_USER_FIRST_NAME);
+        //String userFirstName = getArguments().getString(EXTRA_USER_FIRST_NAME);
+        String emailHint = getArguments().getString(EXTRA_EMAIL_HINT);
+        String header = getArguments().getString(EXTRA_HEADER);
 
-        if(userFirstName != null){
-            mEmailEdit.setHint(getString(R.string.fragment_email_hint, userFirstName.toLowerCase()));
-        }
+        mHeader.setText(header);
+        mEmailEdit.setHint(emailHint);
+
+        /*if(userFirstName != null){
+            //mEmailEdit.setHint(getString(R.string.fragment_email_hint, userFirstName.toLowerCase()));
+        }*/
 
         mSaveButton.setOnClickListener(
                 new View.OnClickListener() {
@@ -66,14 +76,14 @@ public class EmailFragment extends Fragment {
                         mSaveButtonText.setVisibility(View.GONE);
                         mSaveButtonSpin.setVisibility(View.VISIBLE);
 
-                        if (email == null || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                        if (email == null || email.length() == 0 || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                             showInvalidEmailDialog();
                             return;
                         }
 
                         mListener.onSaveButtonClick(email, new FragmentCallback() {
                             @Override
-                            public void onFinished() {
+                            public void onFinish() {
                                 mSaveButtonText.setVisibility(View.VISIBLE);
                                 mSaveButtonSpin.setVisibility(View.GONE);
                                 mProcessing = false;

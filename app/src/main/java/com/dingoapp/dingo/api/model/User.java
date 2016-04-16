@@ -10,15 +10,22 @@ import java.util.Date;
  */
 public class User implements Serializable{
 
+    public enum EntityStatus{
+        E, //empty
+        P, //pending
+        C, //confirmed
+        D, //denied
+    }
+
     public enum RiderMode{
         D, //Driver
         R //Rider
     }
 
     public enum Gender{
-        M,
-        F,
-        O
+        M, //male
+        F, //female
+        O, //other
     }
     Long id;
 
@@ -51,6 +58,9 @@ public class User implements Serializable{
     @SerializedName("work_confimed")
     boolean workConfirmed;
 
+    @SerializedName("work_status")
+    EntityStatus workStatus;
+
     @SerializedName("work_specified_name")
     String workSpecifiedName;
 
@@ -61,6 +71,9 @@ public class User implements Serializable{
 
     @SerializedName("school_confirmed")
     boolean schoolConfirmed;
+
+    @SerializedName("school_status")
+    EntityStatus schoolStatus;
 
     @SerializedName("profile_photo_original")
     String profilePhotoOriginal;
@@ -326,6 +339,22 @@ public class User implements Serializable{
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public EntityStatus getWorkStatus() {
+        return workStatus;
+    }
+
+    public void setWorkStatus(EntityStatus workStatus) {
+        this.workStatus = workStatus;
+    }
+
+    public EntityStatus getSchoolStatus() {
+        return schoolStatus;
+    }
+
+    public void setSchoolStatus(EntityStatus schoolStatus) {
+        this.schoolStatus = schoolStatus;
     }
 
     public class OAuthToken implements Serializable{

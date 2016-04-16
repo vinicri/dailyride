@@ -10,16 +10,22 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.dingoapp.dingo.R;
+
+import static com.dingoapp.dingo.util.ViewUtils.showOkDialog;
 
 /**
  * Created by guestguest on 01/04/16.
  */
 public class NameFragment extends Fragment{
 
+    public final static String EXTRA_HEADER = "EXTRA_HEADER";
+
     EditText mNameEdit;
     Button mNextButton;
+    TextView mHeader;
     private OnNameFragmentActionListener mListener;
 
     @Nullable
@@ -27,8 +33,13 @@ public class NameFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_add_email_name, container, false);
 
+        mHeader = (TextView)v.findViewById(R.id.header);
         mNameEdit = (EditText)v.findViewById(R.id.name_edit);
         mNextButton = (Button)v.findViewById(R.id.next_button);
+
+        String header = getArguments().getString(EXTRA_HEADER);
+
+        mHeader.setText(header);
 
         mNextButton.setOnClickListener(
                 new View.OnClickListener() {
@@ -39,7 +50,7 @@ public class NameFragment extends Fragment{
                             mListener.onNext(name);
                         }
                         else{
-                            showInvalidDialog();
+                            showOkDialog(getActivity(), R.string.add_email_entity_name_too_short);
                         }
                     }
                 }
@@ -52,11 +63,7 @@ public class NameFragment extends Fragment{
     }
 
     private boolean isValid(String name){
-        return name != null && name.length() > 2;
-    }
-
-    private void showInvalidDialog(){
-
+        return name != null && name.length() > 3;
     }
 
     @Override

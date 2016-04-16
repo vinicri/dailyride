@@ -26,7 +26,13 @@ public abstract class ApiCallback<T> implements Callback<T>{
     }
 
     @Override
-    public abstract void success(Response<T> response);
+    public void success(Response<T> response){
+        Map<String, String> data = new HashMap<>();
+        data.put("http_code", String.valueOf(response.code()));
+        data.put("body", response.body().toString()); //todo improve
+        addUserData(data);
+        Rollbar.reportMessage("http_success", "ignored", data);
+    }
 
     @Override
     public void unauthenticated(Response<?> response) {

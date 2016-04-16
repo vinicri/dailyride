@@ -9,14 +9,11 @@ import java.io.Serializable;
  */
 public class Institution implements Serializable {
 
-    public static final String STATUS_REGISTERED = "REGISTERED";
-    public static final String STATUS_NOT_REGISTERED = "NOT_REGISTERED";
+    //public static final String STATUS_ACCEPTED = "ACCEPTED";
+    //public static final String STATUS_PENDING_APPROVAL = "PENDING_APPROVAL";
+    //public static final String STATUS_DENIED = "DENIED";
 
-    public static final String STATUS_ACCEPTED = "ACCEPTED";
-    public static final String STATUS_PENDING_APPROVAL = "PENDING_APPROVAL";
-    public static final String STATUS_DENIED = "DENIED";
-
-    String status;
+    User.EntityStatus status; //this is for adding institution responses
 
     long id;
 
@@ -50,11 +47,11 @@ public class Institution implements Serializable {
         this.shortName = shortName;
     }
 
-    public String getStatus() {
+    public User.EntityStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(User.EntityStatus status) {
         this.status = status;
     }
 }
