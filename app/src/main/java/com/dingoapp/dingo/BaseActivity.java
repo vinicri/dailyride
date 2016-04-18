@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.dingoapp.dingo.api.DingoApiService;
 import com.dingoapp.dingo.paymentinfo.PaymentInfoActivity;
 import com.dingoapp.dingo.profile.NewProfileActivity;
+import com.dingoapp.dingo.ridesrecurrent.RecurrentRidesActivity;
 import com.dingoapp.dingo.util.CircleTransform;
 import com.dingoapp.dingo.util.CurrentUser;
 
@@ -158,6 +159,9 @@ public class BaseActivity extends AppCompatActivity {
                 break;
             case R.id.payment_item:
                 openActivity(PaymentInfoActivity.class);
+                break;
+            case R.id.recurrent_rides_item:
+                openActivity(RecurrentRidesActivity.class);
                 break;
             case R.id.support_item:
                 sendEmaiToSupport();

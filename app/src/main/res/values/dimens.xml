@@ -6,6 +6,7 @@
     <dimen name="padding_half">8dp</dimen>
     <dimen name="padding_quarter">4dp</dimen>
     <dimen name="day_button_size">40dp</dimen>
+    <dimen name="recurrent_list_day_button_size">36dp</dimen>
     <dimen name="ride_day_text_size">24sp</dimen>
     <dimen name="ride_time_text_size">20sp</dimen>
     <dimen name="drawer_user_name">22sp</dimen>

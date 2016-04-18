@@ -7,6 +7,7 @@
     <include layout="@layout/toolbar_actionbar" />
 
     <TextView
+        android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center|bottom"
@@ -252,6 +253,7 @@
                 android:layout_width="@dimen/day_button_size"
                 android:layout_height="@dimen/day_button_size"
                 android:text="@string/day_sunday"
+                android:textColor="@color/day_button_enabled_text"
                 android:textSize="@dimen/day_button_text_size"
                 />
             <Button
@@ -311,6 +313,7 @@
                 android:layout_width="@dimen/day_button_size"
                 android:layout_height="@dimen/day_button_size"
                 android:text="@string/day_saturday"
+                android:textColor="@color/day_button_enabled_text"
                 android:textSize="@dimen/day_button_text_size"
                 />
 
@@ -324,15 +327,34 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"/>
-    <Button
-        android:id="@+id/offer_button"
+
+    <RelativeLayout
+        android:id="@+id/create_button"
         android:layout_width="180dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:background="@drawable/shape_button_orange"
-        android:textColor="@color/white"
         android:layout_marginBottom="@dimen/button_margin_from_bottom"
-        android:layout_gravity="center_horizontal"
-        android:text="Oferecer"/>
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/create_button_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:text="Oferecer"/>
+
+        <ProgressBar
+            android:visibility="gone"
+            android:id="@+id/create_button_spin"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerInParent="true"/>
+
+    </RelativeLayout>
+
 
 
 

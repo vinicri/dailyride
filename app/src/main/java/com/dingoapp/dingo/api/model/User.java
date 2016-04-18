@@ -357,7 +357,7 @@ public class User implements Serializable{
         this.schoolStatus = schoolStatus;
     }
 
-    public class OAuthToken implements Serializable{
+    public static class OAuthToken implements Serializable{
 
         @SerializedName("expires_in")
         int expiresIn;

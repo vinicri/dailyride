@@ -8,11 +8,14 @@ import com.dingoapp.dingo.R;
 import com.dingoapp.dingo.api.model.DingoError;
 import com.dingoapp.dingo.util.CurrentUser;
 import com.dingoapp.dingo.util.Installation;
+import com.dingoapp.dingo.util.NetworkUtils;
 import com.rollbar.android.Rollbar;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.dingoapp.dingo.util.ViewUtils.showOkDialog;
 
 /**
  * Created by guestguest on 09/04/16.
@@ -36,6 +39,7 @@ public abstract class ApiCallback<T> implements Callback<T>{
 
     @Override
     public void unauthenticated(Response<?> response) {
+       //todo
     }
 
     @Override
@@ -74,13 +78,19 @@ public abstract class ApiCallback<T> implements Callback<T>{
 
     @Override
     public void networkError(IOException e) {
-        new AlertDialog.Builder(mContext)
-                .setMessage(R.string.no_internet_error)
-                .setPositiveButton(R.string.ok, null)
-                .show();
-        Map<String, String> data = new HashMap<>();
-        addUserData(data);
-        Rollbar.reportMessage("error_network", "", data);
+        if(!NetworkUtils.isOnline()) {
+            new AlertDialog.Builder(mContext)
+                    .setMessage(R.string.no_internet_error)
+                    .setPositiveButton(R.string.ok, null)
+                    .show();
+            //todo add nuser has no internet to analytics?
+        }
+        else {
+            showOkDialog(mContext, R.string.request_server_error);
+            Map<String, String> data = new HashMap<>();
+            addUserData(data);
+            Rollbar.reportMessage("error_network", "", data);
+        }
     }
 
     @Override

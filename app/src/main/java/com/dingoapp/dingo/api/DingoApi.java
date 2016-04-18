@@ -42,8 +42,14 @@ public interface DingoApi {
     @POST("/users/login/")
     Call<User> userLogin(@Field("email") String email, @Field("password") String password);
 
+    @POST("/users/logout/")
+    Call<Void> userLogout(@Query("uuid")String installationUuid);
+
     @POST("/users/accept_terms/")
     Call<Void> acceptTerms(@Query("rider_mode")User.RiderMode riderMode);
+
+    @POST("/refreshtoken/")
+    Call<User.OAuthToken> refreshToken(@Query("refresh_token")String refreshToken);
 
     @POST("/users/addphone/")
     Call<Void> userAddPhone(@Query("phone")String phone);
@@ -97,6 +103,9 @@ public interface DingoApi {
     @GET("/userrides/")
     Call<UserRides> getUserRides();
 
+    @GET("/recurrentrides/")
+    Call<UserRides> getUserRecurrentRides();
+
     @GET("/creditcardinfo/")
     Call<CreditCardInfo> getCreditCardInfo();
 
@@ -111,6 +120,9 @@ public interface DingoApi {
 
     @POST("/gcmtoken/")
     Call<GcmToken> createGcmToken(@Body GcmToken token);
+
+    //@DELETE("/gcmtoken/delete")
+    //Call<Void> deleteGmcToken(@Query("uuid")String installationUuid);
 
     @GET("/rideofferslave/{id}/")
     Call<RideOfferSlave> getRideOfferSlave(@Path("id") long id);

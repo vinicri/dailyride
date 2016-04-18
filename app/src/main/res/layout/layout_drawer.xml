@@ -36,6 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_gravity="center_horizontal"
             android:textSize="@dimen/drawer_user_name"
+            android:textColor="@color/white"
             android:text="Vinicius Silva"/>
 
         </LinearLayout>

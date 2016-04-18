@@ -19,14 +19,20 @@ import java.util.Date;
  */
 public class RequestActivity extends RideCreateActivity {
 
+    public static final String EXTRA_REQUEST = "EXTRA_REQUEST";
+
     private static final String name = Analytics.SCREEN_CREATE_REQUEST;
     RideMasterRequest mRequest = RideMasterRequest.getWeekdaysCheckedInstance();
+    private boolean mIsProcessing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setTitle(R.string.activity_title_request);
-        getCreateButton().setText(R.string.activity_ride_create_request);
+        getCreateButtonText().setText(R.string.activity_ride_create_request);
+        if(isEditMode()) {
+            mRequest = (RideMasterRequest) getIntent().getSerializableExtra(EXTRA_REQUEST);
+        }
     }
 
     @Override
@@ -64,45 +70,57 @@ public class RequestActivity extends RideCreateActivity {
     @Override
     void create() {
 
-            Callback<RideMasterRequest> callback = new ApiCallback<RideMasterRequest>(this){
+        if(!validateRide()){
+            return;
+        }
 
-                @Override
-                public void success(Response<RideMasterRequest> response) {
-                    if (response.code() == Response.HTTP_201_CREATED) {
-                        RideMasterRequest request = response.body();
-                        Intent intent = new Intent();
-                        intent.putExtra("request", request);
-                        setResult(RESULT_OK, intent);
-                        finish();
+        if(mIsProcessing){
+            return;
+        }
 
-                        String label;
-                        if (mRecurrenceGroup.getCheckedRadioButtonId() == R.id.recurrence_yes) {
-                            label = Analytics.LABEL_RECURRENT;
-                        }
-                        else{
-                            label = Analytics.LABEL_ONCE;
-                        }
-                        Analytics.getInstance().event(Analytics.CATEGORY_CREATE_REQUEST,
-                                Analytics.ACTION_DID_CREATE,
-                                label,
-                                (long) request.getId());
-//                        if (response.body() == null || response.body().size() == 0) {
-//                            finish();
-//                        } else {
-//                            //ArrayList<RideMasterRequest> requests = new ArrayList<>(response.body());
-//                            //Intent intent = new Intent(OfferActivity.this, null);
-//                            //intent.putExtra("requests", requests);
-//                            //startActivity(intent);
-//                        }
+        mIsProcessing = true;
+        showCreateButtonSpin();
+
+        Callback<RideMasterRequest> callback = new ApiCallback<RideMasterRequest>(this){
+
+            @Override
+            public void success(Response<RideMasterRequest> response) {
+                if (response.code() == Response.HTTP_201_CREATED) {
+                    RideMasterRequest request = response.body();
+                    Intent intent = new Intent();
+                    intent.putExtra("request", request);
+                    setResult(RESULT_OK, intent);
+                    finish();
+
+                    String label;
+                    if (mRecurrenceGroup.getCheckedRadioButtonId() == R.id.recurrence_yes) {
+                        label = Analytics.LABEL_RECURRENT;
                     }
+                    else{
+                        label = Analytics.LABEL_ONCE;
+                    }
+                    Analytics.getInstance().event(Analytics.CATEGORY_CREATE_REQUEST,
+                            Analytics.ACTION_DID_CREATE,
+                            label,
+                            (long) request.getId());
                 }
-            };
-
-            if (mRecurrenceGroup.getCheckedRadioButtonId() == R.id.recurrence_yes) {
-                DingoApiService.getInstance().createRideMasterRequestRecurrent(mRequest, callback);
-            } else {
-                DingoApiService.getInstance().createRideMasterRequest(mRequest, callback);
+                else{
+                    super.success(response);
+                }
             }
+
+            @Override
+            public void onFinish() {
+                mIsProcessing = false;
+                showCreateButtonText();
+            }
+        };
+
+        if (mRecurrenceGroup.getCheckedRadioButtonId() == R.id.recurrence_yes) {
+            DingoApiService.getInstance().createRideMasterRequestRecurrent(mRequest, callback);
+        } else {
+            DingoApiService.getInstance().createRideMasterRequest(mRequest, callback);
+        }
 
 
     }

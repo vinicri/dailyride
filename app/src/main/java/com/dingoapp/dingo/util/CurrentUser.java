@@ -46,6 +46,10 @@ public class CurrentUser {
         save();
     }
 
+    public void updateOAuthToken(User.OAuthToken token){
+        user.setAuthToken(token);
+        save();
+    }
 
     public static User getUser(){
         return getInstance().user;
@@ -69,6 +73,12 @@ public class CurrentUser {
         user.setAuthToken(this.user.getAuthToken());
         this.user = user;
         save();
+    }
+
+    public void logout(){
+        user = null;
+        SettingsUtil.setCurrentUser(DingoApplication.getAppContext(), null);
+        SettingsUtil.setSentTokenToServer(DingoApplication.getAppContext(), false);
     }
 
 }

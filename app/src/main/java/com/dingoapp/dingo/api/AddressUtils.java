@@ -98,7 +98,29 @@ public class AddressUtils {
             }
         }
         else if(address.isEstablishmentType()){
-            return address.getName();
+            //todo
+            if(address.getName() != null){
+                return address.getName();
+            }
+            else {
+                //// FIXME: 16/04/16 wordaround for bug, app is sending Av. address type with route type == false to server\ String route = address.getRouteLong();
+                String route = address.getRouteLong();
+                if(!privacy){
+                    route +=  ", " + address.getNumber();
+                }
+                else{
+                    return route;
+                }
+
+                if (!highlightNumber){
+                    return route;
+                }
+                else{
+                    SpannableString spannableString = new SpannableString(route);
+                    spannableString.setSpan(new StyleSpan(Typeface.BOLD), address.getRouteLong().length() + 1, address.getRouteLong().length() + 1 + address.getNumber().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    return spannableString.toString();
+                }
+            }
         }
 
         throw new RuntimeException("Address in unexpected format");

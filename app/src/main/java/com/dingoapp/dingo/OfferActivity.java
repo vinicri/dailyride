@@ -19,14 +19,20 @@ import java.util.Date;
  */
 public class OfferActivity extends RideCreateActivity{
 
+    public static final String EXTRA_OFFER = "EXTRA_OFFER";
+
     private static final String name = Analytics.SCREEN_CREATE_OFFER;
 
     private RideOffer mRideOffer = RideOffer.getWeekdaysCheckedInstance();
+    private boolean mIsProcessing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setTitle(R.string.activity_title_offer);
+        if(isEditMode()) {
+            mRideOffer = (RideOffer) getIntent().getSerializableExtra(EXTRA_OFFER);
+        }
     }
 
     @Override
@@ -61,12 +67,19 @@ public class OfferActivity extends RideCreateActivity{
 
     }
 
-    private void validateOffer(){
-
-    }
-
     @Override
     void create() {
+
+        if(!validateRide()){
+            return;
+        }
+
+        if(mIsProcessing){
+            return;
+        }
+
+        mIsProcessing = true;
+        showCreateButtonSpin();
 
         Callback<RideOffer> callback = new ApiCallback<RideOffer>(this) {
             @Override
@@ -93,9 +106,15 @@ public class OfferActivity extends RideCreateActivity{
                                 (long)offer.getId());
                     }
                     else{
-                        //todo
+                        super.success(response);
                     }
                 }
+            }
+
+            @Override
+            public void onFinish() {
+                mIsProcessing = false;
+                showCreateButtonText();
             }
         };
 

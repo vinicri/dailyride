@@ -46,7 +46,7 @@ public class DingoApiService extends DingoService{
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(new RetrofitLogInterceptor())
                 .addInterceptor(new OAuthInterceptor())
-
+                .authenticator(new DingoAuthenticator())
                 //todo review timeouts
                 .readTimeout(60, TimeUnit.SECONDS)
                 .connectTimeout(60, TimeUnit.SECONDS)
@@ -79,6 +79,22 @@ public class DingoApiService extends DingoService{
         enqueueCall(call, callback);
     }
 
+    public void userLogout(String installationUuid, Callback<Void> callback){
+        Call<Void> call = apiService.userLogout(installationUuid);
+        enqueueCall(call, callback);
+    }
+
+    public Response<Void> userLogoutSync(String installationUuid) throws IOException {
+        retrofit2.Response<Void> response = apiService.userLogout(installationUuid).execute();
+        return new Response<>(response.code(), response.body());
+    }
+
+    public Response<User.OAuthToken> refreshToken(String refreshToken) throws IOException{
+        //RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), refreshToken);
+        retrofit2.Response<User.OAuthToken> response = apiService.refreshToken(refreshToken).execute();
+        return new Response<>(response.code(), response.body());
+    }
+
     public void userRegister(User user, final Callback<User> callback){
         Call<User> call = apiService.userRegister(user);
         enqueueCall(call, callback);
@@ -106,6 +122,7 @@ public class DingoApiService extends DingoService{
         });*/
 
     }
+
 
     public void userAddPhone(String phone, Callback<Void> callback){
         Call<Void> call = apiService.userAddPhone(phone);
@@ -185,6 +202,11 @@ public class DingoApiService extends DingoService{
         enqueueCall(call, callback);
     }
 
+    public void getUserRecurrentRides(Callback<UserRides> callback){
+        Call<UserRides> call = apiService.getUserRecurrentRides();
+        enqueueCall(call, callback);
+    }
+
     public void getCreditCardInfo(Callback<CreditCardInfo> callback){
         Call<CreditCardInfo> call = apiService.getCreditCardInfo();
         enqueueCall(call, callback);
@@ -229,6 +251,7 @@ public class DingoApiService extends DingoService{
         retrofit2.Response<GcmToken> response = apiService.createGcmToken(token).execute();
         return new Response<>(response.code(), response.body());
     }
+
 
 
 

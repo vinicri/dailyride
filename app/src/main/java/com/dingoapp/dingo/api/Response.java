@@ -9,6 +9,9 @@ public class Response<T> {
     public static final int HTTP_201_CREATED = 201;
     public static final int HTTP_204_NO_CONTENT = 204;
 
+    public static final int HTTP_401_UNAUTHORIZED = 401;
+
+
     int statusCode;
     T body;
     String error;

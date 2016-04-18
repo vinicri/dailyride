@@ -1,6 +1,8 @@
 package com.dingoapp.dingo;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -10,6 +12,7 @@ import android.text.style.StyleSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -25,15 +28,21 @@ import java.util.Date;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import static com.dingoapp.dingo.util.ViewUtils.showOkDialog;
+
 /**
  * Created by guestguest on 13/02/16.
  */
 public abstract class RideCreateActivity extends BaseActivity {
 
+    public static final String EXTRA_EDIT_MODE = "EXTRA_EDIT_MODE";
+    public static final String EXTRA_RECURRENT_FLAG = "EXTRA_RECURRENT_FLAG";
+
     protected static final int RESULT_LEAVING_ADDRESS = 10;
     protected static final int RESULT_ARRIVING_ADDRESS = 11;
     protected static final int RESULT_TIME = 12;
 
+    protected boolean mEditMode;
     //private RideOffer mRideOffer = RideOffer.getWeekdaysCheckedInstance();
     private SimpleDateFormat mDayFormat;// = new SimpleDateFormat("EEEE, d MMM yyyy", getResources().getConfiguration().locale);
     private SimpleDateFormat mHourFormat;
@@ -83,8 +92,14 @@ public abstract class RideCreateActivity extends BaseActivity {
     @Bind(R.id.day_saturday)
     Button mSaturdayButton;
 
-    @Bind(R.id.offer_button)
-    Button mOfferButton;
+    @Bind(R.id.create_button)
+    View mCreateButton;
+
+    @Bind(R.id.create_button_text)
+    TextView mCreateButtonText;
+
+    @Bind(R.id.create_button_spin)
+    ProgressBar mCreateSpin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +108,10 @@ public abstract class RideCreateActivity extends BaseActivity {
         mHourFormat = new SimpleDateFormat("HH:mm", getResources().getConfiguration().locale);
         setContentView(R.layout.activity_offer);
         ButterKnife.bind(this);
+
+        mCreateSpin.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+
+        mEditMode = getIntent().getBooleanExtra(EXTRA_EDIT_MODE, false);
 
         mLeavingAddressBox.setOnClickListener(
                 new View.OnClickListener() {
@@ -213,7 +232,7 @@ public abstract class RideCreateActivity extends BaseActivity {
                 }
         );
 
-        mOfferButton.setOnClickListener(
+        mCreateButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -233,11 +252,41 @@ public abstract class RideCreateActivity extends BaseActivity {
         mTomorrow = cal.getTime();
     }
 
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        if(mEditMode){
+            if(getRideEntity() == null){
+                //todo no expected report
+            }
+            RideEntity ride = getRideEntity();
+            populateAddressBox(ride.getLeavingAddress(), mLeavingAddressLine1, mLeavingAddressLine2);
+            populateAddressBox(ride.getArrivingAddress(), mArrivingAddressLine1, mArrivingAddressLine2);
+            populateTime(ride.getLeavingTime());
+            populateRecurrentBox();
+        }
+    }
+
+    public boolean isEditMode(){
+        return mEditMode;
+    }
+
     public abstract RideEntity getRideEntity();
 
-    protected Button getCreateButton(){
-        return mOfferButton;
+    protected TextView getCreateButtonText(){
+        return mCreateButtonText;
     }
+
+    protected void showCreateButtonText(){
+        mCreateButtonText.setVisibility(View.VISIBLE);
+        mCreateSpin.setVisibility(View.GONE);
+    }
+
+    protected void showCreateButtonSpin(){
+        mCreateButtonText.setVisibility(View.GONE);
+        mCreateSpin.setVisibility(View.VISIBLE);
+    }
+
 
     private void refreshAllDayButtons() {
         refreshDayButton(mSundayButton, getRideEntity().isSunday());
@@ -272,7 +321,8 @@ public abstract class RideCreateActivity extends BaseActivity {
                 populateAddressBox(address, mArrivingAddressLine1, mArrivingAddressLine2);
             } else if (requestCode == RESULT_TIME) {
                 Date time = (Date) data.getSerializableExtra("date");
-                mTimeText.setTextColor(ContextCompat.getColor(this, R.color.gray_dark));
+                populateTime(time);
+                /*mTimeText.setTextColor(ContextCompat.getColor(this, R.color.gray_dark));
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(time);
                 cal.set(Calendar.HOUR_OF_DAY, 0);
@@ -288,10 +338,30 @@ public abstract class RideCreateActivity extends BaseActivity {
                 }
                 else {
                     mTimeText.setText(getString(R.string.leaving_time_general, mDayFormat.format(time), mHourFormat.format(time)));
-                }
+                }*/
             }
         }
 
+    }
+
+    protected void populateTime(Date time){
+        mTimeText.setTextColor(ContextCompat.getColor(this, R.color.gray_dark));
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(time);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        Date noHoursDate = cal.getTime();
+        if(noHoursDate.compareTo(mToday) == 0){
+            mTimeText.setText(getString(R.string.leaving_time_today, mHourFormat.format(time)));
+        }
+        else if(noHoursDate.compareTo(mTomorrow) == 0){
+            mTimeText.setText(getString(R.string.leaving_time_tomorrow, mHourFormat.format(time)));
+        }
+        else {
+            mTimeText.setText(getString(R.string.leaving_time_general, mDayFormat.format(time), mHourFormat.format(time)));
+        }
     }
 
     private void populateAddressBox(Address address, TextView line1, TextView line2) {
@@ -339,8 +409,47 @@ public abstract class RideCreateActivity extends BaseActivity {
         }
     }
 
-    private void validateOffer() {
+    private void populateRecurrentBox() {
+        RideEntity ride = getRideEntity();
+        if (getIntent().getBooleanExtra(EXTRA_RECURRENT_FLAG, false)){
+            mRecurrenceGroup.check(R.id.recurrence_yes);
+            mDaysBox.setVisibility(View.VISIBLE);
+            refreshDayButton(mSundayButton, ride.isSunday());
+            refreshDayButton(mMondayButton, ride.isMonday());
+            refreshDayButton(mTuesdayButton, ride.isTuesday());
+            refreshDayButton(mWednesdayButton, ride.isWednesday());
+            refreshDayButton(mThursdayButton, ride.isThursday());
+            refreshDayButton(mFridayButton, ride.isFriday());
+            refreshDayButton(mSaturdayButton, ride.isSaturday());
+        }
+        else{
+            mRecurrenceGroup.check(R.id.recurrence_no);
+            mDaysBox.setVisibility(View.GONE);
+        }
+    }
 
+    protected boolean validateRide() {
+        if(getRideEntity().getArrivingAddress() == null){
+            showOkDialog(this, R.string.create_ride_arriving_address_fill);
+            return false;
+        }
+
+        if(getRideEntity().getLeavingAddress() == null){
+            showOkDialog(this, R.string.create_ride_leaving_address_fill);
+            return false;
+        }
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(getRideEntity().getLeavingTime());
+        Calendar nowCal = Calendar.getInstance();
+        nowCal.add(Calendar.MINUTE, -5);
+        if(cal.before(nowCal)){
+            showOkDialog(this, R.string.create_ride_time_passed);
+            //todo sera q ta querendo bular o systema!? report NELE!
+            return false;
+        }
+
+        return true;
     }
 
     abstract void create();

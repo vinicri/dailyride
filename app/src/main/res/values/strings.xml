@@ -147,6 +147,10 @@
     <string name="add_work_fragment_email_header">Insira o email do seu trabalho</string>
     <string name="add_work_fragment_name_header">Qual o nome da sua empresa?</string>
     <string name="add_work_fragment_credentials_header">Precisamos que você nos envie uma foto do seu crachá ou outro documento que comprove seu vínculo com esta empresa</string>
+    <string name="activity_ride_recurrent_title">Caronas recorrentes</string>
+    <string name="create_ride_arriving_address_fill">Insira o endereço de destino para prosseguir,</string>
+    <string name="create_ride_leaving_address_fill">Insira o endereço do local de saída para prosseguir</string>
+    <string name="create_ride_time_passed">O horário escolhido já passou.</string>
 
     <plurals name="request_new_got_new_matches">
         <item quantity="one">Uma carona disponível pra você.</item>

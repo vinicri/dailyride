@@ -146,6 +146,10 @@
             android:name=".profile.NewProfileActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
+            android:name=".ridesrecurrent.RecurrentRidesActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
             android:name=".SignUpConfirmActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".MainActivity" >
