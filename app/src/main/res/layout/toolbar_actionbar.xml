@@ -16,11 +16,10 @@
   -->
 
 <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:iosched="http://schemas.android.com/apk/res-auto"
-    xmlns:app="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar_actionbar"
     android:layout_width="match_parent"
     android:layout_height="?actionBarSize"
     android:background="@color/turquoise"
     app:titleTextAppearance="@style/Toolbar.TitleText"
-    style="@style/Widget.Dingo.ActionBar"/>
+    style="@style/Widget.Dingo.ActionBar" />

@@ -4,12 +4,12 @@
     android:layout_height="match_parent"
     android:background="@color/beige_light">
 
-    <com.dingoapp.dingo.view.NonSwipebleViewPager
+    <com.lightgraylabs.dailyrides.view.NonSwipebleViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
-    </com.dingoapp.dingo.view.NonSwipebleViewPager>
+    </com.lightgraylabs.dailyrides.view.NonSwipebleViewPager>
 
     <FrameLayout
         android:layout_width="match_parent"

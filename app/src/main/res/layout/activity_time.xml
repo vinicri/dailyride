@@ -27,7 +27,7 @@
                 android:src="@drawable/back_orange"
                 android:scaleType="centerInside"/>
 
-            <com.dingoapp.dingo.view.HorizontalPicker
+            <com.lightgraylabs.dailyrides.view.HorizontalPicker
                 android:id="@+id/date_picker"
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -37,7 +37,7 @@
                 android:textColor="@color/gray_dark"
                 android:textSize="16sp">
 
-            </com.dingoapp.dingo.view.HorizontalPicker>
+            </com.lightgraylabs.dailyrides.view.HorizontalPicker>
 
 
             <ImageView

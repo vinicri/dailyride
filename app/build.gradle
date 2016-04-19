@@ -20,11 +20,11 @@ android {
     buildToolsVersion '23.0.3'
 
     defaultConfig {
-        applicationId "com.dingoapp.dingo"
+        applicationId "com.lightgraylabs.dailyrides"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        versionCode 11
+        versionName "1.0.10"
 
         // Enabling multidex support.
         multiDexEnabled true

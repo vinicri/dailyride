@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Dingo</string>
+    <string name="app_name">Daily Ride</string>
     <string name="facebook_app_id">1429320290712211</string>
     <string name="no">Não</string>
     <string name="yes">Sim</string>
@@ -151,6 +151,7 @@
     <string name="create_ride_arriving_address_fill">Insira o endereço de destino para prosseguir,</string>
     <string name="create_ride_leaving_address_fill">Insira o endereço do local de saída para prosseguir</string>
     <string name="create_ride_time_passed">O horário escolhido já passou.</string>
+    <string name="finding_rides">Estamos buscando caronas pra você. Avisaremos logo que encontrarmos,</string>
 
     <plurals name="request_new_got_new_matches">
         <item quantity="one">Uma carona disponível pra você.</item>

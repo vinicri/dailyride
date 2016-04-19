@@ -51,7 +51,6 @@
             <ImageView
                 android:background="@drawable/shape_user_photo_border_oval"
                 android:padding="@dimen/user_photo_oval_padding"
-                android:layout_alignTop="@+id/profile_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/padding"
                 android:paddingTop="@dimen/padding"

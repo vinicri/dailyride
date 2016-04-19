@@ -50,6 +50,7 @@
         android:gravity="center">
 
         <Button
+            android:visibility="gone"
             android:id="@+id/no_email_button"
             android:layout_width="180dp"
             android:layout_height="50dp"

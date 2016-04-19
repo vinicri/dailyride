@@ -34,7 +34,7 @@
                 android:layout_height="48dp"
                 android:src="@drawable/search"/>-->
 
-            <com.dingoapp.dingo.view.FilterEditText
+            <com.lightgraylabs.dailyrides.view.FilterEditText
                 android:id="@+id/search_edit"
                 android:layout_width="0dp"
                 android:layout_weight="1"

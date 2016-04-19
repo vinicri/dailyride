@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.dingoapp.dingo" >
+    package="com.lightgraylabs.dailyrides" >
 
     <!--
     Google cloud messaging
@@ -27,13 +27,13 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <permission
-        android:name="com.dingoapp.dingo.permission.C2D_MESSAGE"
+        android:name="com.lightgraylabs.dailyrides.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.dingoapp.dingo.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.lightgraylabs.dailyrides.permission.C2D_MESSAGE" />
 
     <application
-        android:name=".DingoApplication"
+        android:name="com.lightgraylabs.dailyrides.DingoApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -53,33 +53,37 @@
         </receiver>
 
         <service
-            android:name=".gcm.MyGcmListenerService"
+            android:name="com.lightgraylabs.dailyrides.gcm.MyGcmListenerService"
             android:exported="false" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
         <service
-            android:name=".gcm.MyInstanceIDListenerService"
+            android:name="com.lightgraylabs.dailyrides.gcm.MyInstanceIDListenerService"
             android:exported="false" >
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
         </service>
         <service
-            android:name=".gcm.RegistrationIntentService"
+            android:name="com.lightgraylabs.dailyrides.gcm.RegistrationIntentService"
             android:exported="false" >
         </service>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
+        <!--<meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBMuK91NXU0-1-eOU3KcBZ4alEDIjrJ_xw" />-->
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBMuK91NXU0-1-eOU3KcBZ4alEDIjrJ_xw" />
+            android:value="AIzaSyDQDGx0Ok9LHbAa7WJSGmtJsfHIvMTrxTs" />
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.lightgraylabs.dailyrides.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -88,75 +92,75 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".rides.RidesActivity"
+            android:name="com.lightgraylabs.dailyrides.rides.RidesActivity"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
-            android:name=".welcome.WelcomeActivity"
+            android:name="com.lightgraylabs.dailyrides.welcome.WelcomeActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".OfferActivity"
+            android:name="com.lightgraylabs.dailyrides.OfferActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".searchaddress.AddressSearchActivity"
+            android:name="com.lightgraylabs.dailyrides.searchaddress.AddressSearchActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".TimeActivity"
+            android:name="com.lightgraylabs.dailyrides.TimeActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".paymentinfo.PaymentInfoActivity"
+            android:name="com.lightgraylabs.dailyrides.paymentinfo.PaymentInfoActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".RequestActivity"
+            android:name="com.lightgraylabs.dailyrides.RequestActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".slaveofferreply.SlaveOfferReplyActivity"
+            android:name="com.lightgraylabs.dailyrides.slaveofferreply.SlaveOfferReplyActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".OfferDetailsActivity"
+            android:name="com.lightgraylabs.dailyrides.OfferDetailsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".chat.ChatActivity"
+            android:name="com.lightgraylabs.dailyrides.chat.ChatActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".OfferInviteActivity"
+            android:name="com.lightgraylabs.dailyrides.OfferInviteActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".RequestDetailsActivity"
+            android:name="com.lightgraylabs.dailyrides.RequestDetailsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".profile.ProfileActivity"
+            android:name="com.lightgraylabs.dailyrides.profile.ProfileActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".OwnProfileActivity"
+            android:name="com.lightgraylabs.dailyrides.OwnProfileActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".AddPhoneActivity"
+            android:name="com.lightgraylabs.dailyrides.AddPhoneActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".addworkemail.AddWorkEmailActivity"
+            android:name="com.lightgraylabs.dailyrides.addworkemail.AddWorkEmailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".addworkemail.AddSchoolEmailActivity"
+            android:name="com.lightgraylabs.dailyrides.addworkemail.AddSchoolEmailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".SignUpActivity"
+            android:name="com.lightgraylabs.dailyrides.SignUpActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".profile.NewProfileActivity"
+            android:name="com.lightgraylabs.dailyrides.profile.NewProfileActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".ridesrecurrent.RecurrentRidesActivity"
+            android:name="com.lightgraylabs.dailyrides.ridesrecurrent.RecurrentRidesActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
-            android:name=".SignUpConfirmActivity"
+            android:name="com.lightgraylabs.dailyrides.SignUpConfirmActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName="com.lightgraylabs.dailyrides.MainActivity" >
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value="com.lightgraylabs.dailyrides.MainActivity" />
             </activity>
         <activity
             android:name="com.facebook.FacebookActivity"
