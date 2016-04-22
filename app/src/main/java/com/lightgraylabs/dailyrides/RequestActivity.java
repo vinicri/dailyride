@@ -1,7 +1,9 @@
 package com.lightgraylabs.dailyrides;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 
 import com.lightgraylabs.dailyrides.analytics.Analytics;
 import com.lightgraylabs.dailyrides.api.ApiCallback;
@@ -13,6 +15,8 @@ import com.lightgraylabs.dailyrides.api.model.RideEntity;
 import com.lightgraylabs.dailyrides.api.model.RideMasterRequest;
 
 import java.util.Date;
+
+import static com.lightgraylabs.dailyrides.util.ViewUtils.showOkDialog;
 
 /**
  * Created by guestguest on 13/02/16.
@@ -125,5 +129,56 @@ public class RequestActivity extends RideCreateActivity {
 
     }
 
+    @Override
+    void cancel() {
+        int messageString;
+        if(isRecurrent()){
+            messageString = R.string.ride_request_cancel_warning_recurrent;
+        }
+        else{
+            messageString = R.string.ride_request_cancel_warning;
+        }
+        new AlertDialog.Builder(RequestActivity.this)
+                .setMessage(messageString)
+                .setPositiveButton(R.string.yes,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if(isRecurrent()){
+                                    DingoApiService.getInstance().deleteRideMasterRequestRecurrent(
+                                            mRequest.getId(),
+                                            new ApiCallback<Void>(RequestActivity.this) {
+                                                @Override
+                                                public void success(Response<Void> response) {
+                                                    if(response.code() == Response.HTTP_204_NO_CONTENT){
+                                                        Intent intent = new Intent();
+                                                        intent.putExtra(RESULT_EXTRA_CANCELLED_FLAG, true);
+                                                        intent.putExtra(RESULT_EXTRA_CANCELLED_ID, mRequest.getId());
+                                                        setResult(RESULT_OK, intent);
+                                                        finish();
+                                                    }
+                                                    else{
+                                                        super.success(response);
+                                                    }
+                                                }
 
+
+                                            }
+                                    );
+                                }
+                                else{
+                                    //todo
+                                    //not recurrent
+                                }
+
+                            }
+                        })
+                .setNegativeButton(R.string.no, null)
+                .show();
+    }
+
+    @Override
+    void showEditNotAllowedDialog() {
+        showOkDialog(RequestActivity.this, R.string.ride_request_cant_edit);
+    }
 }

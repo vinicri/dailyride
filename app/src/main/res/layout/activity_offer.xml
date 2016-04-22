@@ -60,6 +60,7 @@
 
 
         <ImageView
+            android:id="@+id/leaving_address_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/go_to_detail"
@@ -116,6 +117,7 @@
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/arriving_address_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/go_to_detail"
@@ -164,6 +166,7 @@
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/time_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/go_to_detail"

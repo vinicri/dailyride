@@ -32,8 +32,8 @@ import retrofit2.http.Query;
  */
 public interface DingoApi {
 
-    String BASE_URL = "https://192.168.0.102:8000/api/";
-    String STATIC_URL = "https://192.168.0.102:8000/static/";
+    String BASE_URL = "http://192.168.0.100:8000/api/";
+    String MEDIA_URL = "http://images.r-bbit.com/media/";
 
     @POST("/users/login_fb/")
     Call<User> registerWithFacebook(@Body User user);
@@ -91,14 +91,26 @@ public interface DingoApi {
     @POST("/rideoffers/")
     Call<RideOffer> createOffer(@Body RideOffer offer);
 
+    @DELETE("/rideoffers/{id}/")
+    Call<Void> cancelOffer(@Path("id") long id);
+
     @POST("/rideoffersrecurrent/")
     Call<RideOffer> createRecurrentOffer(@Body RideOffer offer);
+
+    @DELETE("/rideoffersrecurrent/{id}/")
+    Call<Void> deleteRecurrentOffer(@Path("id") long id);
 
     @POST("/ridemasterrequests/")
     Call<RideMasterRequest> createRideMasterRequest(@Body RideMasterRequest request);
 
+    @DELETE("/ridemasterrequests/{id}/")
+    Call<Void> cancelRideMasterRequest(@Path("id") long id);
+
     @POST("/ridemasterrequestsrecurrent/")
     Call<RideMasterRequest> createRideMasterRequestRecurrent(@Body RideMasterRequest request);
+
+    @DELETE("/ridemasterrequestsrecurrent/{id}/")
+    Call<Void> deleteRideMasterRequestRecurrent(@Path("id") long id);
 
     @GET("/userrides/")
     Call<UserRides> getUserRides();

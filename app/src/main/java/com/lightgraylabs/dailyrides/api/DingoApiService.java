@@ -181,8 +181,18 @@ public class DingoApiService extends DingoService{
         enqueueCall(call, callback);
     }
 
+    public void cancelRideOffer(long id, final Callback<Void> callback){
+        Call<Void> call = apiService.cancelOffer(id);
+        enqueueCall(call, callback);
+    }
+
     public void createRecurrentRideOffer(RideOffer offer, final Callback<RideOffer> callback){
         Call<RideOffer> call = apiService.createRecurrentOffer(offer);
+        enqueueCall(call, callback);
+    }
+
+    public void deleteRecurrentRideOffer(long id, final Callback<Void> callback){
+        Call<Void> call = apiService.deleteRecurrentOffer(id);
         enqueueCall(call, callback);
     }
 
@@ -191,8 +201,18 @@ public class DingoApiService extends DingoService{
         enqueueCall(call, callback);
     }
 
+    public void cancelRideMasterRequest(long id, final Callback<Void> callback){
+        Call<Void> call = apiService.cancelRideMasterRequest(id);
+        enqueueCall(call, callback);
+    }
+
     public void createRideMasterRequestRecurrent(RideMasterRequest request, Callback<RideMasterRequest> callback){
         Call<RideMasterRequest> call = apiService.createRideMasterRequestRecurrent(request);
+        enqueueCall(call, callback);
+    }
+
+    public void deleteRideMasterRequestRecurrent(long id, final Callback<Void> callback){
+        Call<Void> call = apiService.deleteRideMasterRequestRecurrent(id);
         enqueueCall(call, callback);
     }
 
@@ -242,7 +262,7 @@ public class DingoApiService extends DingoService{
     }
 
     public static String getPhotoUrl(User user){
-       return DingoApi.STATIC_URL + user.getProfilePhotoOriginal();
+       return DingoApi.MEDIA_URL + user.getProfilePhotoOriginal();
     }
 
     //syncronous method

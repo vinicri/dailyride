@@ -152,6 +152,13 @@
     <string name="create_ride_leaving_address_fill">Insira o endereço do local de saída para prosseguir</string>
     <string name="create_ride_time_passed">O horário escolhido já passou.</string>
     <string name="finding_rides">Estamos buscando caronas pra você. Avisaremos logo que encontrarmos,</string>
+    <string name="menu_delete">Deletar</string>
+    <string name="ride_request_cancel_warning">Cancelamentos fazem você ter menor prioridade para pedir suas próximas caronas.\n\nTem certeza que deseja cancelar esta carona?</string>
+    <string name="ride_offer_cancel_warning">Cancelamentos fazem você ter menor prioridade para oferecer suas próximas caronas.\n\nTem certeza que deseja cancelar esta carona?</string>
+    <string name="ride_request_cancel_warning_recurrent">Deseja remover este pedido de carona recorrente?</string>
+    <string name="ride_offer_cancel_warning_recurrent">Deseja remover esta oferta de carona recorrente?</string>
+    <string name="ride_offer_cant_edit">Você não pode alterar esta carona. Se precisar fazer alguma alteração delete esta carona e ofereça uma nova carona na tela inicial.</string>
+    <string name="ride_request_cant_edit">Você não pode alterar esta carona. Se precisar fazer alguma alteração delete esta carona e peça uma nova carona na tela inicial.</string>
 
     <plurals name="request_new_got_new_matches">
         <item quantity="one">Uma carona disponível pra você.</item>

@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -80,6 +81,8 @@ public class RidesActivity extends BaseActivity {
 
     @Bind(R.id.notification_text) TextView mNotificationText;
 
+    @Bind(R.id.empty_text)TextView mEmptyText;
+
     List<RideEntity> mRideEntities = new ArrayList<>();
     private RidesAdapter mAdapter;
     private LeavingDateComparator mLeavingDateComparator;
@@ -96,6 +99,7 @@ public class RidesActivity extends BaseActivity {
     private BroadcastReceiver mOfferInviteDeclined;
 
     Paint mNotificationTextPaint = new Paint();
+    private Typeface mTypeface;
 
     protected int getSelfNavDrawerItem() {
         return NAVDRAWER_ITEM_DEFAULT;
@@ -108,6 +112,9 @@ public class RidesActivity extends BaseActivity {
         setContentView(R.layout.activity_rides);
         getSupportActionBar().setTitle(R.string.activity_ride_title);
         ButterKnife.bind(this);
+
+        mTypeface = Typeface.createFromAsset(getAssets(), "fonts/GloriaHallelujah.ttf");
+        mEmptyText.setTypeface(mTypeface);
 
         mNotificationTextPaint.setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 14 , getResources().getDisplayMetrics()));
 

@@ -10,6 +10,7 @@ import com.lightgraylabs.dailyrides.BaseActivity;
 import com.lightgraylabs.dailyrides.OfferActivity;
 import com.lightgraylabs.dailyrides.R;
 import com.lightgraylabs.dailyrides.RequestActivity;
+import com.lightgraylabs.dailyrides.RideCreateActivity;
 import com.lightgraylabs.dailyrides.api.ApiCallback;
 import com.lightgraylabs.dailyrides.api.DingoApiService;
 import com.lightgraylabs.dailyrides.api.Response;
@@ -52,13 +53,13 @@ public class RecurrentRidesActivity extends BaseActivity {
                         if(ride instanceof RideOffer){
                             intent = new Intent(RecurrentRidesActivity.this, OfferActivity.class);
                             intent.putExtra(OfferActivity.EXTRA_OFFER, ride);
-                            intent.putExtra(OfferActivity.EXTRA_EDIT_MODE, true);
+                            intent.putExtra(OfferActivity.EXTRA_VIEW_MODE, true);
                             intent.putExtra(OfferActivity.EXTRA_RECURRENT_FLAG, true);
                         }
                         else{
                             intent = new Intent(RecurrentRidesActivity.this, RequestActivity.class);
                             intent.putExtra(RequestActivity.EXTRA_REQUEST, ride);
-                            intent.putExtra(RequestActivity.EXTRA_EDIT_MODE, true);
+                            intent.putExtra(RequestActivity.EXTRA_VIEW_MODE, true);
                             intent.putExtra(RequestActivity.EXTRA_RECURRENT_FLAG, true);
                         }
                         startActivityForResult(intent, REQUEST_RIDE_EDIT);
@@ -85,5 +86,30 @@ public class RecurrentRidesActivity extends BaseActivity {
                     }
                 }
         );
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == RESULT_OK){
+            if(requestCode == REQUEST_RIDE_EDIT){
+                boolean removed = data.getBooleanExtra(RideCreateActivity.RESULT_EXTRA_CANCELLED_FLAG, false);
+                if(removed){
+                    int id = data.getIntExtra(RideCreateActivity.RESULT_EXTRA_CANCELLED_ID, 0);
+                    if(id > 0){
+                        RideEntity foundRide = null;
+                        for(RideEntity ride: mRides){
+                            if(ride.getId() == id){
+                                foundRide = ride;
+                            }
+                        }
+                        if(foundRide != null){
+                            int index = mRides.indexOf(foundRide);
+                            mRides.remove(index);
+                            mAdapter.notifyItemRemoved(index);
+                        }
+                    }
+                }
+            }
+        }
     }
 }

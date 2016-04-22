@@ -9,8 +9,11 @@ import android.support.v4.content.ContextCompat;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StyleSpan;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
@@ -35,20 +38,39 @@ import static com.lightgraylabs.dailyrides.util.ViewUtils.showOkDialog;
  */
 public abstract class RideCreateActivity extends BaseActivity {
 
-    public static final String EXTRA_EDIT_MODE = "EXTRA_EDIT_MODE";
+    public static final String EXTRA_VIEW_MODE = "EXTRA_VIEW_MODE";
+    public static final String EXTRA_CANCEL_ENABLED = "EXTRA_CANCEL_ENABLED";
     public static final String EXTRA_RECURRENT_FLAG = "EXTRA_RECURRENT_FLAG";
+
+    public static final String RESULT_EXTRA_CANCELLED_FLAG = "RESULT_EXTRA_CANCELLED_FLAG";
+    public static final String RESULT_EXTRA_CANCELLED_ID = "RESULT_EXTRA_CANCELLED_ID";
 
     protected static final int RESULT_LEAVING_ADDRESS = 10;
     protected static final int RESULT_ARRIVING_ADDRESS = 11;
     protected static final int RESULT_TIME = 12;
 
-    protected boolean mEditMode;
+    protected boolean mViewMode;
+    protected boolean mCancelEnabled;
     //private RideOffer mRideOffer = RideOffer.getWeekdaysCheckedInstance();
     private SimpleDateFormat mDayFormat;// = new SimpleDateFormat("EEEE, d MMM yyyy", getResources().getConfiguration().locale);
     private SimpleDateFormat mHourFormat;
 
+    private boolean mRecurrentFlag;
+
     private Date mToday;
     private Date mTomorrow;
+
+    @Bind(R.id.header)
+    TextView mHeader;
+
+    @Bind(R.id.leaving_address_arrow)
+    ImageView mLeavingAddressArrow;
+
+    @Bind(R.id.arriving_address_arrow)
+    ImageView mArrivingAddressArrow;
+
+    @Bind(R.id.time_arrow)
+    ImageView mTimeArrow;
 
     @Bind(R.id.leaving_address_box)
     LinearLayout mLeavingAddressBox;
@@ -111,19 +133,60 @@ public abstract class RideCreateActivity extends BaseActivity {
 
         mCreateSpin.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
 
-        mEditMode = getIntent().getBooleanExtra(EXTRA_EDIT_MODE, false);
+        mViewMode = getIntent().getBooleanExtra(EXTRA_VIEW_MODE, false);
+        mCancelEnabled = getIntent().getBooleanExtra(EXTRA_CANCEL_ENABLED, false);
+        mRecurrentFlag = getIntent().getBooleanExtra(EXTRA_RECURRENT_FLAG, false);
 
-        if(mEditMode){
+        if(mViewMode){
             mCreateButton.setVisibility(View.GONE);
+            mHeader.setVisibility(View.INVISIBLE);
+            mLeavingAddressArrow.setVisibility(View.INVISIBLE);
+            mArrivingAddressArrow.setVisibility(View.INVISIBLE);
+            mTimeArrow.setVisibility(View.INVISIBLE);
+            mRecurrenceGroup.setEnabled(false);
+            mRecurrenceYes.setEnabled(false);
+            mRecurrenceNo.setEnabled(false);
+            setupEditNowAllowed();
         }
+        else{
+            setupEdit();
+        }
+
+        refreshAllDayButtons();
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        mToday = cal.getTime();
+
+        cal.add(Calendar.DAY_OF_MONTH, 1);
+        mTomorrow = cal.getTime();
+    }
+
+    private void setupEditNowAllowed(){
+
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showEditNotAllowedDialog();
+            }
+        };
+
+        mLeavingAddressBox.setOnClickListener(listener);
+        mArrivingAddressBox.setOnClickListener(listener);
+        mTimeBox.setOnClickListener(listener);
+        mRecurrenceBox.setOnClickListener(listener);
+
+    }
+
+    private void setupEdit(){
 
         mLeavingAddressBox.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(mEditMode){
-                            return;
-                        }
                         Intent intent = new Intent(RideCreateActivity.this, AddressSearchActivity.class);
                         intent.putExtra("title", getString(R.string.offer_leaving_address_label));
                         startActivityForResult(intent, RESULT_LEAVING_ADDRESS);
@@ -135,9 +198,6 @@ public abstract class RideCreateActivity extends BaseActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(mEditMode){
-                            return;
-                        }
                         Intent intent = new Intent(RideCreateActivity.this, AddressSearchActivity.class);
                         intent.putExtra("title", getString(R.string.offer_arriving_address_label));
                         startActivityForResult(intent, RESULT_ARRIVING_ADDRESS);
@@ -150,9 +210,6 @@ public abstract class RideCreateActivity extends BaseActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(mEditMode){
-                            return;
-                        }
                         Intent intent = new Intent(RideCreateActivity.this, TimeActivity.class);
                         intent.putExtra("title", getString(R.string.activity_title_time));
                         startActivityForResult(intent, RESULT_TIME);
@@ -164,9 +221,6 @@ public abstract class RideCreateActivity extends BaseActivity {
                 new RadioGroup.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(RadioGroup group, int checkedId) {
-                        if(mEditMode){
-                            return;
-                        }
                         if (checkedId == R.id.recurrence_yes) {
                             mDaysBox.setVisibility(View.VISIBLE);
                         } else if (checkedId == R.id.recurrence_no) {
@@ -175,8 +229,6 @@ public abstract class RideCreateActivity extends BaseActivity {
                     }
                 }
         );
-
-        refreshAllDayButtons();
 
         mSundayButton.setOnClickListener(
                 new View.OnClickListener() {
@@ -258,21 +310,12 @@ public abstract class RideCreateActivity extends BaseActivity {
                 }
         );
 
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.HOUR_OF_DAY, 0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        mToday = cal.getTime();
-
-        cal.add(Calendar.DAY_OF_MONTH, 1);
-        mTomorrow = cal.getTime();
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        if(mEditMode){
+        if(mViewMode){
             if(getRideEntity() == null){
                 //todo no expected report
             }
@@ -285,7 +328,7 @@ public abstract class RideCreateActivity extends BaseActivity {
     }
 
     public boolean isEditMode(){
-        return mEditMode;
+        return mViewMode;
     }
 
     public abstract RideEntity getRideEntity();
@@ -339,23 +382,6 @@ public abstract class RideCreateActivity extends BaseActivity {
             } else if (requestCode == RESULT_TIME) {
                 Date time = (Date) data.getSerializableExtra("date");
                 populateTime(time);
-                /*mTimeText.setTextColor(ContextCompat.getColor(this, R.color.gray_dark));
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(time);
-                cal.set(Calendar.HOUR_OF_DAY, 0);
-                cal.set(Calendar.MINUTE, 0);
-                cal.set(Calendar.SECOND, 0);
-                cal.set(Calendar.MILLISECOND, 0);
-                Date noHoursDate = cal.getTime();
-                if(noHoursDate.compareTo(mToday) == 0){
-                    mTimeText.setText(getString(R.string.leaving_time_today, mHourFormat.format(time)));
-                }
-                else if(noHoursDate.compareTo(mTomorrow) == 0){
-                    mTimeText.setText(getString(R.string.leaving_time_tomorrow, mHourFormat.format(time)));
-                }
-                else {
-                    mTimeText.setText(getString(R.string.leaving_time_general, mDayFormat.format(time), mHourFormat.format(time)));
-                }*/
             }
         }
 
@@ -428,7 +454,7 @@ public abstract class RideCreateActivity extends BaseActivity {
 
     private void populateRecurrentBox() {
         RideEntity ride = getRideEntity();
-        if (getIntent().getBooleanExtra(EXTRA_RECURRENT_FLAG, false)){
+        if (mRecurrentFlag){
             mRecurrenceGroup.check(R.id.recurrence_yes);
             mDaysBox.setVisibility(View.VISIBLE);
             refreshDayButton(mSundayButton, ride.isSunday());
@@ -471,4 +497,41 @@ public abstract class RideCreateActivity extends BaseActivity {
 
     abstract void create();
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if(mViewMode) {
+            if(mRecurrentFlag) {
+                getMenuInflater().inflate(R.menu.activity_ride_recurrent, menu);
+            }
+            else{
+                getMenuInflater().inflate(R.menu.activity_ride, menu);
+            }
+            return true;
+        }
+        else{
+            return super.onCreateOptionsMenu(menu);
+        }
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.cancel:
+                cancel();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
+
+    }
+
+    protected boolean isRecurrent(){
+        return mRecurrentFlag;
+    }
+
+    abstract void cancel();
+
+    abstract void showEditNotAllowedDialog();
 }

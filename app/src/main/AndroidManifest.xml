@@ -74,13 +74,13 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-        <!--<meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBMuK91NXU0-1-eOU3KcBZ4alEDIjrJ_xw" />-->
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDQDGx0Ok9LHbAa7WJSGmtJsfHIvMTrxTs" />
+            android:value="AIzaSyDSH9tdMiBB_xSAssNlqFMtILsx5fPleCE" />
+        <!--Prod key-->
+        <!--<meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDQDGx0Ok9LHbAa7WJSGmtJsfHIvMTrxTs" />-->
 
         <activity
             android:name="com.lightgraylabs.dailyrides.MainActivity"

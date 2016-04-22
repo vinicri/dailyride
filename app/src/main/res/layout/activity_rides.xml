@@ -12,15 +12,52 @@
         android:layout_height="match_parent"
         android:background="@color/beige">
 
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rides_list"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_below="@+id/header"
             android:layout_alignParentBottom="true"
             >
-        </android.support.v7.widget.RecyclerView>
+
+            <RelativeLayout
+                android:id="@+id/empty_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/beige">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/down_arrow_empty"
+                    android:layout_below="@+id/empty_text"
+                    android:layout_marginTop="10dp"
+                    android:layout_centerHorizontal="true"/>
+
+                <TextView
+                    android:id="@+id/empty_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="100dp"
+                    android:gravity="center"
+                    android:textSize="26sp"
+                    android:text="nenhuma carona ainda\ncomeçe por aqui"/>
+
+
+
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rides_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/beige" />
+
+
+
+
+        </FrameLayout>
+
 
         <LinearLayout
             android:id="@+id/header"
